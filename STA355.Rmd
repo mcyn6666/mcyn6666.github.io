@@ -1,0 +1,380 @@
+---
+title: "STA355 Theory of Statistical Practice"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Assignments {.tabset}
+
+## Assignment 1
+
+Find the handout for this assignment [here](https://drive.google.com/file/d/1VgRu9nth3I5d0G5kUUbtp780FNinUDio/view?usp=sharing)
+
+Two datasets were used: [aircon](https://drive.google.com/file/d/141trWeUTrLHSMh6zg755j_WEJOb9bkky/view?usp=sharing) and [kevlar](https://drive.google.com/file/d/1jV1VCQc7tq17TffCZML2Q6Po4tKOIf4D/view?usp=sharing) 
+
+My answers can be found [here](https://drive.google.com/file/d/1szecHyeL2StmZCXKDcSO4rZspWQDbWMs/view?usp=sharing)
+
+### Technical Appendix
+
+#### Question 1(b)
+```{r a11b}
+x <- rgamma(200,1)
+qq.expo <- function(x,plot=T) {
+  x <- sort(x)  # sorts the data from smallest to largest
+  n <- length(x) # length of x
+  tau <- (c(1:n)-3/8)/(n+1/4)
+  if (plot) {
+    plot(-log(1-tau),x,xlab="Standard exponential quantiles",
+         ylab="ordered data")
+    abline(a=0,b=mean(x)) # draws a line with slope equal to
+    # the sample mean and intercept 0
+  }
+  else {
+    r <- list(x=x,quantiles=-log(1-tau))
+    r
+  }
+}
+qq.expo(x)
+
+
+x <- rweibull(200,1)
+qq.expo <- function(x,plot=T) {
+  x <- sort(x)  
+  n <- length(x) 
+  tau <- (c(1:n)-3/8)/(n+1/4)
+  if (plot) {
+    plot(-log(1-tau),x,xlab="Standard exponential quantiles",
+         ylab="ordered data")
+    abline(a=0,b=mean(x)) 
+  }
+  else {
+    r <- list(x=x,quantiles=-log(1-tau))
+    r
+  }
+}
+qq.expo(x)
+
+```
+
+#### Question 1(c)
+
+```{r a11c}
+x <- matrix(scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A1/aircon.txt"),ncol=5,byrow=T)
+qq.expo <- function(x,plot=T) {
+  x <- sort(x)  # sorts the data from smallest to largest
+  n <- length(x) # length of x
+  tau <- (c(1:n)-3/8)/(n+1/4)
+  if (plot) {
+    plot(-log(1-tau),x,xlab="Standard exponential quantiles",
+         ylab="ordered data")
+    abline(a=0,b=mean(x)) # draws a line with slope equal to
+    # the sample mean and intercept 0
+  }
+  else {
+    r <- list(x=x,quantiles=-log(1-tau))
+    r
+  }
+}
+qq.expo(x)
+```
+#### Question 2(c)
+
+```{r a12c}
+y <- scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A1/kevlar.txt", character(), quote = "")
+x <- y[-(1:5)]
+x <- as.numeric(x)
+x
+x <- sort(x) 
+n <- length(x) 
+d <- c(n:1)*c(x[1],diff(x)) 
+plot(c(1:n)/n, cumsum(d)/sum(x), xlab="t", ylab="TTT") 
+abline(0,1)
+```
+
+## Assignment 2
+
+Find the handout for this assignment [here](https://drive.google.com/file/d/1afq42oaTQxSGZO_6F18Z0uSqyaC7WCYw/view?usp=sharing) 
+
+
+Two datasets were used: [geyser](https://drive.google.com/file/d/1uhPaGHTSM2_V6xFVaGCKW6a33tNTppD9/view?usp=sharing) and [incomes](https://drive.google.com/file/d/17xgYAWEceof2BUGBzVE0qxqL02egGQMA/view?usp=sharing) 
+
+My answers can be found [here](https://drive.google.com/file/d/1gAV1f9kPqRvQi9ixmyPqo4Kw_09umd99/view?usp=sharing) 
+
+### Technical Appendix
+
+#### Question 1(a)
+```{r a21a}
+geyser <- scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A2/geyser.txt", character(), quote = "")
+geyser <- as.numeric(geyser)
+qqnorm(geyser)
+shapiro.test(geyser)
+```
+
+#### Question 1(b)
+```{r a21b}
+plot(density(geyser),ylim=c(0,0.85))
+lines(density(geyser, bw=0.05), col="blue")
+lines(density(geyser, bw=0.5), col="green")
+points(geyser, rep(0,272), pch="x", cex=0.5)
+```
+
+#### Question 1(c)
+```{r a21c}
+kde.cv <- function(x,h) {
+  n <- length(x)
+  if (missing(h)) {
+    r <- density(x)
+    h <- r$bw/4 + 3.75*c(0:100)*r$bw/100
+  }
+  cv <- NULL
+  for (j in h) {
+    cvj <- 0
+    for (i in 1:n) {
+      z <- dnorm(x[i]-x,0,sd=j)/(n-1)
+      cvj <- cvj + log(sum(z[-i]))
+    }
+    cv <- c(cv,cvj/n)
+  }
+  r <- list(bw=h,cv=cv)
+  r
+}
+r <- kde.cv(geyser)
+plot(r$bw, r$cv)
+bw <- r$bw[r$cv==max(r$cv)]
+bw
+plot(density(geyser, bw=bw))
+```
+
+
+#### Question 1(d)
+```{r a21d}
+x1 <- geyser[geyser<3]
+x2 <- geyser[geyser>3]
+length(x1)
+length(x2)
+mean(x1)
+mean(x2)
+var(x1)
+var(x2)
+theta <- length(x1)/272
+theta
+```
+
+
+#### Question 2(b)
+```{r a22b}
+income <- scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A2/incomes.txt", character(), quote = "")
+income <- as.numeric(income)
+xi <- income[income<mean(income)]
+length(xi)
+mps <- length(xi)/length(income)
+mps
+
+
+mps.f <- function(X){
+  xi <- X[X< mean(X)]
+  return(length(xi)/length(X))
+}
+mps.f(income)
+
+jackse <- function(theta_hat, X) {
+  n <- length(X) 
+  theta_minus_i <- rep(0, n) 
+  for (i in 1:n) {
+    theta_minus_i[i] <- theta_hat(X[-i]) 
+  } 
+  theta_dot <- mean(theta_minus_i) 
+  jackvar <- (n-1)/n * sum((theta_minus_i - theta_dot)^2) 
+  return(sqrt(jackvar)) 
+  }
+jackse(mps.f, income)
+```
+
+
+#### Question 2(d)
+```{r a22d}
+mps.log <- function(X){
+  X <- log(X)
+  xi <- X[X < (mean(X)+((var(X)^2)/2))]
+  return(length(xi)/length(X))
+}
+mps.log(income)
+
+qqnorm(log(income))
+```
+
+
+## Assignment 3
+
+Find the handout for this assignment [here](https://drive.google.com/file/d/1L8enzZNh6NndnW-8Vh2TEDzKFdLHHnPU/view?usp=sharing) 
+
+Two datasets were used: [geyser](https://drive.google.com/file/d/1O7MaMgrTq2_0yIQghGNRmbPg76IeVxeP/view?usp=sharing) and [bees](https://drive.google.com/file/d/1Ys2xIqX35Be_aGh8ZvYvCipF4OnmLm-V/view?usp=sharing) 
+
+My answers can be found [here](https://drive.google.com/file/d/18yqPjvy7tFE-tHqMtniW7aqAWuYqY2xX/view?usp=sharing) 
+
+### Technical Appendix
+
+#### Question 1(c)
+```{r a31c}
+pd <- function(x, kappa,lambda){
+  kappa <- sort(kappa)
+  d <- diff(kappa)
+  n <- length(x)
+  r <- sqrt(sum(cos(x))^2+sum(sin(x))^2)
+  lnp <- -lambda*kappa + log(besselI(r*kappa,0)) - n*log(besselI(kappa,0))
+  lnp <- lnp - max(lnp)
+  p <- exp(lnp)
+  m <- length(p)
+  norm <- sum(d*(p[1:(m-1)]+p[2:m])/2)
+  p <- p/norm
+  dd <- list(kappa=kappa, posterior=p)
+  dd
+}
+
+bees <- scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A3/bees.txt", character(), quote = "")
+bees <- as.numeric(bees)
+library(NISTunits)
+bees <- NISTdegTOradian(bees)
+pd(bees,0,1)
+```
+
+#### Question 2(a)
+```{r a32a}
+geyser <- scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A3/geyser.txt", character(), quote = "")
+geyser <- as.numeric(geyser)
+
+shorth <- function(x, tau=1/2) {
+  x <- sort(x)
+  n <- length(x)
+  m <- ceiling(tau*n)
+  x1 <- x[1:(n-m+1)]
+  x2 <- x[m:n]
+  j <- c(1:(n-m+1))
+  len <- x2-x1
+  k <- min(j[len==min(len)])
+  mean(x[k:(k+m-1)])
+}
+
+shorth(geyser)
+plot(density(geyser), col="blue", lwd=3)
+abline(v=4.392493, lty=3, col="red", lwd=3)
+points(geyser,rep(0,272),pch=20,cex=0.5)
+```
+
+
+#### Question 2(b)
+```{r a32b}
+
+mean50 <- NULL
+mode50 <- NULL
+mean100 <- NULL
+mode100 <- NULL
+mean500 <- NULL
+mode500 <- NULL
+mean1000 <- NULL
+mode1000 <- NULL
+mean5000 <- NULL   
+mode5000 <- NULL
+for (i in 1:10000) {
+  x <- rnorm(50)
+  mean50 <- c(mean50,mean(x))
+  mode50 <- c(mode50,shorth(x))
+  x <- rnorm(100)
+  mean100 <- c(mean100,mean(x))
+  mode100 <- c(mode100,shorth(x))
+  x <- rnorm(500)
+  mean500 <- c(mean500,mean(x))
+  mode500 <- c(mode500,shorth(x))
+  x <- rnorm(1000)
+  mean1000 <- c(mean1000,mean(x))
+  mode1000 <- c(mode1000,shorth(x))
+  x <- rnorm(5000)
+  mean5000 <- c(mean5000,mean(x))
+  mode5000 <- c(mode5000,shorth(x))
+}
+
+
+par(mfrow=c(2,3))
+boxplot(mean50,mode50)
+boxplot(mean100,mode100)
+boxplot(mean500,mode500)
+boxplot(mean1000,mode1000)
+boxplot(mean5000,mode5000)
+
+
+lnn <- log(c(50,100,500,1000,5000))
+lnvar <- log(c(var(mode50),var(mode100), var(mode500), var(mode1000),var(mode5000)))
+plot(lnn, lnvar, pch=20)
+r <- lm(lnvar~lnn)
+abline(r, col='red')
+summary(r)
+```
+
+
+## Assignment 4
+
+Find the handout for this assignment [here](https://drive.google.com/file/d/1POznLPhUPtxhDwg7uD1q6yCYr3axe7na/view?usp=sharing) 
+
+One dataset was used: [bees](https://drive.google.com/file/d/1rjvASu717S2B1-22S2tCOW-SibTID5Rx/view?usp=sharing)
+
+My answers can be found [here](https://drive.google.com/file/d/17EBif4vXJ-kpmFLhnSQxaOSmPe9kbu53/view?usp=sharing)
+
+### Technical Appendix
+
+#### Question 1(c)
+```{r a41c}
+x <- c(1:20)/21
+A <- NULL
+for (i in 1:20){
+  y <- c(rep(0,i-1),1,rep(0,20-i))
+  r <- smooth.spline(x,y,df=4)
+  A <- cbind(A, r$y)
+}
+r4 <- eigen(A, symmetric=T)
+round (r4$values,3)
+
+A <- NULL
+for (i in 1:20){
+  y <- c(rep(0,i-1),1,rep(0,20-i))
+  r <- smooth.spline(x,y,df=6)
+  A <- cbind(A, r$y)
+}
+r6 <- eigen(A, symmetric=T)
+round (r6$values,3)
+
+A <- NULL
+for (i in 1:20){
+  y <- c(rep(0,i-1),1,rep(0,20-i))
+  r <- smooth.spline(x,y,df=8)
+  A <- cbind(A, r$y)
+}
+r8 <- eigen(A, symmetric=T)
+round (r8$values,3)
+
+A <- NULL
+for (i in 1:20){
+  y <- c(rep(0,i-1),1,rep(0,20-i))
+  r <- smooth.spline(x,y,df=9)
+  A <- cbind(A, r$y)
+}
+r9 <- eigen(A, symmetric=T)
+round (r9$values,3)
+
+r9 <- eigen(A,symmetric=T) 
+for (i in 1:20) {
+  devAskNewPage(ask = T)
+  plot(x,r4$vectors[,i],type="b")
+}
+```
+
+
+#### Question 2(e)
+```{r a42e}
+library(CircStats)
+bees <- scan("C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A4/bees.txt", character(), quote = "")
+bees <- as.numeric(bees)
+r.test(bees, degree=TRUE)
+```

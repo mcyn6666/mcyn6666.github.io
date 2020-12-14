@@ -1,0 +1,45 @@
+name: "my-website"
+navbar:
+  title: "Michelle Chan"
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html  
+    - text: "Coursework"
+      icon: fa-book
+      menu:
+        - text: "Coursework Summary"
+          icon: fa-list
+          href: coursework.html
+        - text: "STA410 Statistical Computation"
+          icon: fa-code
+          href: STA410.html
+        - text: "STA457 Time Series Analysis"
+          icon: fa-code
+          href: STA457.html
+        - text: "STA355 Theory of Statistical Practice"
+          icon: fa-code
+          href: STA355.html
+    - text: "Student Research"
+      icon: fa-cogs
+      menu:
+        - text: "Anonymity & Decision Making"
+          icon: fa-laptop
+          href: STA490research1.html
+        - text: "Diurnal Pattern of Reaction Time"
+          icon: fa-clock
+          href: STA490research2.html
+    - text: "Viz Projects"
+      icon: fa-edit
+      href: https://public.tableau.com/profile/mcyn6666#!/
+  right:
+    - text: "Resume"
+      icon: fa-file
+      href: https://drive.google.com/file/d/1ojQkeI0eUsXabGq6MvK1qK9n5jTHmJtL/view?usp=sharing
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
+
+
+

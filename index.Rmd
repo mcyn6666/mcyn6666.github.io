@@ -1,0 +1,24 @@
+---
+title: "Home"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(fontawesome)
+fa(name = "r-project", fill = "steelblue")
+```
+
+
+##  Welcome!
+
+My name is Michelle Chan and I will be hosting the majority of my work here. These include: academic coursework, student research projects, links to personal visualization projects and resume.
+
+Most of the presented work will be related to data analysis and data visualization, and research projects that I am involved with.
+
+## About Me
+
+
+I graduated from University of Toronto (UofT) in June 2019, where I pursued a specialist program in Applied Statistics and a minor in Mathematics, graduated with distinction.
+
+I’m currently an Analyst under the Mergers and Acquisitions (M&A) Analytics team at Deloitte Canada, in Toronto. My role focuses on three business areas to drive values for clients through leveraging analytics (1) to generate deeper data-driven insights and optimize decisions across the M&A cycle; (2) to drive productivity and cost control for operational efficiency; and (3) to identify opportunities for profitable revenue growth. 
+

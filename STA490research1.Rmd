@@ -1,0 +1,1011 @@
+---
+title: "Anonymity and Decision Making"
+---
+
+My final **Statistical Report** can be found [here](https://drive.google.com/file/d/1OqFNtz5BxHqHvyTAm7uXW3FyWGMoUWhA/view?usp=sharing)
+
+My **PREZI** presentation slides can be found here: [Final Presentation](https://prezi.com/view/z3fg6CoqwYbPs2uRgwH7/) and [Introductory Presentation](https://prezi.com/view/qU1jPvBpHOGyIBjs1iWG/)
+
+# Overview {.tabset}
+
+This research aims to answer the research questions that whether actor’s anonymity influences perceiver’s moral and character judgements and how the nature of actions contributes to the effect of anonymity on moral and character judgements, by analyzing the individual differences of moral and character judgements regarding the anonymous effect. Possible mediating factors that contribute to the effect of anonymity on moral judgement are also examined using mediation analysis. The results show that actor’s anonymity leads to more favorable moral and character judgements. It was concluded that character judgement, perceived charitable traits, social status, personal belief, humbleness and gaining of the actors are mediators that explain the relationship between anonymity and moral judgement.
+
+## Data Analysis for Study 1A
+
+
+```{r library, include=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(dplyr)
+library(lme4)
+library(mediation)
+```
+
+### Research Question
+
+Can a person's anonymity influence perceiver's moral and character judgment?
+
+### Dataset
+
+The dataset that we are using for this analysis is study 1a data collected from 172 individuals at Mturk. This data is a data frame created for the purpose of investigating the effect of anonymity on moral judgment and character judgment.   
+
+```{r df}
+s1a <- read.csv(file="C:/Users/miche/OneDrive/Desktop/UofT/STA490/Caroline/1a.csv", header=TRUE, sep=",")
+```
+
+#### Data Structure  
+
+
+Let's take a look at the arranged data with participant's `id` and `anonymity` converted into a category :  
+```{r str, echo=FALSE}
+s1a$id <- as.factor(s1a$id)
+s1a$anonymity <- as.factor(s1a$anonymity)
+str(s1a)
+```
+
+
+The data of study 1a has 344 rows and 5 variables with the target feature `moral` as Moral Judgment.    
+5 variables are defined as follows:  
+
+- `id`: An ID number given to each participant for easy identification    
+- `anonymity`: The presence of anonymity in each measurement, whether participants are given the name of the donor or not.    
+- `moral`: Moral judgment by the participants that is based on three statements. (1-Strongly Disagree to 7-Strongly Agree)    
+- `character`: Character Judgment by the participants that is based on six statements.    
+- `charitable`: Charitable traits of the donors rated by the participants, based on four statements.   
+
+#### Summary of the Data
+```{r str2, echo=FALSE}
+summary(s1a)
+```
+
+Note: 
+
+- There is no missing values.   
+- There were more male participants than female participants.   
+- Participants' age has a large range.   
+
+### Exploratory Data Analysis
+
+#### Histograms for Moral and Character Judgement; Charitable Traits
+```{r}
+h1 <- ggplot(s1a, aes(moral)) + geom_histogram(bins=5)
+h2 <- ggplot(s1a, aes(character)) + geom_histogram(bins=6)
+h3 <- ggplot(s1a, aes(charitable)) + geom_histogram(bins=6)
+grid.arrange(h1, h2, h3, ncol=3, nrow=1)
+```
+
+
+#### Effect of Anonymity on Moral/Character Judgement & Charitable Traits 
+```{r}
+a1 <- ggplot(s1a, aes(anonymity, moral)) + geom_boxplot()+labs(y = "Moral Judgement", x="Anonymity")
+a2 <- ggplot(s1a, aes(anonymity, character)) + geom_boxplot() + labs(y = "Character Judgement", x="Anonymity")
+a3 <- ggplot(s1a, aes(anonymity, charitable)) + geom_boxplot()+labs(y = "Charitable Traits", x="Anonymity")
+grid.arrange(a1, a2, a3, ncol=3, nrow=1)
+
+```
+
+Note: 
+
+- Anonymous donors received higher ratings of moral judgement than identifiable donors.   
+- Anonymous donors received higher ratings of character judgement than identifiable donors.   
+- Anonymous donors received higher ratings of charitable traits than identifiable donors.   
+
+#### Effect of Anonymity on the relationship between Moral and Character Judgement; Moral Judgement and Charitable Traits; Charitable Traits and Character Judgement
+
+```{r}
+mcj <- ggplot(s1a, aes(x = character, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Character Judgement", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+mct <- ggplot(s1a, aes(x = charitable, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Charitable Traits", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+mctj <- ggplot(s1a, aes(x = charitable, y = character, colour = anonymity)) + geom_point() + 
+   labs(y = "Character Judgement", x="Charitable Traits", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+grid.arrange(mcj, mct, mctj, ncol=2, nrow=2)
+```
+
+Note:
+
+- From the plots, it is hard to notice the differences in the ratings between anonymous and identifiable donors.  
+
+
+#### Effect of Sex on the relationship between Moral and Character Judgement; Moral Judgement and Charitable Traits
+
+```{r}
+smcj <- ggplot(s1a, aes(x = character, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Character Judgement", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+smct <- ggplot(s1a, aes(x = charitable, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Charitable Traits", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+grid.arrange(smcj, smct, ncol=1, nrow=2)
+```
+
+Note:  
+
+- Female participants tended to give higher ratings of moral and character judgement.  
+- Female participants tended to give higher ratings of charitable traits and character judgement.   
+
+
+#### Effect of Age on Moral/Character Judgement and Charitable Traits
+
+```{r}
+age1 <- ggplot(s1a, aes(x = age, y = moral)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Age") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age2 <-ggplot(s1a, aes(x = age, y = character)) + geom_point() + 
+   labs(y = "Character Judgement", x="Age") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age3 <- ggplot(s1a, aes(x = age, y = charitable)) + geom_point() + 
+   labs(y = "Charitable Traits", x="Age") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+grid.arrange(age1, age2, age3, ncol=3, nrow=1)
+```
+
+Note:  
+
+- It seems that there is no relationship between age and the independent variables.  
+
+
+### Data Analysis
+
+**Summary**: Linear mixed effects model is used to answer the research question because there is linear relationship between the variables and there were repeated measurements for each participants, the mixed effect model accounts for the random effects of the individual subjects. The mediation analysis followed the work of Baron & Kenny (1986), it consists of three linear mixed regression models. First, I regressed moral judgement on anonymity. There is strong evidence that anonymity has an effect on moral judgement. Second, I regressed the mediator "M" (here M is either character judgement or charitable traits) on moral judgement. It's been found that anonymity has effect on both character judgement and charitable traits. Third, I regressed both anonymity and "M" on moral judgement. There is strong evidence that both character judgement and charitable traits have effect on moral judgement, but the effect of anonymity on moral judgement disappears when the mediator is included in the regression model. It suggests that character judgement and charitable traits are mediating the effect of anonymity on moral judgement. Lastly, bootstrapping is used to test the significance of the mediation effects. It is concluded that both character judgement and charitable traits are mediators.
+
+#### Linear Mixed Models
+
+##### Model 1: Effect of Anonymity on Moral Judgment
+
+I first start with the simplest model `m1` which inclues the fixed effect `anonymity`, and the random effect of `id`. In the case of my model here, we add a random effect for `id`  and this characterizes idiosyncratic variation that is due to individual differences.
+
+```{r m1}
+# Step 1: X -> Y
+m1 <- lmer(moral ~ anonymity + (1|id)  , data=s1a)
+summary(m1)
+anova(m1)
+```
+
+##### Model 2: Effect of Anonymity on Character Judgment
+
+```{r m2}
+# Step 2: X -> M1
+m2 <- lmer(character ~ anonymity + (1|id)  , data=s1a)
+summary(m2)
+anova(m2)
+```
+
+##### Model 3: Effect of Anonymity on Charitable Traits
+
+```{r m3}
+# Step 2: X -> M2
+m3 <- lmer(charitable ~ anonymity + (1|id)  , data=s1a)
+summary(m3)
+anova(m3)
+```
+
+##### Model 4: Effect of Character Judgment and Anonymity on Moral Judgment
+
+```{r m4}
+# Step 3: X + M1 -> Y
+m4 <- lmer(moral ~ anonymity + character + (1|id)  , data=s1a)
+summary(m4)
+anova(m4)
+```
+
+Note that:  
+
+- `character` affects `moral`, but `anonymity` no longer affects `moral` when `character` is present in the regression model.  
+- It suffices that a full mediation exists because the effect on `anonymity` on `moral` disappears. The effect of `anonymity` on `moral` goes through `character`.    
+
+##### Model 5: Effect of Anonymity and Charitable Traits on Moral Judgment
+
+```{r m5}
+# step 3: X + M2 -> Y
+m5 <- lmer(moral~ charitable + anonymity + (1|id)  , data=s1a)
+summary(m5)
+anova(m5)
+```
+
+Note that:   
+
+- `charitable` affects ` moral`, but `anonymity` no longer affects `moral` when `charitable` is present in the regression model.    
+- It suffices that a full mediation exists because the effect on `anonymity` on `moral` disappears. The effect of `anonymity` on `moral` goes through `charitable`.      
+
+##### Model 6: Effect of Age/Sex on Moral Judgment
+
+```{r m6}
+m6 <- lmer(moral ~  age + sex + age*sex + (1|id), data=s1a)
+summary(m6)
+anova(m6)
+```
+
+Note: 
+
+- There is no evidence that `age` nor `sex` affect `moral`.  
+
+#### Significance Testing on the Mediation Effects
+
+Once we find these relationships, we want to see if this mediation effect is statistically significant (different from zero or not). To do so, we use bootstrapping method in this study as it is strongly recommended in recent years.
+
+Note that bootstrapping involves repeatedly randomly sampling observations with replacement from the data set and computing the statistic of interest in each resample. Over many bootstrap resamples, an empirical approximation of the sampling distribution of the statistic can be generated and used for hypothesis testing. Therefore, the Average Causal Mediation Effect (ACME Estimate) and the p-values can be slightly different every time we run the codes, but the conclusion is still the same.
+
+P.S. The `mediation` package cannot be implemented unless we remove the `lmerTest` pacakge. If you would like to check the p-values from the above regression models, please load `lmerTest`.
+
+##### Character Judgment as Mediator
+
+```{r bs1}
+med1 <- mediate(m2, m4, treat='anonymity', mediator='character', boot=FALSE)
+summary(med1)
+```
+
+Note:
+
+- `character` is a mediator that affects `anonymity` on`moral`.     
+
+##### Charitable Traits as Mediator
+
+```{r bs2}
+med2 <- mediate(m3, m5, treat='anonymity', mediator='charitable', boot=FALSE)
+summary(med2)
+```
+
+Note: 
+
+- `charitable` is a mediator that affects `anonymity` on`moral`.   
+
+
+#### Model Diagnostics
+
+**Summary**:To make sure the conditions of the linear mixed models were met, I have carried out some diagnostic procedure as follows. Line plots between the independent variables can be used to assess the linearity fit of the models. In the exploratory data analysis section, it has showed there is linear relationship between the variables, and the linearity is therefore satisfied. Normal Quantile-Quantile plots were used to assess the normality of residuals. When plotting the QQ plots for each linear mixed model, it is seen that most data points do not deviate much from the straight line, indicating that the residuals follow a normal distribution. Normality assumption seems to hold. Residual plots help to assess whether the variance is constant. It is found that this assumption seems to hold as well because the data points are scattered evenly when plotting the residuals for each model. Lastly, the individual specific effect is uncorrelated with the independent variables, and therefore, the indepedence assumption for random effects is satisfied. All the linear mixed models above are valid.
+
+##### Assessing Linearity Fit
+
+Models are assumed to be linear in each of the independent variables: Since `id`, `sex` and `anonymity` are binary variables, linearity is satisfied automatically.
+In our EDA, we can see from the line plots that there are linear relationships between  moral and character judgements; moral judgement and charitable traits; age and other variables. Linearity is satisfied. 
+
+##### Underlying Assumptions: Normality of Residuals
+
+```{r}
+par(mfrow=c(2,3)) 
+qqnorm(residuals(m1))
+qqnorm(residuals(m2))
+qqnorm(residuals(m3))
+qqnorm(residuals(m4))
+qqnorm(residuals(m5))
+qqnorm(residuals(m6))
+
+```
+
+Note: 
+
+- The normality assumption seems to be satisfied as most data points form a straight line.   
+
+##### Underlying Assumptions: Constant Variance
+
+```{r}
+r1 <- plot(m1)
+r2 <- plot(m2)
+r3 <- plot(m3)
+r4 <- plot(m4)
+r5 <- plot(m5)
+r6 <- plot(m6)
+grid.arrange(r1, r2, r3, r4, r5, r6, ncol=3, nrow=2)
+```
+
+Note:   
+
+- These residual plots do not indicate any deviations from a linear form. They also show relatively constant variance across the fitted range, data points are scattered evenly in these plots. This  assumption is satisfied.   
+
+##### Assumptions for Random Effects
+
+The random effects assumption is that the individual specific effects are uncorrelated with the independent variables. Here, `id` is a sample drawn from a population, the individual difference within a subject is uncorrelated with any variables like `moral`.
+
+```{r}
+id1 <- ggplot(s1a, aes(x=as.numeric(id),y= moral, colour=anonymity)) + geom_point()+labs(y = "Moral Judgement", x="ID", colour="Anonymity")
+
+id2 <- ggplot(s1a, aes(x=as.numeric(id),y= character, colour=anonymity)) + geom_point()+labs(y = "Character Judgement", x="ID", colour="Anonymity")
+
+id3 <- ggplot(s1a, aes(x=as.numeric(id),y= charitable, colour=anonymity)) + geom_point()+labs(y = "Charitable Traits", x="ID", colour="Anonymity")
+
+grid.arrange(id1, id2, id3, ncol=1, nrow=3)
+```
+
+
+## Data Analysis for Study 1B
+
+
+```{r library2, include=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(dplyr)
+library(lme4)
+library(mediation)
+```
+
+### Research Question
+
+Can a person's anonymity influence perceiver's moral and character judgment?
+
+### Dataset
+
+The dataset that we are using for this analysis is study 1b data collected from 141 individuals at Mturk. This data is a data frame created for the purpose of investigating the effect of anonymity on moral judgment and character judgment.   
+
+```{r df22}
+s1b <- read.csv(file="C:/Users/miche/OneDrive/Desktop/UofT/STA490/Caroline/1b.csv", header=TRUE, sep=",")
+
+# Omitting missing data
+os1b <- na.omit(s1b)
+```
+
+#### Data Structure  
+
+
+Let's take a look at the arranged data with participant's `id`,`sex` and `anonymity` converted into a category:   
+
+```{r str21, echo=FALSE}
+s1b$id <- as.factor(s1b$id)
+s1b$anonymity <- as.factor(s1b$anonymity)
+s1b$sex <- as.factor(s1b$sex)
+str(s1b)
+```
+
+The data of study 1b  has 564 rows and 16 variables with the target feature `moral` as Moral Judgment.    
+16 variables are defined as follows:  
+
+- `id`: An ID number given to each participant for easy identification    
+- `anonymity`: The presence of anonymity in each measurement, whether participants are given the name of the donor or not.    
+- `moral`: Moral judgment by the participants that is based on three statements. (1-Strongly Disagree to 7-Strongly Agree)    
+- `character`: Character Judgment by the participants that is based on six statements.    
+- `charitable`: Charitable traits of the donors rated by the participants, based on four statements.     
+- `future`: Future intention of donations of the donors rated by participants, based on two statements.   
+- `reputation`: Donor's concern of reputation rated by participants  
+- `status`:  Donor's interest in attaining social status rated by participants   
+- `belief`:  Donor's belief in Museum's mission rated by participants    
+- `humble`:  Participants rated how humble and modest the donor is.  
+- `reliable`: Donor's reliability rated by participants.      
+- `gaining`:  Participants rated to the extent they think the donor is gaining something through donation.         
+- `losing`:  Participants rated to the extent they think the donor is losing something through donation.      
+- `age`:  Age of the participants.    
+- `sex`: Sex of the participants.      
+
+#### Summary of the Data
+```{r str342, echo=FALSE}
+summary(s1b)
+```
+
+Note:
+
+- There are a few missing values, indicating that some participants did not fill in all the questions on the questionnaire.  
+- The gender of the participants is evenly distributed.  
+- The age range of the participants is pretty large.  
+- The means of the continuous variables are around the same (~5 out of 7 points).  
+
+### Exploratory Data Analysis
+
+#### Histograms for the independent variables
+```{r hist13, echo=FALSE}
+h1 <- ggplot(s1b, aes(moral)) + geom_histogram(bins=7)
+h2 <- ggplot(s1b, aes(character)) + geom_histogram(bins=7)
+h3 <- ggplot(s1b, aes(charitable)) + geom_histogram(bins=7)
+h4 <- ggplot(s1b, aes(future)) + geom_histogram(bins=7)
+h5 <- ggplot(s1b, aes(reputation)) + geom_histogram(bins=7)
+h6 <- ggplot(s1b, aes(status)) + geom_histogram(bins=7)
+h7 <- ggplot(s1b, aes(belief)) + geom_histogram(bins=7)
+h8 <- ggplot(s1b, aes(humble)) + geom_histogram(bins=7)
+h9 <- ggplot(s1b, aes(reliable)) + geom_histogram(bins=7)
+h10 <- ggplot(s1b, aes(gaining)) + geom_histogram(bins=7)
+h11 <- ggplot(s1b, aes(losing)) + geom_histogram(bins=7)
+
+grid.arrange(h1, h2, h3,h4,h5,h6,h7,h8,h9,h10,h11, ncol=4, nrow=3)
+```
+
+#### Effect of Anonymity on the independent variables
+
+```{r, echo=FALSE}
+a1 <- ggplot(s1b, aes(anonymity, moral)) + geom_boxplot()+labs(y = "Moral Judgement", x="Anonymity")
+a2 <- ggplot(s1b, aes(anonymity, character)) + geom_boxplot() + labs(y = "Character Judgement", x="Anonymity")
+a3 <- ggplot(s1b, aes(anonymity, charitable)) + geom_boxplot()+labs(y = "Charitable Traits", x="Anonymity")
+a4 <- ggplot(s1b, aes(anonymity, future)) + geom_boxplot()+labs(y = "Future Donation", x="Anonymity")
+a5 <- ggplot(s1b, aes(anonymity, reputation)) + geom_boxplot()+labs(y = "Reputation", x="Anonymity")
+a6 <- ggplot(s1b, aes(anonymity, status)) + geom_boxplot()+labs(y = "Social Status", x="Anonymity")
+a7 <- ggplot(s1b, aes(anonymity, belief)) + geom_boxplot()+labs(y = "Belief on ROM", x="Anonymity")
+a8 <- ggplot(s1b, aes(anonymity, humble)) + geom_boxplot()+labs(y = "Humbleness", x="Anonymity")
+a9 <- ggplot(s1b, aes(anonymity, reliable)) + geom_boxplot()+labs(y = "Reliability", x="Anonymity")
+a10 <- ggplot(s1b, aes(anonymity, gaining)) + geom_boxplot()+labs(y = "Gaining", x="Anonymity")
+a11 <- ggplot(s1b, aes(anonymity, losing)) + geom_boxplot()+labs(y = "Losing", x="Anonymity")
+grid.arrange(a1, a2, a3,a4,a5,a6,a7,a8,a9,a10,a11, ncol=4, nrow=3)
+```
+
+Note:   
+
+- On average, anonymous donors received higher ratings of character judgement, charitable traits, future donation intention, humbleness than identifiable donors.  
+- There seems to be no difference in the ratings of moral judgement, social status, belief on ROM, reliability, losing and gaining between anonymous and identifiable donors.   
+
+#### Effect of Anonymity on the relationship between Moral Judgement and other independent variables
+
+```{r, echo=FALSE}
+am1 <- ggplot(s1b, aes(x = character, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Character Judgement", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am2 <- ggplot(s1b, aes(x = charitable, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Charitable Traits", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am3 <- ggplot(s1b, aes(x = future, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Future Donation", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am4 <- ggplot(s1b, aes(x = reputation, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Reputation", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am5 <- ggplot(s1b, aes(x = status, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Social Status", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am6 <- ggplot(s1b, aes(x = belief, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Belief on ROM", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am7 <- ggplot(s1b, aes(x = humble, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Humbleness", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am8 <- ggplot(s1b, aes(x = reliable, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Reliability", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am9 <- ggplot(s1b, aes(x =gaining, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Gaining", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+am10 <- ggplot(s1b, aes(x = losing, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Losing", color = "anonymity") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+ga1 <- grid.arrange(am1,am2,am3,am4,ncol=2, nrow=2)
+ga1
+ga2 <- grid.arrange(am5,am6,am7,am8,am9,am10, ncol=3, nrow=2 )
+ga2
+```
+
+Note:  
+
+- It seems that being anonymous tends to have an effect on the relationship between moral judgement and other independent variables (except for `humble`).   
+- Blue lines (anonymous) are always higher than the red line (identifiable).   
+
+#### Effect of Sex on the relationship between Moral Judgement and other independent variables
+
+```{r, echo=FALSE}
+sm1 <- ggplot(s1b, aes(x = character, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Character Judgement", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm2 <- ggplot(s1b, aes(x = charitable, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Charitable Traits", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm3 <- ggplot(s1b, aes(x = future, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Future Donation", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm4 <- ggplot(s1b, aes(x = reputation, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Reputation", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm5 <- ggplot(s1b, aes(x = status, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Social Status", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm6 <- ggplot(s1b, aes(x = belief, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Belief on ROM", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm7 <- ggplot(s1b, aes(x = humble, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Humbleness", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm8 <- ggplot(s1b, aes(x = reliable, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Reliability", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm9 <- ggplot(s1b, aes(x =gaining, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Gaining", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+sm10 <- ggplot(s1b, aes(x = losing, y = moral, colour = sex)) + geom_point() + 
+   labs(y = "Moral Judgement", x="Losing", color = "sex") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+
+ga3 <- grid.arrange(sm1,sm2,sm3,sm4,ncol=2, nrow=2)
+ga3
+ga4 <- grid.arrange(sm5,sm6,sm7,sm8,sm9,sm10, ncol=3, nrow=2 )
+ga4
+```
+
+Note:  
+
+- From the plot, it is hard to tell the difference in the ratings of the independent variablaes by sex. Sex seems to have no effect.   
+
+#### Effect of Age on the independent variables
+
+Judgement and other independent variables:
+```{r, echo=FALSE}
+age1 <- ggplot(s1b, aes(x = age, y = moral)) + geom_point() + 
+   labs(y = "Moral Judgement") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age2 <- ggplot(s1b, aes(x = age, y = character)) + geom_point() + 
+   labs(y = "Character Judgement") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age3 <- ggplot(s1b, aes(x = age, y = charitable)) + geom_point() + 
+   labs(y = "Charitable Traits") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age4 <- ggplot(s1b, aes(x = age, y = future)) + geom_point() + 
+   labs(y = "Future Donation") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age5 <- ggplot(s1b, aes(x = age, y = reputation)) + geom_point() + 
+   labs(y = "Reputation") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age6 <- ggplot(s1b, aes(x = age, y = status)) + geom_point() + 
+   labs(y = "Social Status") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age7 <- ggplot(s1b, aes(x = age, y = humble)) + geom_point() + 
+   labs(y = "Humbleness") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age8 <- ggplot(s1b, aes(x = age, y = reliable)) + geom_point() + 
+   labs(y ="Reliability") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age9 <- ggplot(s1b, aes(x = age, y = gaining)) + geom_point() + 
+   labs(y ="Gaining") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+age10 <- ggplot(s1b, aes(x = age, y = losing)) + geom_point() + 
+   labs(y="Losing") + geom_smooth(method="lm", fill=NA)+
+  theme_bw()
+ga5 <- grid.arrange(age1,age2,age3,age4,ncol=2, nrow=2)
+ga5
+ga6 <- grid.arrange(age5,age6,age7,age8,age9,age10,ncol=3, nrow=2)
+ga6
+```
+
+Note: 
+
+- From the plot, it seems that the ratings of the independent variables decrease as the age of participants increase.   
+
+
+### Data Analysis
+
+**Summary**: 
+
+Linear mixed effects model is used to answer the research question because there is linear relationship between the variables and there were repeated measurements for each participants, the mixed effect model accounts for the random effects of the individual subjects. The mediation analysis followed the work of Baron & Kenny (1986), it consists of three linear mixed regression models. First, I regressed moral judgement on anonymity. There is strong evidence that anonymity has an effect on moral judgement. Second, I regressed the mediator "M" (here M is character judgement / charitable traits / future donation intentions / reputation / social status / belief on ROM / humbleness / reliability / gaining / losing) on moral judgement. It has been found that anonymity has effect on character judgement, charitable traits, social status, belief on ROM , humbleness and gaining. Third, I regressed both anonymity and "M" on moral judgement. There is strong evidence that both character judgement, charitable traits, social status, belief on ROM and humbleness have effect on moral judgement, but the effect of anonymity on moral judgement disappears when the mediator is included in the regression model. It suggests that character judgement, charitable traits, social status, belief on ROM and humbleness are mediating the effect of anonymity on moral judgement. Lastly, bootstrapping is used to test the significance of the mediation effects. It is concluded that character judgement, charitable traits, social status, belief on ROM and humbleness are mediators.
+
+Apart from the mediation analysis, I also created two other linear mixed models with the interaction betweem anonymity and donation percentage as a quantitative variable. The two mixed models regressed moral/character judgement on anonymity, donation percentage and their interaction term. These two models can provide evidences on how anonymity and different proportion of donation to wealth vary with the ratings of moral/character judgement. The models are also useful for predicting the donor's ratings of moral/character judgement based on a particular treatment and donation percentage. Results showed that both donation percentage and anonymity have effect on moral/character judgement respectively, but their interaction term has no significant effect.   
+
+
+#### Linear Mixed Models
+
+##### Model 1: Effect of Anonymity on Moral Judgment
+
+I first start with the simplest model `m1` which inclues the fixed effect `anonymity`, and the random effect of `id`. In the case of my model here, we add a random effect for `id`  and this characterizes idiosyncratic variation that is due to individual differences.
+
+```{r m1342}
+# Step 1: X -> Y
+m1 <- lmer(moral ~ anonymity + (1|id)  , data=s1b)
+summary(m1)
+anova(m1)
+```
+   
+
+##### Model 2: Effect of Anonymity and Proportion of Donation on Moral Judgment
+
+```{r m2342}
+m2 <- lmer(moral ~ anonymity*donation + (1|id)  , data=os1b)
+summary(m2)
+
+#adding sex and age to model 2
+m2.1 <- lmer(moral ~ anonymity*donation + (1|id) +sex*age , data=os1b)
+summary(m2.1)
+anova(m2, m2.1)
+```
+
+Note:  
+
+- Model without `sex*age` is a better model.  
+
+
+##### Model 3: Effect of Anonymity and Proportion of Donation on Character Judgment
+
+```{r m33113}
+m3 <- lmer(character ~ anonymity*donation + (1|id)   , data=os1b)
+summary(m3)
+
+# adding sex and age to model 3
+m3.1 <- lmer(character ~ anonymity*donation + (1|id) +sex*age   , data=os1b)
+summary(m3.1)
+anova(m3,m3.1)
+```
+
+
+Note: 
+
+- Model without `sex*age` is a better model.  
+
+
+##### Model 4: Effect of Anonymity on Character Judgment
+
+```{r m4341}
+# Step 2: X -> M1
+m4 <- lmer(character ~ anonymity + (1|id)  , data=os1b)
+summary(m4)
+anova(m4)
+```
+
+##### Model 5: Effect of Anonymity and Character Judgment on Moral Judgment
+
+```{r m54134}
+# Step 3: X + M1 -> Y
+m5 <- lmer(moral ~ anonymity + character + (1|id)  , data=os1b)
+summary(m5)
+anova(m5)
+```
+
+Note:   
+
+- `character` affects moral, but anonymity no longer affects moral when `character` is present in the regression model.    
+- It suffices that a full mediation exists because the effect on anonymity on moral disappears. The effect of anonymity on moral goes through `character`.     
+
+##### Model 6: Effect of Anonyity on Charitable Traits
+
+```{r m6413}
+# Step 2: X -> M2
+m6 <- lmer(charitable ~ anonymity + (1|id)  , data=os1b)
+summary(m6)
+anova(m6)
+```
+
+##### Model 7: Effect of Charitable Traits and Anonymity on Moral Judgment  
+
+```{r m417}
+# step 3: X + M2 -> Y
+m7 <- lmer(moral~ charitable + anonymity + (1|id) , data=os1b)
+summary(m7)
+anova(m7)
+```
+
+##### Model 8: Effect of Future Donation Intention on Anonymity
+
+```{r}
+# step 2: X -> M3
+m8 <- lmer(future ~ anonymity + (1|id)  , data=os1b)
+summary(m8)
+```
+
+##### Model 9: Effect of Future Donation Intention and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M3 -> Y
+m9 <- lmer(moral ~ anonymity + future + (1|id)  , data=os1b)
+summary(m9)
+```
+
+##### Model 10: Effect of Reputation on Anonymity
+
+```{r}
+# Step 2: X -> M4
+m10 <- lmer(reputation ~ anonymity + (1|id)  , data=os1b)
+summary(m10)
+```
+
+##### Model 11: Effect of Reputation and Anonymity on Moral Judgement
+
+```{r}
+# step 3: X + M4 -> Y
+m11 <- lmer(moral ~ anonymity + reputation + (1|id)  , data=os1b)
+summary(m11)
+```
+
+##### Model 12: Effect of Social Status on Anonymity
+
+```{r}
+# Step 2: X -> M5
+m12 <- lmer(status ~ anonymity + (1|id)  , data=os1b)
+summary(m12)
+```
+
+##### Model 13: Effect of Social Status and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M5 -> Y
+m13 <- lmer(moral~ status + anonymity + (1|id)  , data=os1b)
+summary(m13)
+```
+
+##### Model 14:  Effect of "Belief on ROM"" on Anonymity
+
+```{r}
+# Step 2: X -> M6
+m14 <- lmer(belief ~ anonymity + (1|id)  , data=os1b)
+summary(m14)
+```
+
+##### Model 15: Effect of "Belief on ROM" and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M6 -> Y
+m15 <- lmer(moral ~ anonymity + belief + (1|id)  , data=os1b)
+summary(m15)
+```
+
+##### Model 16:  Effect of Humbleness on Anonymity
+
+```{r}
+# Step 2: X -> M7
+m16 <- lmer(humble ~ anonymity + (1|id)  , data=os1b)
+summary(m16)
+```
+
+##### Model 17: Effect of Humbleness and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M7 -> Y
+m17 <- lmer(moral ~ anonymity + humble + (1|id)  , data=os1b)
+summary(m17)
+```
+
+##### Model 18:  Effect of Reliability on Anonymity
+
+```{r}
+# Step 2: X -> M8
+m18 <- lmer(reliable ~ anonymity + (1|id)  , data=os1b)
+summary(m18)
+```
+
+##### Model 19: Effect of Reliability and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M8 -> Y
+m19 <- lmer(moral ~ anonymity + reliable + (1|id)  , data=os1b)
+summary(m19)
+```
+
+##### Model 20:  Effect of Gaining on Anonymity
+
+```{r}
+# Step 2: X -> M9
+m20 <- lmer(gaining ~ anonymity + (1|id)  , data=os1b)
+summary(m20)
+```
+
+##### Model 21: Effect of Gaining and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M9 -> Y
+m21 <- lmer(moral ~ anonymity + gaining + (1|id)  , data=os1b)
+summary(m21)
+```
+
+##### Model 22:  Effect of Losing on Anonymity
+
+```{r}
+# Step 2: X -> M10
+m22 <- lmer(losing ~ anonymity + (1|id)  , data=os1b)
+summary(m22)
+```
+
+##### Model 23: Effect of Losing and Anonymity on Moral Judgement
+
+```{r}
+# Step 3: X + M10 -> Y
+m23 <- lmer(moral ~ anonymity + losing + (1|id)  , data=os1b)
+summary(m23)
+```
+
+#### Significance Testing of the Mediation Effects
+
+##### Significance Testing of Character Judgment as Mediator
+
+```{r}
+med1 <- mediate(m4, m5, treat='anonymity', mediator='character', boot=FALSE)
+summary(med1)
+```
+
+##### Significance Testing of Charitable Traits as Mediator
+
+```{r}
+med2 <- mediate(m6, m7, treat='anonymity', mediator='charitable', boot=FALSE)
+summary(med2)
+```
+
+##### Significance Testing of "Future Donation Intention" as Mediator 
+
+```{r}
+med3 <- mediate(m8, m9, treat='anonymity', mediator='future', boot=FALSE)
+summary(med3)
+```
+
+##### Significance Testing of Reputation as a Mediator
+
+```{r}
+med4 <- mediate(m10, m11, treat='anonymity', mediator='reputation', boot=FALSE)
+summary(med4)
+```
+
+##### Significance Testing of Social Status as a Mediator
+
+```{r social}
+med5 <- mediate(m12, m13, treat='anonymity', mediator='status', boot=FALSE)
+summary(med5)
+```
+
+##### Significance Testing of "Belief on ROM" as a Mediator
+
+```{r belief}
+med6 <- mediate(m14, m15, treat='anonymity', mediator='belief', boot=FALSE)
+summary(med6)
+```
+
+##### Significance Testing of Humbleness as a Mediator
+
+```{r humble}
+med7 <- mediate(m16, m17, treat='anonymity', mediator='humble', boot=FALSE)
+summary(med7)
+```
+
+##### Significance Testing of Reliability as a Mediator
+
+```{r reliable}
+med8 <- mediate(m18, m19, treat='anonymity', mediator='reliable', boot=FALSE)
+summary(med8)
+```    
+
+##### Significance Testing of Gaining as a Mediator
+
+```{r gaining}
+med9 <- mediate(m20, m21, treat='anonymity', mediator='gaining', boot=FALSE)
+summary(med9)
+``` 
+
+##### Significance Testing of Losing as a Mediator
+
+```{r}
+med10 <- mediate(m22, m23, treat='anonymity', mediator='losing', boot=FALSE)
+summary(med10)
+```  
+
+#### Mediation Plots
+
+```{r plotmed, eval=FALSE}
+par(mfrow=c(2,5))
+plot(med1, treatment = NULL, labels = NULL, main="Character Judgment")
+plot(med2, treatment = NULL, labels = NULL, main="Charitable Traits")
+plot(med3, treatment = NULL, labels = NULL, main="Future Donation Intentions")
+plot(med4, treatment = NULL, labels = NULL, main="Reputation")
+plot(med5, treatment = NULL, labels = NULL, main="Social Status")
+plot(med6, treatment = NULL, labels = NULL, main="Belief on ROM's Mission")
+plot(med7, treatment = NULL, labels = NULL, main="Humbleness")
+plot(med8, treatment = NULL, labels = NULL, main="Reliability")
+plot(med9, treatment = NULL, labels = NULL, main="Gaining")
+plot(med10, treatment = NULL, labels = NULL, main="Losing")
+```
+
+
+#### Model Diagnostics
+
+**Summary**:
+
+To make sure the conditions of the linear mixed models were met, I have carried out some diagnostic procedure as follows. Line plots between the independent variables can be used to assess the linearity fit of the models. In the exploratory data analysis section, it has showed there is linear relationship between the variables, and the linearity is therefore satisfied. Normal Quantile-Quantile plots were used to assess the normality of residuals. When plotting the QQ plots for each linear mixed model, it is seen that most data points do not deviate much from the straight line, indicating that the residuals follow a normal distribution. Normality assumption seems to hold. Residual plots help to assess whether the variance is constant. It is found that this assumption seems to hold as well because the data points are scattered evenly when plotting the residuals for each model. Lastly, the individual specific effect is uncorrelated with the independent variables, and therefore, the indepedence assumption for random effects is satisfied. All the linear mixed models above are valid.
+
+#### Assessing Linearity Fit
+
+Models are assumed to be linear in each of the independent variables: Since `id`, `sex` and `anonymity` are binary variables, linearity is satisfied automatically.
+In our EDA, we can see from the line plots that there are linear relationships between  moral and other independent variables; age and other independent variables. Linearity is satisfied. 
+
+#### Underlying Assumptions: Normality of Residuals
+```{r, echo=FALSE}
+par(mfrow=c(3,3)) 
+qqnorm(residuals(m1))
+qqnorm(residuals(m2))
+qqnorm(residuals(m3))
+qqnorm(residuals(m4))
+qqnorm(residuals(m5))
+qqnorm(residuals(m6))
+qqnorm(residuals(m6))
+qqnorm(residuals(m7))
+qqnorm(residuals(m8))
+qqnorm(residuals(m9))
+
+```
+
+```{r, echo=FALSE}
+par(mfrow=c(3,3))
+qqnorm(residuals(m10))
+qqnorm(residuals(m11))
+qqnorm(residuals(m12))
+qqnorm(residuals(m13))
+qqnorm(residuals(m14))
+qqnorm(residuals(m15))
+qqnorm(residuals(m16))
+qqnorm(residuals(m17))
+qqnorm(residuals(m18))
+```
+
+```{r, echo=FALSE}
+par(mfrow=c(2,3))
+qqnorm(residuals(m19))
+qqnorm(residuals(m20))
+qqnorm(residuals(m21))
+qqnorm(residuals(m22))
+qqnorm(residuals(m23))
+```
+
+Note:   
+
+- The normality assumption seems to be satisfied as most data points form a straight line.   
+
+#### Underlying Assumptions: Constant Variance
+```{r, echo=FALSE}
+r1 <- plot(m1)
+r2 <- plot(m2)
+r3 <- plot(m3)
+r4 <- plot(m4)
+r5 <- plot(m5)
+r6 <- plot(m6)
+grid.arrange(r1, r2, r3, r4, r5, r6, ncol=3, nrow=2)
+```
+
+```{r, echo=FALSE}
+r7 <- plot(m1)
+r8 <- plot(m2)
+r9 <- plot(m3)
+r10 <- plot(m4)
+r11 <- plot(m5)
+r12 <- plot(m6)
+grid.arrange(r7, r8, r9, r10, r11, r12, ncol=3, nrow=2)
+```
+
+```{r, echo=FALSE}
+r13 <- plot(m13)
+r14 <- plot(m14)
+r15 <- plot(m15)
+r16 <- plot(m16)
+r17 <- plot(m17)
+r18 <- plot(m18)
+grid.arrange(r13, r14, r15, r16, r17, r18, ncol=3, nrow=2)
+```
+
+```{r,  echo=FALSE}
+r19 <- plot(m19)
+r20 <- plot(m20)
+r21 <- plot(m21)
+r22 <- plot(m22)
+r23 <- plot(m23)
+grid.arrange(r19, r20, r21, r22, r23, ncol=3, nrow=2)
+```
+
+Note:  
+
+- These residual plots do not indicate any deviations from a linear form. They also show relatively constant variance across the fitted range, data points are scattered evenly in these plots. This  assumption is satisfied.   
+
+#### Assumptions for Random Effects
+
+The random effects assumption is that the individual specific effects are uncorrelated with the independent variables. Here, `id` is a sample drawn from a population, the individual difference within a subject is uncorrelated with any variables like `moral`.
+
+```{r, echo=FALSE}
+id1 <- ggplot(s1b, aes(x=as.numeric(id),y= moral, colour=anonymity)) + geom_point()+labs(y = "Moral Judgement", x="ID", colour="Anonymity")
+
+id2 <- ggplot(s1b, aes(x=as.numeric(id),y= character, colour=anonymity)) + geom_point()+labs(y = "Character Judgement", x="ID", colour="Anonymity")
+
+id3 <- ggplot(s1b, aes(x=as.numeric(id),y= charitable, colour=anonymity)) + geom_point()+labs(y = "Charitable Traits", x="ID", colour="Anonymity")
+
+id4 <-  ggplot(s1b, aes(x=as.numeric(id),y= future, colour=anonymity)) + geom_point()+labs(y = "Future Donation Intention", x="ID", colour="Anonymity")
+
+id5 <- ggplot(s1b, aes(x=as.numeric(id),y= reputation, colour=anonymity)) + geom_point()+labs(y = "Reputation", x="ID", colour="Anonymity")
+
+id6 <- ggplot(s1b, aes(x=as.numeric(id),y= status, colour=anonymity)) + geom_point()+labs(y = "Social Status", x="ID", colour="Anonymity")
+
+grid.arrange(id1, id2, id3,id4, id5, id6, ncol=3, nrow=2)
+```
+
+```{r, echo=FALSE}
+id7 <- ggplot(s1b, aes(x=as.numeric(id),y= belief, colour=anonymity)) + geom_point()+labs(y = "Belief on ROM", x="ID", colour="Anonymity")
+
+id8 <- ggplot(s1b, aes(x=as.numeric(id),y= humble, colour=anonymity)) + geom_point()+labs(y = "Humbleness", x="ID", colour="Anonymity")
+
+id9 <- ggplot(s1b, aes(x=as.numeric(id),y= reliable, colour=anonymity)) + geom_point()+labs(y = "Reliability", x="ID", colour="Anonymity")
+
+id10 <-  ggplot(s1b, aes(x=as.numeric(id),y= gaining, colour=anonymity)) + geom_point()+labs(y = "Gaining", x="ID", colour="Anonymity")
+
+id11 <- ggplot(s1b, aes(x=as.numeric(id),y= losing, colour=anonymity)) + geom_point()+labs(y = "Losing", x="ID", colour="Anonymity")
+
+
+grid.arrange(id7, id8, id9,id10, id11, ncol=3, nrow=2)
+```
+
+

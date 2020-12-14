@@ -1,0 +1,52 @@
+---
+title: "Coursework Summary"
+---
+
+## Academic Statistical Courses
+
+Below is a more comprehensive version of my academic courses shown in my transcript:
+
+- STA490: Statistical Consultation, Communication and Collaboration
+
+Through case studies and collaboration with researchers in other disciplines, students develop skills in the collaborative practice of Statistics. Focus is on pragmatic solutions to practical issues including study design, dealing with common complications in data analysis, and ethical practice, with particular emphasis on written communication.
+
+- STA457: Time Series Analysis
+
+An overview of methods and problems in the analysis of time series data. Topics include: descriptive methods, filtering and smoothing time series, theory of stationary processes, identification and estimation of time series models, forecasting, seasonal adjustment, spectral estimation, bivariate time series models.
+
+- STA410: Statistical Computation
+
+Programming in an interactive statistical environment. Generating random variates and evaluating statistical methods by simulation. Algorithms for linear models, maximum likelihood estimation, and Bayesian inference. Statistical algorithms such as the Kalman filter and the EM algorithm. Graphical display of data.
+
+- STA442: Methods of Applied Statistics
+
+Advanced topics in statistics and data analysis with emphasis on applications. Diagnostics and residuals in linear models, introduction to generalized linear models, graphical methods, additional topics such as random effects models, designed experiments, model selection, analysis of censored data, introduced as needed in the context of case studies.
+
+- STA355: Theory of Statistical Practice
+
+Material Covered: Statistical models and distributions; fundamentals of inference: estimation, hypothesis testing, and significance levels; likelihood functions and likelihood-based inference; prior distributions and Bayesian inference.
+
+- STA305: Design and Analysis of Experiments
+
+Experiments vs observational studies, experimental units. Designs with one source of variation. Complete randomized designs and randomized block designs. Factorial designs. Inferences for contrasts and means. Model assumptions. Crossed and nested treatment factors, random effects models. Analysis of variance and covariance. Sample size calculations.
+
+- STA304: Surveys , Sampling and Observational Data
+
+Design of surveys, sources of bias, randomized response surveys. Techniques of sampling; stratification, clustering, unequal probability selection. Sampling inference, estimates of population mean and variances, ratio estimation. Observational data; correlation vs. causation, missing data, sources of bias.
+
+- STA302: Methods of Data Analysis
+
+Introduction to data analysis with a focus on regression. Initial Examination of data. Correlation. Simple and multiple regression models using least squares. Inference for regression parameters, confidence and prediction intervals. Diagnostics and remedial measures. Interactions and dummy variables. Variable selection. Least squares estimation and inference for non-linear regression. Analysis of variance for one-and two-way layouts, logistic regression, loglinear models, longitudinal data, introduction to time series.
+
+- STA255: Statistical Theory
+
+Deals with the mathematical aspects of some of the topics discussed in STA220H1. Topics include discrete and continuous probability distributions, conditional probability, expectation, sampling distributions, estimation and testing, the linear model.
+
+- STA220/221: Practice of Statistics
+
+An introductory course in statistical concepts and methods, emphasizing exploratory data analysis for univariate and bivariate data, sampling and experimental designs, basic probability models, estimation and tests of hypothesis in one-sample and comparative two-sample studies, analysis of variance for one factor and multiple factor designs, regression models, categorical and non-parametric methods 
+
+- STA130: Introduction to Statistical Reasoning and Data Science
+
+Discusses the crucial role played by statistical reasoning in solving challenging problems from natural science, social science, technology, health care, and public policy, using a combination of logical thinking, mathematics, computer simulation, and oral and written discussion and analysis.
+

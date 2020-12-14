@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>STA355 Theory of Statistical Practice</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Michelle Chan</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Coursework
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="coursework.html">
+        <span class="fa fa-list"></span>
+         
+        Coursework Summary
+      </a>
+    </li>
+    <li>
+      <a href="STA410.html">
+        <span class="fa fa-code"></span>
+         
+        STA410 Statistical Computation
+      </a>
+    </li>
+    <li>
+      <a href="STA457.html">
+        <span class="fa fa-code"></span>
+         
+        STA457 Time Series Analysis
+      </a>
+    </li>
+    <li>
+      <a href="STA355.html">
+        <span class="fa fa-code"></span>
+         
+        STA355 Theory of Statistical Practice
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-cogs"></span>
+     
+    Student Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STA490research1.html">
+        <span class="fa fa-laptop"></span>
+         
+        Anonymity &amp; Decision Making
+      </a>
+    </li>
+    <li>
+      <a href="STA490research2.html">
+        <span class="fa fa-clock"></span>
+         
+        Diurnal Pattern of Reaction Time
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://public.tableau.com/profile/mcyn6666#!/">
+    <span class="fa fa-edit"></span>
+     
+    Viz Projects
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://drive.google.com/file/d/1ojQkeI0eUsXabGq6MvK1qK9n5jTHmJtL/view?usp=sharing">
+    <span class="fa fa-file"></span>
+     
+    Resume
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">STA355 Theory of Statistical Practice</h1>
+
+</div>
+
+
+<div id="assignments" class="section level1 tabset">
+<h1>Assignments</h1>
+<div id="assignment-1" class="section level2">
+<h2>Assignment 1</h2>
+<p>Find the handout for this assignment <a href="https://drive.google.com/file/d/1VgRu9nth3I5d0G5kUUbtp780FNinUDio/view?usp=sharing">here</a></p>
+<p>Two datasets were used: <a href="https://drive.google.com/file/d/141trWeUTrLHSMh6zg755j_WEJOb9bkky/view?usp=sharing">aircon</a> and <a href="https://drive.google.com/file/d/1jV1VCQc7tq17TffCZML2Q6Po4tKOIf4D/view?usp=sharing">kevlar</a></p>
+<p>My answers can be found <a href="https://drive.google.com/file/d/1szecHyeL2StmZCXKDcSO4rZspWQDbWMs/view?usp=sharing">here</a></p>
+<div id="technical-appendix" class="section level3">
+<h3>Technical Appendix</h3>
+<div id="question-1b" class="section level4">
+<h4>Question 1(b)</h4>
+<pre class="r"><code>x &lt;- rgamma(200,1)
+qq.expo &lt;- function(x,plot=T) {
+  x &lt;- sort(x)  # sorts the data from smallest to largest
+  n &lt;- length(x) # length of x
+  tau &lt;- (c(1:n)-3/8)/(n+1/4)
+  if (plot) {
+    plot(-log(1-tau),x,xlab=&quot;Standard exponential quantiles&quot;,
+         ylab=&quot;ordered data&quot;)
+    abline(a=0,b=mean(x)) # draws a line with slope equal to
+    # the sample mean and intercept 0
+  }
+  else {
+    r &lt;- list(x=x,quantiles=-log(1-tau))
+    r
+  }
+}
+qq.expo(x)</code></pre>
+<p><img src="STA355_files/figure-html/a11b-1.png" width="672" /></p>
+<pre class="r"><code>x &lt;- rweibull(200,1)
+qq.expo &lt;- function(x,plot=T) {
+  x &lt;- sort(x)  
+  n &lt;- length(x) 
+  tau &lt;- (c(1:n)-3/8)/(n+1/4)
+  if (plot) {
+    plot(-log(1-tau),x,xlab=&quot;Standard exponential quantiles&quot;,
+         ylab=&quot;ordered data&quot;)
+    abline(a=0,b=mean(x)) 
+  }
+  else {
+    r &lt;- list(x=x,quantiles=-log(1-tau))
+    r
+  }
+}
+qq.expo(x)</code></pre>
+<p><img src="STA355_files/figure-html/a11b-2.png" width="672" /></p>
+</div>
+<div id="question-1c" class="section level4">
+<h4>Question 1(c)</h4>
+<pre class="r"><code>x &lt;- matrix(scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A1/aircon.txt&quot;),ncol=5,byrow=T)</code></pre>
+<pre><code>## Warning in matrix(scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/
+## A1/aircon.txt&quot;), : data length [199] is not a sub-multiple or multiple of the
+## number of rows [40]</code></pre>
+<pre class="r"><code>qq.expo &lt;- function(x,plot=T) {
+  x &lt;- sort(x)  # sorts the data from smallest to largest
+  n &lt;- length(x) # length of x
+  tau &lt;- (c(1:n)-3/8)/(n+1/4)
+  if (plot) {
+    plot(-log(1-tau),x,xlab=&quot;Standard exponential quantiles&quot;,
+         ylab=&quot;ordered data&quot;)
+    abline(a=0,b=mean(x)) # draws a line with slope equal to
+    # the sample mean and intercept 0
+  }
+  else {
+    r &lt;- list(x=x,quantiles=-log(1-tau))
+    r
+  }
+}
+qq.expo(x)</code></pre>
+<p><img src="STA355_files/figure-html/a11c-1.png" width="672" /> #### Question 2(c)</p>
+<pre class="r"><code>y &lt;- scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A1/kevlar.txt&quot;, character(), quote = &quot;&quot;)
+x &lt;- y[-(1:5)]
+x &lt;- as.numeric(x)
+x</code></pre>
+<pre><code>##  [1] 0.0251 0.0886 0.0891 0.2501 0.3113 0.3451 0.4763 0.5650 0.5671 0.6566
+## [11] 0.6748 0.6751 0.6753 0.7696 0.8375 0.8391 0.8425 0.8645 0.8851 0.9113
+## [21] 0.9120 0.9836 1.0483 1.0596 1.0773 1.1733 1.2570 1.2766 1.2985 1.3211
+## [31] 1.3503 1.3551 1.4595 1.4880 1.5728 1.5733 1.7083 1.7263 1.7460 1.7630
+## [41] 1.7746 1.8275 1.8375 1.8503 1.8808 1.8878 1.8881 1.9316 1.9558 2.0048
+## [51] 2.0408 2.0903 2.1093 2.1330 2.2100 2.2460 2.2878 2.3203 2.3470 2.3513
+## [61] 2.4951 2.5260 2.9911 3.0256 3.2678 3.4045 3.4846 3.7433 3.7455 3.9143
+## [71] 4.8073 5.4005 5.4435 5.5295 6.5541 9.0960</code></pre>
+<pre class="r"><code>x &lt;- sort(x) 
+n &lt;- length(x) 
+d &lt;- c(n:1)*c(x[1],diff(x)) 
+plot(c(1:n)/n, cumsum(d)/sum(x), xlab=&quot;t&quot;, ylab=&quot;TTT&quot;) 
+abline(0,1)</code></pre>
+<p><img src="STA355_files/figure-html/a12c-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="assignment-2" class="section level2">
+<h2>Assignment 2</h2>
+<p>Find the handout for this assignment <a href="https://drive.google.com/file/d/1afq42oaTQxSGZO_6F18Z0uSqyaC7WCYw/view?usp=sharing">here</a></p>
+<p>Two datasets were used: <a href="https://drive.google.com/file/d/1uhPaGHTSM2_V6xFVaGCKW6a33tNTppD9/view?usp=sharing">geyser</a> and <a href="https://drive.google.com/file/d/17xgYAWEceof2BUGBzVE0qxqL02egGQMA/view?usp=sharing">incomes</a></p>
+<p>My answers can be found <a href="https://drive.google.com/file/d/1gAV1f9kPqRvQi9ixmyPqo4Kw_09umd99/view?usp=sharing">here</a></p>
+<div id="technical-appendix-1" class="section level3">
+<h3>Technical Appendix</h3>
+<div id="question-1a" class="section level4">
+<h4>Question 1(a)</h4>
+<pre class="r"><code>geyser &lt;- scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A2/geyser.txt&quot;, character(), quote = &quot;&quot;)
+geyser &lt;- as.numeric(geyser)
+qqnorm(geyser)</code></pre>
+<p><img src="STA355_files/figure-html/a21a-1.png" width="672" /></p>
+<pre class="r"><code>shapiro.test(geyser)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  geyser
+## W = 0.84592, p-value = 9.036e-16</code></pre>
+</div>
+<div id="question-1b-1" class="section level4">
+<h4>Question 1(b)</h4>
+<pre class="r"><code>plot(density(geyser),ylim=c(0,0.85))
+lines(density(geyser, bw=0.05), col=&quot;blue&quot;)
+lines(density(geyser, bw=0.5), col=&quot;green&quot;)
+points(geyser, rep(0,272), pch=&quot;x&quot;, cex=0.5)</code></pre>
+<p><img src="STA355_files/figure-html/a21b-1.png" width="672" /></p>
+</div>
+<div id="question-1c-1" class="section level4">
+<h4>Question 1(c)</h4>
+<pre class="r"><code>kde.cv &lt;- function(x,h) {
+  n &lt;- length(x)
+  if (missing(h)) {
+    r &lt;- density(x)
+    h &lt;- r$bw/4 + 3.75*c(0:100)*r$bw/100
+  }
+  cv &lt;- NULL
+  for (j in h) {
+    cvj &lt;- 0
+    for (i in 1:n) {
+      z &lt;- dnorm(x[i]-x,0,sd=j)/(n-1)
+      cvj &lt;- cvj + log(sum(z[-i]))
+    }
+    cv &lt;- c(cv,cvj/n)
+  }
+  r &lt;- list(bw=h,cv=cv)
+  r
+}
+r &lt;- kde.cv(geyser)
+plot(r$bw, r$cv)</code></pre>
+<p><img src="STA355_files/figure-html/a21c-1.png" width="672" /></p>
+<pre class="r"><code>bw &lt;- r$bw[r$cv==max(r$cv)]
+bw</code></pre>
+<pre><code>## [1] 0.1088025</code></pre>
+<pre class="r"><code>plot(density(geyser, bw=bw))</code></pre>
+<p><img src="STA355_files/figure-html/a21c-2.png" width="672" /></p>
+</div>
+<div id="question-1d" class="section level4">
+<h4>Question 1(d)</h4>
+<pre class="r"><code>x1 &lt;- geyser[geyser&lt;3]
+x2 &lt;- geyser[geyser&gt;3]
+length(x1)</code></pre>
+<pre><code>## [1] 97</code></pre>
+<pre class="r"><code>length(x2)</code></pre>
+<pre><code>## [1] 175</code></pre>
+<pre class="r"><code>mean(x1)</code></pre>
+<pre><code>## [1] 2.038134</code></pre>
+<pre class="r"><code>mean(x2)</code></pre>
+<pre><code>## [1] 4.291303</code></pre>
+<pre class="r"><code>var(x1)</code></pre>
+<pre><code>## [1] 0.07121718</code></pre>
+<pre class="r"><code>var(x2)</code></pre>
+<pre><code>## [1] 0.168799</code></pre>
+<pre class="r"><code>theta &lt;- length(x1)/272
+theta</code></pre>
+<pre><code>## [1] 0.3566176</code></pre>
+</div>
+<div id="question-2b" class="section level4">
+<h4>Question 2(b)</h4>
+<pre class="r"><code>income &lt;- scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A2/incomes.txt&quot;, character(), quote = &quot;&quot;)
+income &lt;- as.numeric(income)
+xi &lt;- income[income&lt;mean(income)]
+length(xi)</code></pre>
+<pre><code>## [1] 138</code></pre>
+<pre class="r"><code>mps &lt;- length(xi)/length(income)
+mps</code></pre>
+<pre><code>## [1] 0.69</code></pre>
+<pre class="r"><code>mps.f &lt;- function(X){
+  xi &lt;- X[X&lt; mean(X)]
+  return(length(xi)/length(X))
+}
+mps.f(income)</code></pre>
+<pre><code>## [1] 0.69</code></pre>
+<pre class="r"><code>jackse &lt;- function(theta_hat, X) {
+  n &lt;- length(X) 
+  theta_minus_i &lt;- rep(0, n) 
+  for (i in 1:n) {
+    theta_minus_i[i] &lt;- theta_hat(X[-i]) 
+  } 
+  theta_dot &lt;- mean(theta_minus_i) 
+  jackvar &lt;- (n-1)/n * sum((theta_minus_i - theta_dot)^2) 
+  return(sqrt(jackvar)) 
+  }
+jackse(mps.f, income)</code></pre>
+<pre><code>## [1] 0.07811778</code></pre>
+</div>
+<div id="question-2d" class="section level4">
+<h4>Question 2(d)</h4>
+<pre class="r"><code>mps.log &lt;- function(X){
+  X &lt;- log(X)
+  xi &lt;- X[X &lt; (mean(X)+((var(X)^2)/2))]
+  return(length(xi)/length(X))
+}
+mps.log(income)</code></pre>
+<pre><code>## [1] 0.665</code></pre>
+<pre class="r"><code>qqnorm(log(income))</code></pre>
+<p><img src="STA355_files/figure-html/a22d-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="assignment-3" class="section level2">
+<h2>Assignment 3</h2>
+<p>Find the handout for this assignment <a href="https://drive.google.com/file/d/1L8enzZNh6NndnW-8Vh2TEDzKFdLHHnPU/view?usp=sharing">here</a></p>
+<p>Two datasets were used: <a href="https://drive.google.com/file/d/1O7MaMgrTq2_0yIQghGNRmbPg76IeVxeP/view?usp=sharing">geyser</a> and <a href="https://drive.google.com/file/d/1Ys2xIqX35Be_aGh8ZvYvCipF4OnmLm-V/view?usp=sharing">bees</a></p>
+<p>My answers can be found <a href="https://drive.google.com/file/d/18yqPjvy7tFE-tHqMtniW7aqAWuYqY2xX/view?usp=sharing">here</a></p>
+<div id="technical-appendix-2" class="section level3">
+<h3>Technical Appendix</h3>
+<div id="question-1c-2" class="section level4">
+<h4>Question 1(c)</h4>
+<pre class="r"><code>pd &lt;- function(x, kappa,lambda){
+  kappa &lt;- sort(kappa)
+  d &lt;- diff(kappa)
+  n &lt;- length(x)
+  r &lt;- sqrt(sum(cos(x))^2+sum(sin(x))^2)
+  lnp &lt;- -lambda*kappa + log(besselI(r*kappa,0)) - n*log(besselI(kappa,0))
+  lnp &lt;- lnp - max(lnp)
+  p &lt;- exp(lnp)
+  m &lt;- length(p)
+  norm &lt;- sum(d*(p[1:(m-1)]+p[2:m])/2)
+  p &lt;- p/norm
+  dd &lt;- list(kappa=kappa, posterior=p)
+  dd
+}
+
+bees &lt;- scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A3/bees.txt&quot;, character(), quote = &quot;&quot;)
+bees &lt;- as.numeric(bees)
+library(NISTunits)
+bees &lt;- NISTdegTOradian(bees)
+pd(bees,0,1)</code></pre>
+<pre><code>## $kappa
+## [1] 0
+## 
+## $posterior
+## [1] Inf</code></pre>
+</div>
+<div id="question-2a" class="section level4">
+<h4>Question 2(a)</h4>
+<pre class="r"><code>geyser &lt;- scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A3/geyser.txt&quot;, character(), quote = &quot;&quot;)
+geyser &lt;- as.numeric(geyser)
+
+shorth &lt;- function(x, tau=1/2) {
+  x &lt;- sort(x)
+  n &lt;- length(x)
+  m &lt;- ceiling(tau*n)
+  x1 &lt;- x[1:(n-m+1)]
+  x2 &lt;- x[m:n]
+  j &lt;- c(1:(n-m+1))
+  len &lt;- x2-x1
+  k &lt;- min(j[len==min(len)])
+  mean(x[k:(k+m-1)])
+}
+
+shorth(geyser)</code></pre>
+<pre><code>## [1] 4.392493</code></pre>
+<pre class="r"><code>plot(density(geyser), col=&quot;blue&quot;, lwd=3)
+abline(v=4.392493, lty=3, col=&quot;red&quot;, lwd=3)
+points(geyser,rep(0,272),pch=20,cex=0.5)</code></pre>
+<p><img src="STA355_files/figure-html/a32a-1.png" width="672" /></p>
+</div>
+<div id="question-2b-1" class="section level4">
+<h4>Question 2(b)</h4>
+<pre class="r"><code>mean50 &lt;- NULL
+mode50 &lt;- NULL
+mean100 &lt;- NULL
+mode100 &lt;- NULL
+mean500 &lt;- NULL
+mode500 &lt;- NULL
+mean1000 &lt;- NULL
+mode1000 &lt;- NULL
+mean5000 &lt;- NULL   
+mode5000 &lt;- NULL
+for (i in 1:10000) {
+  x &lt;- rnorm(50)
+  mean50 &lt;- c(mean50,mean(x))
+  mode50 &lt;- c(mode50,shorth(x))
+  x &lt;- rnorm(100)
+  mean100 &lt;- c(mean100,mean(x))
+  mode100 &lt;- c(mode100,shorth(x))
+  x &lt;- rnorm(500)
+  mean500 &lt;- c(mean500,mean(x))
+  mode500 &lt;- c(mode500,shorth(x))
+  x &lt;- rnorm(1000)
+  mean1000 &lt;- c(mean1000,mean(x))
+  mode1000 &lt;- c(mode1000,shorth(x))
+  x &lt;- rnorm(5000)
+  mean5000 &lt;- c(mean5000,mean(x))
+  mode5000 &lt;- c(mode5000,shorth(x))
+}
+
+
+par(mfrow=c(2,3))
+boxplot(mean50,mode50)
+boxplot(mean100,mode100)
+boxplot(mean500,mode500)
+boxplot(mean1000,mode1000)
+boxplot(mean5000,mode5000)
+
+
+lnn &lt;- log(c(50,100,500,1000,5000))
+lnvar &lt;- log(c(var(mode50),var(mode100), var(mode500), var(mode1000),var(mode5000)))
+plot(lnn, lnvar, pch=20)
+r &lt;- lm(lnvar~lnn)
+abline(r, col=&#39;red&#39;)</code></pre>
+<p><img src="STA355_files/figure-html/a32b-1.png" width="672" /></p>
+<pre class="r"><code>summary(r)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lnvar ~ lnn)
+## 
+## Residuals:
+##         1         2         3         4         5 
+##  0.018072 -0.002371 -0.018898 -0.018910  0.022107 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.628369   0.038484   16.33    5e-04 ***
+## lnn         -0.716153   0.006156 -116.33  1.4e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.02262 on 3 degrees of freedom
+## Multiple R-squared:  0.9998, Adjusted R-squared:  0.9997 
+## F-statistic: 1.353e+04 on 1 and 3 DF,  p-value: 1.4e-06</code></pre>
+</div>
+</div>
+</div>
+<div id="assignment-4" class="section level2">
+<h2>Assignment 4</h2>
+<p>Find the handout for this assignment <a href="https://drive.google.com/file/d/1POznLPhUPtxhDwg7uD1q6yCYr3axe7na/view?usp=sharing">here</a></p>
+<p>One dataset was used: <a href="https://drive.google.com/file/d/1rjvASu717S2B1-22S2tCOW-SibTID5Rx/view?usp=sharing">bees</a></p>
+<p>My answers can be found <a href="https://drive.google.com/file/d/17EBif4vXJ-kpmFLhnSQxaOSmPe9kbu53/view?usp=sharing">here</a></p>
+<div id="technical-appendix-3" class="section level3">
+<h3>Technical Appendix</h3>
+<div id="question-1c-3" class="section level4">
+<h4>Question 1(c)</h4>
+<pre class="r"><code>x &lt;- c(1:20)/21
+A &lt;- NULL
+for (i in 1:20){
+  y &lt;- c(rep(0,i-1),1,rep(0,20-i))
+  r &lt;- smooth.spline(x,y,df=4)
+  A &lt;- cbind(A, r$y)
+}
+r4 &lt;- eigen(A, symmetric=T)
+round (r4$values,3)</code></pre>
+<pre><code>##  [1] 1.000 1.000 0.913 0.579 0.262 0.115 0.055 0.029 0.016 0.010 0.006 0.004
+## [13] 0.003 0.002 0.002 0.001 0.001 0.001 0.001 0.001</code></pre>
+<pre class="r"><code>A &lt;- NULL
+for (i in 1:20){
+  y &lt;- c(rep(0,i-1),1,rep(0,20-i))
+  r &lt;- smooth.spline(x,y,df=6)
+  A &lt;- cbind(A, r$y)
+}
+r6 &lt;- eigen(A, symmetric=T)
+round (r6$values,3)</code></pre>
+<pre><code>##  [1] 1.000 1.000 0.988 0.915 0.736 0.504 0.312 0.188 0.115 0.073 0.048 0.033
+## [13] 0.023 0.017 0.013 0.010 0.008 0.007 0.006 0.006</code></pre>
+<pre class="r"><code>A &lt;- NULL
+for (i in 1:20){
+  y &lt;- c(rep(0,i-1),1,rep(0,20-i))
+  r &lt;- smooth.spline(x,y,df=8)
+  A &lt;- cbind(A, r$y)
+}
+r8 &lt;- eigen(A, symmetric=T)
+round (r8$values,3)</code></pre>
+<pre><code>##  [1] 1.000 1.000 0.997 0.977 0.916 0.800 0.640 0.476 0.338 0.236 0.165 0.117
+## [13] 0.085 0.063 0.048 0.038 0.031 0.026 0.023 0.021</code></pre>
+<pre class="r"><code>A &lt;- NULL
+for (i in 1:20){
+  y &lt;- c(rep(0,i-1),1,rep(0,20-i))
+  r &lt;- smooth.spline(x,y,df=9)
+  A &lt;- cbind(A, r$y)
+}
+r9 &lt;- eigen(A, symmetric=T)
+round (r9$values,3)</code></pre>
+<pre><code>##  [1] 1.000 1.000 0.998 0.987 0.950 0.874 0.755 0.612 0.470 0.349 0.255 0.187
+## [13] 0.139 0.105 0.081 0.064 0.053 0.045 0.039 0.037</code></pre>
+<pre class="r"><code>r9 &lt;- eigen(A,symmetric=T) 
+for (i in 1:20) {
+  devAskNewPage(ask = T)
+  plot(x,r4$vectors[,i],type=&quot;b&quot;)
+}</code></pre>
+<p><img src="STA355_files/figure-html/a41c-1.png" width="672" /><img src="STA355_files/figure-html/a41c-2.png" width="672" /><img src="STA355_files/figure-html/a41c-3.png" width="672" /><img src="STA355_files/figure-html/a41c-4.png" width="672" /><img src="STA355_files/figure-html/a41c-5.png" width="672" /><img src="STA355_files/figure-html/a41c-6.png" width="672" /><img src="STA355_files/figure-html/a41c-7.png" width="672" /><img src="STA355_files/figure-html/a41c-8.png" width="672" /><img src="STA355_files/figure-html/a41c-9.png" width="672" /><img src="STA355_files/figure-html/a41c-10.png" width="672" /><img src="STA355_files/figure-html/a41c-11.png" width="672" /><img src="STA355_files/figure-html/a41c-12.png" width="672" /><img src="STA355_files/figure-html/a41c-13.png" width="672" /><img src="STA355_files/figure-html/a41c-14.png" width="672" /><img src="STA355_files/figure-html/a41c-15.png" width="672" /><img src="STA355_files/figure-html/a41c-16.png" width="672" /><img src="STA355_files/figure-html/a41c-17.png" width="672" /><img src="STA355_files/figure-html/a41c-18.png" width="672" /><img src="STA355_files/figure-html/a41c-19.png" width="672" /><img src="STA355_files/figure-html/a41c-20.png" width="672" /></p>
+</div>
+<div id="question-2e" class="section level4">
+<h4>Question 2(e)</h4>
+<pre class="r"><code>library(CircStats)</code></pre>
+<pre><code>## Warning: package &#39;CircStats&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## Warning: package &#39;MASS&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked _by_ &#39;.GlobalEnv&#39;:
+## 
+##     geyser</code></pre>
+<pre><code>## Loading required package: boot</code></pre>
+<pre><code>## Warning: package &#39;boot&#39; was built under R version 3.6.3</code></pre>
+<pre class="r"><code>bees &lt;- scan(&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA355/Assignment/A4/bees.txt&quot;, character(), quote = &quot;&quot;)
+bees &lt;- as.numeric(bees)
+r.test(bees, degree=TRUE)</code></pre>
+<pre><code>## $r.bar
+## [1] 0.07605317
+## 
+## $p.value
+## [1] 0.1991375</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

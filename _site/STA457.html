@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>STA457 Time Series Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Michelle Chan</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Coursework
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="coursework.html">
+        <span class="fa fa-list"></span>
+         
+        Coursework Summary
+      </a>
+    </li>
+    <li>
+      <a href="STA410.html">
+        <span class="fa fa-code"></span>
+         
+        STA410 Statistical Computation
+      </a>
+    </li>
+    <li>
+      <a href="STA457.html">
+        <span class="fa fa-code"></span>
+         
+        STA457 Time Series Analysis
+      </a>
+    </li>
+    <li>
+      <a href="STA355.html">
+        <span class="fa fa-code"></span>
+         
+        STA355 Theory of Statistical Practice
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-cogs"></span>
+     
+    Student Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STA490research1.html">
+        <span class="fa fa-laptop"></span>
+         
+        Anonymity &amp; Decision Making
+      </a>
+    </li>
+    <li>
+      <a href="STA490research2.html">
+        <span class="fa fa-clock"></span>
+         
+        Diurnal Pattern of Reaction Time
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://public.tableau.com/profile/mcyn6666#!/">
+    <span class="fa fa-edit"></span>
+     
+    Viz Projects
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://drive.google.com/file/d/1ojQkeI0eUsXabGq6MvK1qK9n5jTHmJtL/view?usp=sharing">
+    <span class="fa fa-file"></span>
+     
+    Resume
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">STA457 Time Series Analysis</h1>
+
+</div>
+
+
+<p>Find the handout for this assignment <a href="https://drive.google.com/file/d/1wpFwdGauKYiMHjWxoTfcg-C66OOsjOtN/view?usp=sharing">here</a></p>
+<p>Teammate: Guo, Dong Lai (1000979220)</p>
+<div id="question-1" class="section level2">
+<h2>Question 1</h2>
+<p>Derive the variance of the predictor <span class="math inline">\(F_t = \delta + \sum_{j=0}^{m-2} d_j X_{t-j}\)</span> where <span class="math inline">\(\delta = 0\)</span>, <span class="math inline">\(i=j+1\)</span>:<br />
+<span class="math display">\[ \begin{align}
+\sigma^{2}_F &amp;= var(\sum_{j=0}^{m-2} d_j X_{t-j}) \\
+&amp;= \sum_{i,j=0}^{m-2} d_i d_j Cov(X_{t-i}, X_{t-j}) \\
+&amp;= \sum_{j=0}^{m-2} d^2_j Var(X_{t-j}) + \sum_{i\neq j} d_i d_j Cov(X_{t-j},X_{t-i}) \\
+&amp;= \sum_{j=0}^{m-2} d^2_j Var(X_{t-j}) + 2\sum_{0\leq j\leq i\leq{m-2}} d_i d_j Cov(X_{t-j},X_{t-i}) \\ 
+&amp;= \sigma_x^2 \sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_x (i-j) \\
+\end{align}\]</span></p>
+<p>Any nxn real symmetric matrix A determines a quadratic form qA in n variables by the formula:<br />
+<span class="math inline">\(q_d(d_1,d_2,...d_n)= \sum_{i=1}^{N} \sum_{j=1}^{N} d_id_j A_{i,j} = \mathbf{d^T A d}\)</span></p>
+<p>Let <span class="math inline">\(A_{i,j} = 2\gamma_{i-j}, \mathbf{d}=(d_1,d_2,...,d_{m-2})\)</span>, then <span class="math inline">\(2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_x (i-j) =\mathbf{d^T} A \mathbf{d}\)</span> and where <span class="math inline">\(\mathbf{d_2}\)</span> represents the square of each value within the matrix <span class="math inline">\(\mathbf{d}\)</span>.</p>
+<p><span class="math display">\[\sigma^{2}_F=\sigma_x^2 \mathbf{d_2} + \mathbf{d^T} A \mathbf{d}\]</span></p>
+<pre class="r"><code># Calculate the variance of forecaster using quadratic form
+#   d: vector of dj coefficients (j=0, …, m-2)
+#   X: log returns
+
+varF&lt;-function(d,X){
+  M&lt;-length(d)-1
+  acfs&lt;- acf(X, plot=F, type=&quot;covariance&quot;, lag.max=M)$acf
+  Gamma&lt;-toeplitz(as.vector(acfs))
+  d%*%Gamma%*%as.vector(d)
+  }</code></pre>
+</div>
+<div id="question-2" class="section level2">
+<h2>Question 2</h2>
+<p>Derive the expectation of the predictor <span class="math inline">\(F_t = \delta + \sum_{j=0}^{m-2} d_j X_{t-j}\)</span> where <span class="math inline">\(\delta = 0\)</span> and <span class="math inline">\(d_j\)</span> being constants, <span class="math inline">\(i=j+1\)</span>:<br />
+<span class="math display">\[\begin{align}
+\mu_F &amp;= E(\delta+\sum_{j=0}^{m-2} d_j X_{t-j}) \\
+&amp;= \delta + \sum_{j=0}^{m-2} d_j E(X_{t-j}) \\
+&amp;= \delta + \mu \sum_{j=0}^{m-2} d_j\\
+&amp;=  \mu_x \sum_{j=0}^{m-2} d_j \\
+\end{align}\]</span></p>
+<pre class="r"><code>muF&lt;-function(d,X){mean(X)*sum(d*d)}</code></pre>
+</div>
+<div id="question-3" class="section level2">
+<h2>Question 3</h2>
+<p>Derive the autocorrelation function at lag one of the predictor, where <span class="math inline">\(i=J+1\)</span> and <span class="math inline">\(\gamma(k)=\sigma^2 \sum_{j=0}^{m-2} d_j d_{j+|k|}\)</span>:</p>
+<p><span class="math display">\[\rho_F(1) = corr(X_t, F_{t-1})\]</span></p>
+<p><span class="math display">\[\begin{align} corr(X_t, F_{t-1}) &amp;=  \frac{Cov(X_{t}, F_{t-1})}{\sigma_x \sigma_{F_{t-1}}}\\
+&amp;=  \frac{Cov(F_{t}, F_{t-1})}{\sqrt{\gamma_x (0)}\sigma_F}\\
+&amp;= \frac{Cov(X_{t}, \sum_{i} d_i X_{t-i})}{ \sqrt{\sigma_x^2 \sum_{j=0}^{m-2} d^2_j} \quad \sqrt{\sigma_x^2 \sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_{i-j}}}\\
+&amp;= \frac{\sum_{i} d_i Cov(X_{t}, X_{t-i})}{\sigma_x \sqrt{\sum_{j=0}^{m-2} d^2_j} \quad \sigma_x \sqrt{\sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_{i-j}}}\\
+&amp;= \frac{\sum_{i=0}^{m-2} d_i \gamma_x (i)}{ \sigma_x^2 \sqrt{\sum_{j=0}^{m-2} d^2_j(\sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_{i-j}})} \\
+\end{align}\]</span></p>
+<p>In quadratic form, we let <span class="math inline">\(B_{i,j}=Cov(X_{t-j},X_{t-i})\)</span> and hence<br />
+<span class="math display">\[\rho_F(1)= \frac{\mathbf{d}\gamma_x(i)}{\sigma_x^2 \sqrt{\mathbf{d_2}(\mathbf{d_2}+\mathbf{d^T} A \mathbf{d})}}\]</span></p>
+<pre class="r"><code>#   Calculate ACF(1) of forecaster using matrix operation and outer function in r
+
+rhoF&lt;-function(d,X){
+    M&lt;-length(d)-1
+    acfs&lt;- acf(X, plot=F, type =&quot;covariance&quot;, lag.max=M+2)$acf
+    temp&lt;-d%*%matrix(acfs[abs(outer(0:M,1:(M+1), &quot;-&quot;))+1],M+1, M+1)%*%as.vector(d)
+    temp/varF(d,X)
+}</code></pre>
+</div>
+<div id="question-4" class="section level2">
+<h2>Question 4</h2>
+<p>R function to calculate the expectation of the rule return for a given double MA trading rule, and the expected length of the holding period:</p>
+<pre class="r"><code>corXF&lt;-function(d,X){
+  Mp&lt;-length(d)
+  acfs&lt;- acf(X, plot=F, type= &quot;covariance&quot;, lag.max=Mp)$acf
+  sum(d*acfs[-1])/sqrt(acfs[1]*varF(d,X))
+}
+
+Hold&lt;-function(rho){pi/acos(rho)}
+
+# m &gt; r &gt;=1
+d&lt;-function(m,r){c((m-r)*((0:(r-1))+1), r*(m-(r:(m-1))-1))}
+
+#   retX: log asset return
+#   m: long-term MA
+#   r: short-term MA
+
+ruleReturn&lt;-function(retX, m, r){
+  vX&lt;-sd(retX)
+  mX&lt;-mean(retX)
+  mF&lt;-muF(d(m,r),retX)
+  vF&lt;-sqrt(varF(d(m,r),retX))
+  rXF&lt;-corXF(d(m,r),retX)
+  rF&lt;-rhoF(d(m,r),retX)
+  ER&lt;-sqrt(2/pi)*vX*rXF*exp(-mF*mF/(vF*vF))+mX*(1-2*pnorm(-mF/vF))
+  H&lt;-Hold(rF)
+  list(&quot;ER&quot;=ER, &quot;H&quot;=H, &quot;rhoF&quot;=rF, &quot;VF&quot;=vF, &quot;muF&quot;=mF,&quot;corXF&quot;=rXF)
+}</code></pre>
+</div>
+<div id="question-5" class="section level2">
+<h2>Question 5</h2>
+<p>R function to download daily, weekly S&amp;P500 index from 10/01/2009 to 09/30/2018 from Yahoo! Finance:</p>
+<pre class="r"><code>library(quantmod)</code></pre>
+<pre><code>## Warning: package &#39;quantmod&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Warning: package &#39;xts&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## Warning: package &#39;zoo&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Warning: package &#39;TTR&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;quantmod&#39;:
+##   method            from
+##   as.zoo.data.frame zoo</code></pre>
+<pre class="r"><code>sp500 &lt;- new.env()
+getSymbols(&quot;^GSPC&quot;, env = sp500, src = &quot;yahoo&quot;, from = as.Date(&quot;2009-10-01&quot;), to = as.Date(&quot;2018-09-30&quot;), adjust=TRUE)</code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre><code>## Warning in read.table(file = file, header = header, sep = sep,
+## quote = quote, : incomplete final line found by readTableHeader
+## on &#39;https://query2.finance.yahoo.com/v7/finance/download/^GSPC?
+## period1=-2208988800&amp;period2=1607904000&amp;interval=1d&amp;events=div&amp;crumb=4xnV31yALtI&#39;</code></pre>
+<pre><code>## Warning in read.table(file = file, header = header, sep = sep,
+## quote = quote, : incomplete final line found by readTableHeader
+## on &#39;https://query2.finance.yahoo.com/v7/finance/download/^GSPC?
+## period1=-2208988800&amp;period2=1607904000&amp;interval=1d&amp;events=split&amp;crumb=4xnV31yALtI&#39;
+
+## Warning in read.table(file = file, header = header, sep = sep,
+## quote = quote, : incomplete final line found by readTableHeader
+## on &#39;https://query2.finance.yahoo.com/v7/finance/download/^GSPC?
+## period1=-2208988800&amp;period2=1607904000&amp;interval=1d&amp;events=split&amp;crumb=4xnV31yALtI&#39;</code></pre>
+<pre><code>## [1] &quot;^GSPC&quot;</code></pre>
+<pre class="r"><code>daily &lt;- sp500$GSPC$GSPC.Adjusted
+summary(daily)</code></pre>
+<pre><code>##      Index            GSPC.Adjusted 
+##  Min.   :2009-10-01   Min.   :1023  
+##  1st Qu.:2011-12-29   1st Qu.:1328  
+##  Median :2014-04-02   Median :1863  
+##  Mean   :2014-03-31   Mean   :1812  
+##  3rd Qu.:2016-06-30   3rd Qu.:2124  
+##  Max.   :2018-09-28   Max.   :2931</code></pre>
+<pre class="r"><code>weekly &lt;- apply.weekly(daily,last)
+summary(weekly)</code></pre>
+<pre><code>##      Index            GSPC.Adjusted 
+##  Min.   :2009-10-02   Min.   :1023  
+##  1st Qu.:2011-12-31   1st Qu.:1334  
+##  Median :2014-03-31   Median :1864  
+##  Mean   :2014-03-31   Mean   :1812  
+##  3rd Qu.:2016-06-29   3rd Qu.:2125  
+##  Max.   :2018-09-28   Max.   :2930</code></pre>
+</div>
+<div id="question-6" class="section level2">
+<h2>Question 6</h2>
+<p>R Code to choose the optimal m and r for daily data:</p>
+<pre class="r"><code>result &lt;- numeric(0)
+m &lt;- numeric(0) 
+r &lt;- numeric(0)
+for (i in c(1,5,10,20,60,120,249)){
+  for (j in c(5,10,20,60,120,250)){
+    if (j&gt;i){
+      result &lt;- c(result, ruleReturn(daily, m = j, r = i)[[1]]) 
+      m &lt;- c(m,j)
+      r &lt;- c(r,i)
+    }
+  }
+}
+m_optimal &lt;- m[which.max(result)] 
+r_optimal &lt;- r[which.max(result)]
+list(optimal_m = m_optimal, optimal_r = r_optimal)</code></pre>
+<p>R Code to choose the optimal m and r for weekly data:</p>
+<pre class="r"><code>numeric(0)
+m &lt;- numeric(0) 
+r &lt;- numeric(0) 
+for (i in 2:51){
+  for (j in (i+1):52){ 
+    if (j &gt;i){
+      result &lt;- c(result, ruleReturn(weekly, m = j, r = i)[[1]]) 
+      m &lt;- c(m,j)
+      r &lt;- c(r,i)
+    }
+  }
+}
+m_optimal &lt;- m[which.max(result)] 
+r_optimal &lt;- r[which.max(result)]
+list(optimal_m = m_optimal, optimal_r = r_optimal)</code></pre>
+<p><em>Conclusion</em>:</p>
+<ul>
+<li><p>The maximum of estimated return for weekly price occurs when m=250, r=249.</p></li>
+<li><p>The maximum of expected return for daily price occurs when m=52,r=51.</p></li>
+</ul>
+</div>
+<div id="question-7" class="section level2">
+<h2>Question 7</h2>
+<pre class="r"><code>in_sample_estimate &lt;- function(data,m, r){ 
+  X &lt;- diff(log(data))
+  d &lt;- function(j){
+      if (j &gt;= 0 &amp; j &lt;= r-1) {(m-r)*(j+1)}
+      else if (j &gt;= r &amp; j &lt;= (m-1)) {r*(m-j-1)}
+  }
+  f &lt;- function(t){ 
+     if (t &gt;= m){
+     output &lt;- 0
+      for (j in 0:(m-1)){
+       output &lt;- output + d(j)*X[t-j]
+      }
+     output
+   }
+    else {print(&#39;t is smaller than m&#39;)}
+  }
+  
+  #the realized return for daily data 
+  re &lt;- numeric(0)
+  for (t in (m+1):length(X)){
+    re &lt;- c(re, sign(f(t-1))*X[t])
+  }
+  return &lt;- sum(re)/length(m:length(X))
+
+  #calculate holding period 
+  num_change &lt;- 0
+  for (t in (m+1):length(X)){
+    if (sign(f(t)) != sign(f(t-1))) {num_change &lt;- num_change + 1}
+  }
+  hold &lt;- length(m:length(X))/num_change 
+  list(return = return, holding_period = hold)
+}
+
+#Return for daily data 
+in_sample_estimate(daily,250,249)[[1]] 
+ruleReturn(daily,250,249)[[1]]
+
+#Holding period for daily data 
+in_sample_estimate(daily,250,249)[[2]] 
+ruleReturn(daily,250,249)[[2]]
+
+#Return for weekly data 
+in_sample_estimate(weekly,52,51)[[1]]
+ruleReturn(weekly,52,51)[[1]]
+
+#Holding period for weekly data 
+in_sample_estimate(weekly,52,51)[[2]]
+ruleReturn(weekly,52,51)[[2]]</code></pre>
+<p><em>Conclusions</em></p>
+<p>For daily data:</p>
+<ul>
+<li><p>The estimated return is 0.00024, while the theoretical return is 0.00332. Thus, the estimated return is smaller than the theoretical return.</p></li>
+<li><p>The estimated holding period is 40.3, while the theoretical holding period is 15.9. Thus, the estimated period is larger than the theoretical holding period.</p></li>
+</ul>
+<p>For weekly data:</p>
+<ul>
+<li><p>The estimated return is 0.00111, while the theoretical return is 0.00159. Thus, the estimated return is smaller than the theoretical return.</p></li>
+<li><p>The estimated holding period is 23.2, while the theoretical return is 7.7. Thus, the estimated holding period is larger than the theoretical holding period.</p></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

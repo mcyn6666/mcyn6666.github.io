@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Diurnal Pattern of Reaction Time</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Michelle Chan</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Coursework
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="coursework.html">
+        <span class="fa fa-list"></span>
+         
+        Coursework Summary
+      </a>
+    </li>
+    <li>
+      <a href="STA410.html">
+        <span class="fa fa-code"></span>
+         
+        STA410 Statistical Computation
+      </a>
+    </li>
+    <li>
+      <a href="STA457.html">
+        <span class="fa fa-code"></span>
+         
+        STA457 Time Series Analysis
+      </a>
+    </li>
+    <li>
+      <a href="STA355.html">
+        <span class="fa fa-code"></span>
+         
+        STA355 Theory of Statistical Practice
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-cogs"></span>
+     
+    Student Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STA490research1.html">
+        <span class="fa fa-laptop"></span>
+         
+        Anonymity &amp; Decision Making
+      </a>
+    </li>
+    <li>
+      <a href="STA490research2.html">
+        <span class="fa fa-clock"></span>
+         
+        Diurnal Pattern of Reaction Time
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://public.tableau.com/profile/mcyn6666#!/">
+    <span class="fa fa-edit"></span>
+     
+    Viz Projects
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://drive.google.com/file/d/1ojQkeI0eUsXabGq6MvK1qK9n5jTHmJtL/view?usp=sharing">
+    <span class="fa fa-file"></span>
+     
+    Resume
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Diurnal Pattern of Reaction Time</h1>
+
+</div>
+
+
+<p>My final <strong>Statistical Report</strong> can be found <a href="https://drive.google.com/file/d/1OqFNtz5BxHqHvyTAm7uXW3FyWGMoUWhA/view?usp=sharing">here</a></p>
+<div id="overview" class="section level1 tabset">
+<h1>Overview</h1>
+<p>The course of study of time-of-day effects on reaction time has not been an easy one to chart, with many findings that seem to be in opposition. This review examines the individual differences of reaction time regarding time-of-day effects. Other possible confounding variables and procedures in testing time-of-day effects are also briefly examined. Thirty-nine participants measured their reaction time four times a day for two days. The results show a diurnal pattern of reaction time, with lower values during evening and night (17:00-05:00 hours). Linear mixed-model regression analysis of mean reaction time yielded mean Samn-Perelli Fatigue Scale, illness as predictors of reaction time. It was concluded that reaction time is strongly associated with time of day, fatigue scale and being ill.</p>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<div id="loading" class="section level3">
+<h3>Loading</h3>
+<p>Let us begin the EDA by loading the library:</p>
+<pre class="r"><code>library(Hmisc)</code></pre>
+<pre><code>## Warning: package &#39;Hmisc&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lattice&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:boot&#39;:
+## 
+##     melanoma</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## 
+## Attaching package: &#39;survival&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:boot&#39;:
+## 
+##     aml</code></pre>
+<pre><code>## Loading required package: Formula</code></pre>
+<pre><code>## Warning: package &#39;Formula&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Hmisc&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     src, summarize</code></pre>
+<pre><code>## The following object is masked from &#39;package:quantmod&#39;:
+## 
+##     Lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     format.pval, units</code></pre>
+<pre class="r"><code>library(funModeling) </code></pre>
+<pre><code>## Warning: package &#39;funModeling&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## funModeling v.1.9.4 :)
+## Examples and tutorials at livebook.datascienceheroes.com
+##  / Now in Spanish: librovivodecienciadedatos.ai</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v tibble  3.0.4     v purrr   0.3.4
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.0</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Warning: package &#39;forcats&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::combine()   masks gridExtra::combine()
+## x tidyr::expand()    masks Matrix::expand()
+## x dplyr::filter()    masks stats::filter()
+## x dplyr::first()     masks xts::first()
+## x dplyr::lag()       masks stats::lag()
+## x dplyr::last()      masks xts::last()
+## x tidyr::pack()      masks Matrix::pack()
+## x dplyr::select()    masks MASS::select()
+## x Hmisc::src()       masks dplyr::src()
+## x Hmisc::summarize() masks dplyr::summarize()
+## x tidyr::unpack()    masks Matrix::unpack()</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(ggpubr)</code></pre>
+<pre><code>## Warning: package &#39;ggpubr&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;car&#39;:
+##   method                          from
+##   influence.merMod                lme4
+##   cooks.distance.influence.merMod lme4
+##   dfbeta.influence.merMod         lme4
+##   dfbetas.influence.merMod        lme4</code></pre>
+<pre class="r"><code>library(dplyr)
+library(data.table)</code></pre>
+<pre><code>## Warning: package &#39;data.table&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:xts&#39;:
+## 
+##     first, last</code></pre>
+<pre class="r"><code>library(testthat)</code></pre>
+<pre><code>## Warning: package &#39;testthat&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;testthat&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     is_null</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     matches</code></pre>
+<pre><code>## The following object is masked from &#39;package:Hmisc&#39;:
+## 
+##     describe</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     matches</code></pre>
+<pre class="r"><code>library(gridExtra)
+library(corrplot)</code></pre>
+<pre><code>## Warning: package &#39;corrplot&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## corrplot 0.84 loaded</code></pre>
+<pre class="r"><code>library(GGally)</code></pre>
+<pre><code>## Warning: package &#39;GGally&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;GGally&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:funModeling&#39;:
+## 
+##     range01</code></pre>
+<pre class="r"><code>library(e1071)</code></pre>
+<pre><code>## Warning: package &#39;e1071&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;e1071&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:Hmisc&#39;:
+## 
+##     impute</code></pre>
+</div>
+<div id="dataset" class="section level3">
+<h3>Dataset</h3>
+<p>The dataset that we are using for this analysis is Combined Reaction Time Data collected from 39 students. This data is a data frame created for the purpose of determining the diurnal pattern of reaction time.</p>
+<pre class="r"><code>dp &lt;- read.csv(file=&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA490/diurnal_pattern.csv&quot;, header=TRUE, sep=&quot;,&quot;)</code></pre>
+<div id="first-glimpse-of-the-data-structure" class="section level4">
+<h4>First Glimpse of the Data Structure</h4>
+<p>The diurnal pattern data has 312 rows and 12 variables with the target feature <code>reaction</code> as Reaction Time.</p>
+<pre class="r"><code>dim(dp)</code></pre>
+<pre><code>## [1] 312  13</code></pre>
+<p>12 variables are defined as follows:</p>
+<ul>
+<li><code>id</code>: An ID number given to each student for easy identification<br />
+</li>
+<li><code>order</code>: The order of measurements<br />
+</li>
+<li><code>reaction</code>: Reaction time with second as unit<br />
+</li>
+<li><code>time</code>: Time of the day<br />
+</li>
+<li><code>fatigue</code>: Samn-Perelli 7-point fatigue scale (1: Fully alert - 7: Completely exhausted)<br />
+</li>
+<li><code>hunger</code>: Hunger Scale 10-point (1: Beyond hungry - 10: Beyond full)<br />
+</li>
+<li><code>sleep</code>: Hours of sleep before measurements were taken<br />
+</li>
+<li><code>meq</code>: Morningness–eveningness questionnaire score of the student<br />
+</li>
+<li><code>busy</code>: Whether the student recorded the measurements on a busy or light day (each student’s busy-ness is self-defined)<br />
+</li>
+<li><code>stimulant</code>: Whether the student consumed stimulants before taking each measurement (stimulants examples: coke, coffee, tea)<br />
+</li>
+<li><code>ill</code>: Whether the student was ill when taking the measurements<br />
+</li>
+<li><code>protocol</code>: Whether the student was following the protocol when recording each measurement</li>
+</ul>
+<p>R recognises variables <code>time</code> and <code>meq</code> as factors, but everything else as numeric or integer:</p>
+<pre><code>## &#39;data.frame&#39;:    312 obs. of  13 variables:
+##  $ id       : int  1 1 1 1 1 1 1 1 2 2 ...
+##  $ order    : int  1 2 3 4 5 6 7 8 1 2 ...
+##  $ reaction : num  0.366 0.31 0.396 0.316 0.437 0.366 0.345 0.415 0.433 0.385 ...
+##  $ time     : Factor w/ 237 levels &quot;0:00&quot;,&quot;0:01&quot;,..: 45 103 164 192 26 99 168 197 32 83 ...
+##  $ fatigue  : int  2 3 3 5 4 3 5 6 4 6 ...
+##  $ hunger   : int  4 4 5 3 4 4 4 3 3 5 ...
+##  $ sleep    : num  10 10 10 10 6 6 6 6 8 8 ...
+##  $ meq      : Factor w/ 23 levels &quot;32&quot;,&quot;34&quot;,&quot;36&quot;,..: 9 9 9 9 9 9 9 9 16 16 ...
+##  $ busy     : int  0 0 0 0 1 1 1 1 0 0 ...
+##  $ stimulant: int  0 1 0 0 0 1 0 0 0 0 ...
+##  $ ill      : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ protocol : int  1 1 1 1 1 0 1 1 1 1 ...
+##  $ X        : Factor w/ 2 levels &quot;&quot;,&quot;Consumed alcohol&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+</div>
+<div id="arranging-data-structure" class="section level3">
+<h3>Arranging Data Structure</h3>
+<div id="converting-to-categorical-variables" class="section level4">
+<h4>Converting to Categorical Variables</h4>
+<p>Factors are used to represent categorical data. Factors are an important class for statistical analysis and for plotting.</p>
+<p>Recoding variables <code>busy</code>, <code>stimulant</code>, <code>ill</code>, <code>protocol</code>,<code>order</code>, in order to let R know that they are categorical factors:</p>
+<pre class="r"><code>dp$busy[dp$busy == 0] &lt;- &#39;light&#39;
+dp$busy[dp$busy == 1] &lt;- &#39;busy&#39;
+dp$busy &lt;- as.factor(dp$busy)
+dp$stimulant[dp$stimulant == 0] &lt;- &#39;N&#39;
+dp$stimulant[dp$stimulant == 1] &lt;- &#39;Y&#39;
+dp$stimulant &lt;- as.factor(dp$stimulant)
+dp$ill[dp$ill == 0] &lt;- &#39;N&#39;
+dp$ill[dp$ill == 1] &lt;- &#39;Y&#39;
+dp$ill &lt;- as.factor(dp$ill)
+dp$protocol[dp$protocol == 0] &lt;- &#39;N&#39;
+dp$protocol[dp$protocol == 1] &lt;- &#39;Y&#39;
+dp$protocol &lt;- as.factor(dp$protocol)
+dp$order &lt;- factor(dp$order, levels=c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;),ordered = TRUE)</code></pre>
+<p>In this case, <code>id</code> is categorical and its levels are not necessarily ordered, so we convert it into factor:</p>
+<pre class="r"><code>dp$id &lt;- as.factor(dp$id)
+levels(dp$id)</code></pre>
+<pre><code>##  [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot; &quot;11&quot; &quot;12&quot; &quot;13&quot; &quot;14&quot; &quot;15&quot;
+## [16] &quot;16&quot; &quot;17&quot; &quot;18&quot; &quot;19&quot; &quot;20&quot; &quot;21&quot; &quot;22&quot; &quot;23&quot; &quot;24&quot; &quot;25&quot; &quot;26&quot; &quot;27&quot; &quot;28&quot; &quot;29&quot; &quot;30&quot;
+## [31] &quot;31&quot; &quot;32&quot; &quot;33&quot; &quot;34&quot; &quot;35&quot; &quot;36&quot; &quot;37&quot; &quot;38&quot; &quot;39&quot;</code></pre>
+<pre class="r"><code>nlevels(dp$id)</code></pre>
+<pre><code>## [1] 39</code></pre>
+<p>Under <code>meq</code>, there are five students who recorded <code>meq</code> as a category. The <code>meq</code> scores can be converted into categories, but the <code>meq</code> categories cannot be converted into a precise score. Hence, my approach is to treat <code>meq</code> this variable as a categorical data by converting these scores into the defined categories:</p>
+<ul>
+<li><code>DET</code> as <em>Definitely Evening Type</em>: Score 16-30<br />
+</li>
+<li><code>MET</code> as <em>Moderately Evening Type</em>: Score 31-41<br />
+</li>
+<li><code>NT</code> as <em>Neither Type</em>: Score 42-58<br />
+</li>
+<li><code>MMT</code> as <em>Moderately Morning Type</em>: Score 59-69<br />
+</li>
+<li><code>DMT</code> as <em>Definitely Morning Type</em>: Score 70-86</li>
+</ul>
+<p>Before recoding, <code>meq</code> has 23 levels:</p>
+<pre><code>##   [1] 45   45   45   45   45   45   45   45   54   54   54   54   54   54   54  
+##  [16] 54   48   48   48   48   48   48   48   48   44   44   44   44   44   44  
+##  [31] 44   44   34   34   34   34   34   34   34   34   34   34   34   34   34  
+##  [46] 34   34   34   47   47   47   47   47   47   47   47   34   34   34   34  
+##  [61] 34   34   34   34   58   58   58   58   58   58   58   58   NT   NT   NT  
+##  [76] NT   NT   NT   NT   NT   38   38   38   38   38   38   38   38   MET  MET 
+##  [91] MET  MET  MET  MET  MET  MET  46   46   46   46   46   46   46   46   36  
+## [106] 36   36   36   36   36   36   36   MET  MET  MET  MET  MET  MET  MET  MET 
+## [121] 32   32   32   32   32   32   32   32   57   57   57   57   57   57   57  
+## [136] 57   40   40   40   40   40   40   40   40   47   47   47   47   47   47  
+## [151] 47   47   43   43   43   43   43   43   43   43   49   49   49   49   49  
+## [166] 49   49   49   36   36   36   36   36   36   36   36   55   55   55   55  
+## [181] 55   55   55   55   50   50   50   50   50   50   50   50   48   48   48  
+## [196] 48   48   48   48   48   60   60   60   60   60   60   60   60   MET  MET 
+## [211] MET  MET  MET  MET  MET  MET  52   52   52   52   52   52   52   52   DET 
+## [226] DET  DET  DET  DET  DET  DET  DET  45   45   45   45   45   45   45   45  
+## [241] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 38   38   38   38   38   38   38  
+## [256] 38   48   48   48   48   48   48   48   48   55   55   55   55   55   55  
+## [271] 55   55   46   46   46   46   46   46   46   46   48   48   48   48   48  
+## [286] 48   48   48   37   37   37   37   37   37   37   37   46   46   46   46  
+## [301] 46   46   46   46   34   34   34   34   34   34   34   34  
+## 23 Levels: 32 34 36 37 38 40 43 44 45 46 47 48 49 50 52 54 55 57 58 60 ... NT</code></pre>
+<p>After recoding, <code>meq</code> has 5 levels and converted into an ordinal factor:</p>
+<pre><code>##   [1] NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+##  [16] NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+##  [31] NT   NT   MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET 
+##  [46] MET  MET  MET  NT   NT   NT   NT   NT   NT   NT   NT   MET  MET  MET  MET 
+##  [61] MET  MET  MET  MET  NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+##  [76] NT   NT   NT   NT   NT   MET  MET  MET  MET  MET  MET  MET  MET  MET  MET 
+##  [91] MET  MET  MET  MET  MET  MET  NT   NT   NT   NT   NT   NT   NT   NT   MET 
+## [106] MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET  MET 
+## [121] MET  MET  MET  MET  MET  MET  MET  MET  NT   NT   NT   NT   NT   NT   NT  
+## [136] NT   MET  MET  MET  MET  MET  MET  MET  MET  NT   NT   NT   NT   NT   NT  
+## [151] NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+## [166] NT   NT   NT   MET  MET  MET  MET  MET  MET  MET  MET  NT   NT   NT   NT  
+## [181] NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+## [196] NT   NT   NT   NT   NT   MMT  MMT  MMT  MMT  MMT  MMT  MMT  MMT  MET  MET 
+## [211] MET  MET  MET  MET  MET  MET  NT   NT   NT   NT   NT   NT   NT   NT   DET 
+## [226] DET  DET  DET  DET  DET  DET  DET  NT   NT   NT   NT   NT   NT   NT   NT  
+## [241] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; MET  MET  MET  MET  MET  MET  MET 
+## [256] MET  NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+## [271] NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT   NT  
+## [286] NT   NT   NT   MET  MET  MET  MET  MET  MET  MET  MET  NT   NT   NT   NT  
+## [301] NT   NT   NT   NT   MET  MET  MET  MET  MET  MET  MET  MET 
+## Levels: DET &lt; MET &lt; NT &lt; MMT &lt; DMT</code></pre>
+</div>
+<div id="dealing-with-time-data" class="section level4">
+<h4>Dealing with Time Data</h4>
+<p>R treated <code>time</code> as factor with levels, so we have to convert it into <code>POSIXlt</code> format for better analysis:</p>
+<pre class="r"><code>dp$time &lt;- as.POSIXct(dp$time, format=&quot;%H:%M&quot;)
+class(dp$time)</code></pre>
+<pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
+<p><code>POSIXlt</code> is a Datetime representation. We can choose to display only the time by using <code>format</code> function, but we cannot make the Date part disappear from the representation. Therefore, we can just ignore the Date for now.</p>
+</div>
+<div id="organized-data-structure" class="section level4">
+<h4>Organized Data Structure</h4>
+<p>So, let’s look at the data structure again:</p>
+<pre><code>## &#39;data.frame&#39;:    312 obs. of  13 variables:
+##  $ id       : Factor w/ 39 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ order    : Ord.factor w/ 8 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 1 2 3 4 5 6 7 8 1 2 ...
+##  $ reaction : num  0.366 0.31 0.396 0.316 0.437 0.366 0.345 0.415 0.433 0.385 ...
+##  $ time     : POSIXct, format: &quot;2020-12-14 11:46:00&quot; &quot;2020-12-14 16:15:00&quot; ...
+##  $ fatigue  : int  2 3 3 5 4 3 5 6 4 6 ...
+##  $ hunger   : int  4 4 5 3 4 4 4 3 3 5 ...
+##  $ sleep    : num  10 10 10 10 6 6 6 6 8 8 ...
+##  $ meq      : Ord.factor w/ 5 levels &quot;DET&quot;&lt;&quot;MET&quot;&lt;&quot;NT&quot;&lt;..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ busy     : Factor w/ 2 levels &quot;busy&quot;,&quot;light&quot;: 2 2 2 2 1 1 1 1 2 2 ...
+##  $ stimulant: Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 1 2 1 1 1 2 1 1 1 1 ...
+##  $ ill      : Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ protocol : Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 2 2 2 2 2 1 2 2 2 2 ...
+##  $ X        : Factor w/ 2 levels &quot;&quot;,&quot;Consumed alcohol&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>Notice variables <code>id</code>, <code>order</code>,<code>meq</code>, <code>busy</code>, <code>stimulant</code>, <code>ill</code>, <code>protocol</code> have been converted to factors; <code>time</code> has been converted as <code>POSIXlt</code>.</p>
+</div>
+</div>
+<div id="summary-of-data" class="section level3">
+<h3>Summary of Data</h3>
+<pre><code>##        id          order       reaction           time                    
+##  1      :  8   1      :39   Min.   :0.0970   Min.   :2020-12-14 00:00:00  
+##  2      :  8   2      :39   1st Qu.:0.3460   1st Qu.:2020-12-14 10:00:30  
+##  3      :  8   3      :39   Median :0.3850   Median :2020-12-14 14:12:00  
+##  4      :  8   4      :39   Mean   :0.3971   Mean   :2020-12-14 13:58:56  
+##  5      :  8   5      :39   3rd Qu.:0.4315   3rd Qu.:2020-12-14 19:24:30  
+##  6      :  8   6      :39   Max.   :0.8490   Max.   :2020-12-14 23:56:00  
+##  (Other):264   (Other):78   NA&#39;s   :5        NA&#39;s   :21                   
+##     fatigue          hunger          sleep          meq         busy    
+##  Min.   :1.000   Min.   :1.000   Min.   : 4.000   DET :  8   busy :156  
+##  1st Qu.:3.000   1st Qu.:4.000   1st Qu.: 7.000   MET :112   light:156  
+##  Median :3.000   Median :5.000   Median : 8.000   NT  :176              
+##  Mean   :3.622   Mean   :4.756   Mean   : 7.912   MMT :  8              
+##  3rd Qu.:5.000   3rd Qu.:6.000   3rd Qu.: 8.500   DMT :  0              
+##  Max.   :7.000   Max.   :9.000   Max.   :12.000   NA&#39;s:  8              
+##  NA&#39;s   :13      NA&#39;s   :13      NA&#39;s   :32                             
+##  stimulant    ill      protocol                  X      
+##  N   :262   N   :253   N   :  5                   :311  
+##  Y   : 37   Y   : 41   Y   :273   Consumed alcohol:  1  
+##  NA&#39;s: 13   NA&#39;s: 18   NA&#39;s: 34                         
+##                                                         
+##                                                         
+##                                                         
+## </code></pre>
+</div>
+<div id="missing-data" class="section level3">
+<h3>Missing Data</h3>
+<p>Count for missing data:</p>
+<pre><code>##        id     order  reaction      time   fatigue    hunger     sleep       meq 
+##         0         0         5        21        13        13        32         8 
+##      busy stimulant       ill  protocol         X 
+##         0        13        18        34         0</code></pre>
+<p>Now, we visualize the missing data:<br />
+<img src="STA490research2_files/figure-html/missdatav-1.png" width="672" /></p>
+<p>From the plot above, we gain some insights about the missing data:</p>
+<ul>
+<li>One student only recorded reaction time for the eight measurements.<br />
+</li>
+<li>Some students did not record certain variables at all. (i.e.<code>protocol</code>,<code>ill</code>, <code>sleep</code>,<code>time</code>)</li>
+<li>Some students missed one measurement, and therefore most variables were not available.<br />
+</li>
+<li>Since these students seemed to forget about recording the data, we can treat these missing data as “Missing Completely At Random” (MCAR)<br />
+</li>
+<li>Overall, the problem of missing data is not severe.</li>
+</ul>
+<div id="dealing-with-missing-data" class="section level4">
+<h4>Dealing with Missing Data</h4>
+<p>In this analysis, a few approaches are considered:</p>
+<ol style="list-style-type: decimal">
+<li>Exclude Missing Values:</li>
+</ol>
+<pre class="r"><code># Argument to exclude missing values from mathematical operations  
+na.rm = TRUE 
+# Subset our data to obtain complete observations  
+x &lt;- df$meq
+x[complete.cases(x), ]
+# Omit all rows containing missing values
+na.omit()</code></pre>
+<ul>
+<li>Advantages: Simplicity, Comparability across analyses<br />
+</li>
+<li>Disadvantages: Reduces statistical power (because lowers n), Does not use all information, Estimates may be biased if data is not MCAR</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Imputation with mean:</li>
+</ol>
+<pre class="r"><code># Recode missing values with the mean
+x &lt;- df$fatigue
+x[is.na(x)] &lt;- mean(x, na.rm = TRUE)
+#OR use Hmisc package for imputation
+impute(x, mean) </code></pre>
+<ul>
+<li>Advantages: Can use complete case analysis methods<br />
+</li>
+<li>Disadvantages: Reduces variabilit, Weakens covariance and correlation estimates in the data (because ignores relationship between variables)</li>
+</ul>
+</div>
+</div>
+<div id="categorical-variables" class="section level3">
+<h3>Categorical Variables</h3>
+<p><strong>Barplots for the categorical variables:</strong><br />
+<img src="STA490research2_files/figure-html/bpc-1.png" width="672" /></p>
+<ul>
+<li><code>meq</code>: Majority of students belong to neither evening nor morning type of person, followed by moderately evening type.<br />
+</li>
+<li><code>stimulant</code>: Most students did not consume stimulants before measurements.<br />
+</li>
+<li><code>ill</code>: Most students were not ill when recording the measurements.<br />
+</li>
+<li><code>protocol</code>: Almost all students followed protocol when taking each measurement.</li>
+</ul>
+<p><strong>Boxplots for the categorical variables:</strong></p>
+<pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+## Warning: `fun.y` is deprecated. Use `fun` instead.
+
+## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
+<p><img src="STA490research2_files/figure-html/boxplot-1.png" width="672" /></p>
+<ul>
+<li>We can see there are many outliers of reaction time data for students who are of neither type of morning/evening person, did not consume stimulants, were not ill when taking measurements, followed protocol.<br />
+</li>
+<li>The rhombus box represents the mean of the data for the particular group.<br />
+</li>
+<li><code>meq</code>: Students with Neither Type have a slightly smaller mean reaction time than other groups. The medians among three groups are almost the same, but they have different distributions. Neither Type’s boxplot is comparatively short, suggests that the reaction time among this group of student do not vary much. (when ignoring the outliers).<br />
+</li>
+<li><code>stimulant</code>: The medians are almost the same and the size of the box is approximately the same. However, for students who did not consume stimulants, the mean reaction time is slightly higher than those who did have stimulants.<br />
+</li>
+<li><code>ill</code>: The medians are around the same, so as the size of the boxplot. However, for students who were not ill, the mean reaction time is higher than those who were ill. The boxplot for students who were ill is slight right-skewed.<br />
+</li>
+<li><code>protocol</code>: The medians are around the same, so as the size of the boxplot. The boxplot for students who did not follow protocols is left-skewed. For students who did not follow the protocol, the mean reaction time is slightly higher than those who followed the protocol.</li>
+</ul>
+</div>
+<div id="numeric-variables" class="section level3">
+<h3>Numeric Variables</h3>
+<p>Density plots of the features can show if the variables are skewed. Below are density plots for variables <code>reaction</code>,<code>fatigue</code>,<code>hunger</code>,<code>sleep</code>:</p>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning: Removed 13 rows containing non-finite values (stat_density).
+
+## Warning: Removed 13 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="STA490research2_files/figure-html/cont-1.png" width="672" /></p>
+<ul>
+<li><code>fatigue</code>, <code>hunger</code> are approximately normally-distributed.</li>
+<li><code>sleep</code> has very little positive skewness.<br />
+</li>
+<li><code>reaction</code> is slightly positively skewed, the reaction time peaked approximately at 0.38s</li>
+</ul>
+<p>Assessing normality of the <code>reaction</code> by QQ plot:<br />
+<img src="STA490research2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre><code>##        25%        75% 
+## 0.38875000 0.06338124</code></pre>
+<ul>
+<li>Noted that the shaded grey region is the confidence interval for <code>reaction</code><br />
+</li>
+<li>From the QQ plot, we observe that there is a heavy tail in the end, some data points deviate from the straight line. This might imply that the <code>reaction</code> data did not plausibly come from the theoretical normal distribution.</li>
+</ul>
+</div>
+<div id="normalization-of-skewed-variable" class="section level3">
+<h3>Normalization of Skewed Variable</h3>
+<p>The histogram for the response variable <code>reaction</code> shows that it is skewed:</p>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="STA490research2_files/figure-html/reaction%20time-1.png" width="672" /></p>
+<p>Taking the square root of the variable normalizes it:</p>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="STA490research2_files/figure-html/normhist1-1.png" width="672" /></p>
+<p>Taking the log of the variable can also induce the same effect as square root:</p>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="STA490research2_files/figure-html/normhist-1.png" width="672" /></p>
+<p>With the two transformations, <code>reaction</code> follows a normal distribution.</p>
+</div>
+<div id="correlation" class="section level3">
+<h3>Correlation</h3>
+<p><img src="STA490research2_files/figure-html/corr-1.png" width="672" /></p>
+<p>The correlation matrix above shows that:</p>
+<ul>
+<li>Moderate postive correlation between <code>fatigue</code> and <code>reaction</code>: It seems that students with higher Samn-Perelli Scale (more fatigue) react slower.</li>
+<li>Weak negative correlation between <code>hunger</code> and <code>reaction</code>: Students with higher Hunger Scale (more full) might react faster.</li>
+<li>Very weak negative correlation between <code>fatigue</code> and <code>sleep</code>: When students sleep less, their Samn-Perelli Scale might be higher.</li>
+</ul>
+<p>Boxplot for variables that have moderate correlation:</p>
+<p><img src="STA490research2_files/figure-html/boxplot1-1.png" width="672" /></p>
+<ul>
+<li>We can see that as the Samn-Perelli Scale gets larger, the reaction time seems to increase slightly.<br />
+</li>
+<li>When the Samn-Perelli Scale is 7, the median reaction time is far higher than that of other scales.</li>
+</ul>
+</div>
+<div id="reaction-time-versus-time-of-the-day" class="section level3">
+<h3>“Reaction Time” versus “Time of the Day”</h3>
+<p>Since <code>time</code> does not belong to either categorical or numeric variable, we treat it as a special case here to extermine the diurnal pattern:</p>
+<ul>
+<li>Noted that the scale of x-axis represents time of the day from 00:00-23:59.</li>
+<li>The line plot does not show the diurnal pattern clearly, we can slightly see that the reaction time tends to be lower during the evening.<br />
+</li>
+<li>In the LOESS plot, we can definitely see a pattern of reaction time across time. The plot suggests that students might react slowest during early morning (i.e. 03:00-06:00), then the reaction time decreases until evening, they react fastest during the evening (17:00-19:00). The reaction time increases during the night (21:00-23:59).</li>
+</ul>
+</div>
+<div id="comparision-among-the-meq-categories" class="section level3">
+<h3>Comparision Among the MEQ Categories</h3>
+<p>Since there is only 1 student with Definitely Evening Type and 1 student with Moderately Morning Type of MEQ, it is not worth comparing with the other categories due to the insufficient samples.</p>
+<div id="moderately-evening-type-vs-neither-type" class="section level4">
+<h4>Moderately Evening Type vs Neither Type</h4>
+<p>Let’s compare the diurnal pattern of reaction time for MEQ <span class="math inline">\(=\)</span> Moderately Evening Type and Neither Type:</p>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_smooth).</code></pre>
+<p><img src="STA490research2_files/figure-html/det-1.png" width="672" /></p>
+<p><code>reaction</code> vs <code>time</code>:</p>
+<ul>
+<li>From the LOESS plots above, we can see that the two categories have different diurnal patterns of reaction time.<br />
+</li>
+<li>Moderately Evening Type <code>MET</code>: The reaction time increases from 00:00-06:00, then decreases til 18:00, then increases from 18:00 to 23:59. Reaction time is fastest around 18:00-19:00 (evening) and 01:00-03:00(early morning), and slowest during the morning.<br />
+</li>
+<li>Neither Type <code>NT</code>: The reaction time decreases from 00:00 to 12:00 (Morning to Noon), then increases from 12:00 to 23:59(Noon to midnight). Reaction time is fastest around 12:00-15:00 (afternoon) and slowest during 00:00-03:00 (early morning).<br />
+</li>
+<li>Students who are of Neither Type tend to have faster reaction time overall.<br />
+</li>
+<li>This suggests that the type of MEQ does influence the diurnal pattern of reaction time.</li>
+</ul>
+<p><code>fatigue</code> vs <code>time</code>:</p>
+<ul>
+<li>Moderately Evening Type <code>MET</code>: Students seem to be most alert around 18:00. This matches with the fastest reaction time around 18:00-19:00 in the “reaction vs time” plot.<br />
+</li>
+<li>Neither Type <code>NT</code>: Students seem to be most alert around 12:00-15:00. This matches with the fastest reaction time around 12:00-15:00 in the “reaction vs time” plot.<br />
+</li>
+<li>This can suggest that lower level of fatigue can contribute to faster eaction time.</li>
+</ul>
+</div>
+<div id="comparision-busy-vs-light" class="section level4">
+<h4>Comparision: Busy vs Light</h4>
+<p>Let’s explore whether the diurnal pattern of reaction time is different on a busy day vs on a light day:</p>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 10 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 11 rows containing non-finite values (stat_smooth).</code></pre>
+<p><img src="STA490research2_files/figure-html/det1-1.png" width="672" /></p>
+<ul>
+<li>From the above plots, the diurnal patterns for busy and light day do not seem to be different from each other.<br />
+</li>
+<li>This suggests that the heaviness of workload does not influence the pattern of reaction time.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="data-analysis" class="section level2">
+<h2>Data Analysis</h2>
+<div id="research-question" class="section level3">
+<h3>Research Question</h3>
+<p>What is the diurnal pattern of reaction time?</p>
+</div>
+<div id="dataset-1" class="section level3">
+<h3>Dataset</h3>
+<p>The dataset that we are using for this analysis is Combined Reaction Time Data collected from 39 students. This data is a data frame created for the purpose of determining the diurnal pattern of reaction time.</p>
+<pre class="r"><code>df &lt;- read.csv(file=&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA490/diurnal_pattern.csv&quot;, header=TRUE, sep=&quot;,&quot;)</code></pre>
+</div>
+<div id="data-structure" class="section level3">
+<h3>Data Structure</h3>
+<p>Let’s take a look at the arranged data:</p>
+<pre><code>## &#39;data.frame&#39;:    312 obs. of  13 variables:
+##  $ id       : Factor w/ 39 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 1 1 2 2 ...
+##  $ order    : Ord.factor w/ 8 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 1 2 3 4 5 6 7 8 1 2 ...
+##  $ reaction : num  0.366 0.31 0.396 0.316 0.437 0.366 0.345 0.415 0.433 0.385 ...
+##  $ time     : Ord.factor w/ 4 levels &quot;Morning&quot;&lt;&quot;Afternoon&quot;&lt;..: 1 2 3 4 1 2 3 4 1 2 ...
+##  $ fatigue  : num  2 3 3 5 4 3 5 6 4 6 ...
+##  $ hunger   : num  4 4 5 3 4 4 4 3 3 5 ...
+##  $ sleep    : num  10 10 10 10 6 6 6 6 8 8 ...
+##  $ meq      : Ord.factor w/ 5 levels &quot;DET&quot;&lt;&quot;MET&quot;&lt;&quot;NT&quot;&lt;..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ busy     : Factor w/ 2 levels &quot;busy&quot;,&quot;light&quot;: 2 2 2 2 1 1 1 1 2 2 ...
+##  $ stimulant: Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 1 2 1 1 1 2 1 1 1 1 ...
+##  $ ill      : Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ protocol : Factor w/ 2 levels &quot;N&quot;,&quot;Y&quot;: 2 2 2 2 2 1 2 2 2 2 ...
+##  $ X        : Factor w/ 2 levels &quot;&quot;,&quot;Consumed alcohol&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;time&#39; (override with `.groups` argument)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="STA490research2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The diurnal pattern data has 312 rows and 12 variables with the target feature <code>reaction</code> as Reaction Time.<br />
+12 variables are defined as follows:</p>
+<ul>
+<li><code>id</code>: An ID number given to each student for easy identification<br />
+</li>
+<li><code>order</code>: The order of measurements<br />
+</li>
+<li><code>reaction</code>: Reaction time with second as unit<br />
+</li>
+<li><code>time</code>: Time of the day, that is categorized into Morning, Afternoon, Evening and Night<br />
+</li>
+<li><code>fatigue</code>: Samn-Perelli 7-point fatigue scale (1: Fully alert - 7: Completely exhausted)<br />
+</li>
+<li><code>hunger</code>: Hunger Scale 10-point (1: Beyond hungry - 10: Beyond full)<br />
+</li>
+<li><code>sleep</code>: Hours of sleep before measurements were taken<br />
+</li>
+<li><code>meq</code>: Morningness-eveningness questionnaire score of the student<br />
+</li>
+<li><code>busy</code>: Whether the student recorded the measurements on a busy or light day (each student’s busy-ness is self-defined)<br />
+</li>
+<li><code>stimulant</code>: Whether the student consumed stimulants before taking each measurement (stimulants examples: coke, coffee, tea)<br />
+</li>
+<li><code>ill</code>: Whether the student was ill when taking the measurements<br />
+</li>
+<li><code>protocol</code>: Whether the student was following the protocol when recording each measurement</li>
+</ul>
+</div>
+<div id="summary-of-the-data" class="section level3">
+<h3>Summary of the Data</h3>
+<pre><code>##        id          order       reaction             time       fatigue     
+##  1      :  8   1      :39   Min.   :0.0970   Morning  :73   Min.   :1.000  
+##  2      :  8   2      :39   1st Qu.:0.3460   Afternoon:79   1st Qu.:3.000  
+##  3      :  8   3      :39   Median :0.3850   Evening  :73   Median :3.622  
+##  4      :  8   4      :39   Mean   :0.3971   Night    :66   Mean   :3.622  
+##  5      :  8   5      :39   3rd Qu.:0.4315   NA&#39;s     :21   3rd Qu.:5.000  
+##  6      :  8   6      :39   Max.   :0.8490                  Max.   :7.000  
+##  (Other):264   (Other):78   NA&#39;s   :5                                      
+##      hunger          sleep          meq         busy     stimulant    ill     
+##  Min.   :1.000   Min.   : 4.000   DET :  8   busy :156   N   :262   N   :253  
+##  1st Qu.:4.000   1st Qu.: 7.200   MET :112   light:156   Y   : 37   Y   : 41  
+##  Median :5.000   Median : 8.000   NT  :176               NA&#39;s: 13   NA&#39;s: 18  
+##  Mean   :4.756   Mean   : 7.912   MMT :  8                                    
+##  3rd Qu.:6.000   3rd Qu.: 8.500   DMT :  0                                    
+##  Max.   :9.000   Max.   :12.000   NA&#39;s:  8                                    
+##                                                                               
+##  protocol                  X      
+##  N   :  5                   :311  
+##  Y   :273   Consumed alcohol:  1  
+##  NA&#39;s: 34                         
+##                                   
+##                                   
+##                                   
+## </code></pre>
+</div>
+<div id="a-preliminary-mixed-effects-model-for-original-data" class="section level3">
+<h3>a) Preliminary Mixed-effects Model for Original Data</h3>
+<p>A Repeated Measures ANOVA for mixed effects model is used. To answer our research question, we need <code>time</code> and <code>reaction</code> to be the main focus when modelling, and show that there is an effect of the time of the day on reaction time. However, <code>time</code> is a tricky variable. When <code>time</code> is numerical, it is hard to show at which time of the day, a student has a better reaction time by fitting into a linear mixed model, so a diurnal <strong>pattern</strong> of reaction time is even harder to be seen. Therefore, I fit models for data with <code>time</code> as a categorical variable.</p>
+<div id="model-1" class="section level5">
+<h5>Model 1</h5>
+<p>I first start with the simplest model <code>m1</code> which inclues the fixed effect <code>time</code>, and the random effect of <code>id</code>. In the case of my model here, we add a random effect for <code>id</code> and this characterizes idiosyncratic variation that is due to individual differences.</p>
+<p>Model 1 formulation: <span class="math display">\[Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \epsilon_{ij} + \alpha_i \]</span></p>
+<p><span class="math inline">\(Y_{ij}\)</span> = the response for i-th student in j-th observation<br />
+<span class="math inline">\(\beta_0\)</span> = the fixed intercept for the regression model <span class="math inline">\(\beta_{x_i}\)</span> = the fixed slope for the regression model <span class="math inline">\(I_{i,j}\)</span> = the categorical predictor for j-th measurement of i-th student <span class="math inline">\(\epsilon_{ij}\)</span> = Gaussian error term which <span class="math inline">\(\epsilon_{ij} \sim^{i.i.d} N(0,\sigma_\epsilon^2)\)</span><br />
+<span class="math inline">\(\alpha_i\)</span> = the random intercepts of <code>(1|id)</code> for the i-th students which <span class="math inline">\(\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)\)</span></p>
+<pre class="r"><code>m1 &lt;- lmer(reaction ~ time + (1|id)  , data=df)
+summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: reaction ~ time + (1 | id)
+##    Data: df
+## 
+## REML criterion at convergence: -696.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.0137 -0.4163 -0.0844  0.4274  4.2774 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.005335 0.07304 
+##  Residual             0.003513 0.05927 
+## Number of obs: 291, groups:  id, 37
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)   0.393536   0.012504  36.027795  31.473  &lt; 2e-16 ***
+## time.L       -0.004195   0.007292 253.443744  -0.575  0.56564    
+## time.Q        0.027047   0.007026 251.798109   3.850  0.00015 ***
+## time.C        0.000149   0.006978 252.764195   0.021  0.98298    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##        (Intr) time.L time.Q
+## time.L  0.013              
+## time.Q  0.013  0.030       
+## time.C -0.004  0.036  0.040</code></pre>
+<pre class="r"><code>anova(m1)</code></pre>
+<pre><code>## Type III Analysis of Variance Table with Satterthwaite&#39;s method
+##        Sum Sq  Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
+## time 0.053785 0.017928     3 252.65  5.1036 0.001909 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>From the ANOVA of model 1, we see that the p-value of the F-statistics is smaller than 0.05 (p=0.0019, df=3), there is a strong evidence that <code>time</code> has an overall effect on <code>reaction</code>.<br />
+</li>
+<li>From the summary of model 1, The p-values of the t-statistics for Morning <code>time</code>(p&lt;0.0001) and Evening <code>time</code> (p=0.0002) are statistically significant. This might imply that students tend to have a longer reaction time during the Evening than in the Morning.</li>
+</ul>
+</div>
+<div id="model-2" class="section level4">
+<h4>Model 2</h4>
+<p>Here, I consider a model with uncorrelated random effects. To express this, I use two random-effects terms with the same grouping factor <code>id</code> - <code>(1|id)</code> and <code>(0+time|id)</code>.</p>
+<p>Model 2 formulation: <span class="math display">\[Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \epsilon_{ij} + \alpha_i \]</span></p>
+<p><span class="math inline">\(Y_{ij}\)</span> = the response for i-th student in j-th observation<br />
+<span class="math inline">\(\beta_0\)</span> = the fixed intercept for the regression model<br />
+<span class="math inline">\(\beta_{x_i}\)</span> = the fixed slope for the regression model<br />
+<span class="math inline">\(I_{i,j}\)</span> = the categorical predictor for j-th measurement of i-th student<br />
+<span class="math inline">\(\epsilon_{ij}\)</span> = Gaussian error term which <span class="math inline">\(\epsilon_{ij} \sim^{i.i.d} N(0,\sigma_\epsilon^2)\)</span><br />
+(<strong>)<span class="math inline">\(\alpha_i\)</span> = the random intercepts of <code>(1|id)</code> and <code>(0+time|id)</code> for the i-th students which <span class="math inline">\(\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)\)</span><br />
+(</strong>) Only this component is different from Model 1.</p>
+<pre class="r"><code>m2 &lt;- lmer(reaction ~ time +  (1|id) + (0+time|id)   , data=df)</code></pre>
+<pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
+<pre class="r"><code>summary(m2)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: reaction ~ time + (1 | id) + (0 + time | id)
+##    Data: df
+## 
+## REML criterion at convergence: -714
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.2688 -0.4771 -0.0812  0.4628  4.6182 
+## 
+## Random effects:
+##  Groups   Name          Variance Std.Dev. Corr          
+##  id       (Intercept)   0.000000 0.00000                
+##  id.1     timeMorning   0.003520 0.05933                
+##           timeAfternoon 0.004445 0.06667  0.91          
+##           timeEvening   0.007667 0.08756  0.63 0.90     
+##           timeNight     0.007145 0.08453  0.90 1.00 0.90
+##  Residual               0.002944 0.05426                
+## Number of obs: 291, groups:  id, 37
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)  0.391699   0.012112 35.267745  32.340  &lt; 2e-16 ***
+## time.L      -0.004854   0.008863 37.808275  -0.548  0.58708    
+## time.Q       0.026233   0.008322 36.955955   3.152  0.00321 ** 
+## time.C       0.001933   0.007278 55.510802   0.266  0.79151    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##        (Intr) time.L time.Q
+## time.L  0.449              
+## time.Q -0.087 -0.312       
+## time.C -0.055 -0.203  0.321
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see ?isSingular</code></pre>
+<pre class="r"><code>anova(m2)</code></pre>
+<pre><code>## Type III Analysis of Variance Table with Satterthwaite&#39;s method
+##        Sum Sq  Mean Sq NumDF  DenDF F value  Pr(&gt;F)  
+## time 0.031481 0.010494     3 57.836  3.5648 0.01947 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Model 2 produces the similar results as model 1:</p>
+<ul>
+<li>From the ANOVA of model 2, we see that the p-value of the F-statistics is smaller than 0.05 (p=0.0195, df=3), there is a strong evidence that <code>time</code> has an overall effect on <code>reaction</code>.<br />
+</li>
+<li>From the summary of model 2, The p-values of the t-statistics for Morning <code>time</code>(p&lt;0.001) and Evening <code>time</code> (p=0.0032) are statistically significant. This might imply that students tend to have a higher reaction time during the Evening than in the Morning.</li>
+</ul>
+<div id="comparing-model-1-vs-model-2" class="section level5">
+<h5>Comparing Model 1 vs Model 2</h5>
+<p>Model 2 contains model 1 in the sense that if the parameter values for model 2 were constrained so as to force the correlation, and hence the covariance, to be zero, and the model were re-fit, we would get model 1. The value 0, to which the correlation is constrained, is not on the boundary of the allowable parameter values. In these circumstances a likelihood ratio test is suitable.</p>
+<pre class="r"><code>anova(m1,m2)</code></pre>
+<pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
+<pre><code>## Data: df
+## Models:
+## m1: reaction ~ time + (1 | id)
+## m2: reaction ~ time + (1 | id) + (0 + time | id)
+##    npar     AIC     BIC logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m1    6 -716.05 -694.01 364.02  -728.05                       
+## m2   16 -712.84 -654.06 372.42  -744.84 16.786 10    0.07924 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Conclusion: The p-value is 1, it means that we would not reject model 1 in favor of model 2, we prefer the more parsimonious model 1. Model 1 is a better fit than model 2. This conclusion is consistent with the AIC (Akaike’s Information Criterion) and the BIC (Bayesian Information Criterion) values for which “smaller is better”.</p>
+</div>
+</div>
+<div id="model-3" class="section level4">
+<h4>Model 3</h4>
+<p>It seems that model 1 is pretty good fit to the data. Now, we add another random effect for <code>meq</code> by <code>id</code> to the previous model 1. Since <code>(meq|id)</code> is equivalent to <code>(1|id) + (0+meq|id)</code>, and <code>(1|id)</code> is already in model 1, we would only add the term <code>(0+meq|id)</code> to the model. This random effect characterizes idiosyncratic variation of <code>meq</code> types that is due to individual differences.</p>
+<p>The reasons of selecting <code>meq</code> as random effect rather fixed effect:</p>
+<ul>
+<li>Generally speaking, random effect has more levels in reality than actually occuring in the data. Since we do not have all possible levels of the effect <code>meq</code> in our data while in reality, all our missing levels exist (<code>meq</code>=<code>DET</code>,<code>DMT</code>,<code>MMT</code>). We would set <code>meq</code> as random effect in this case.<br />
+</li>
+<li>In the context of Statistics, Bayesians define random effects as sets of variables whose parameter are drawn from the same distribution. Random effects are estimated with partial pooling, while fixed effects are not. Since <code>meq</code> consists of five categories, our data shows that almost all subjects fall in only two categories. When <code>meq</code> is a fixed effect, the group effect’s estimate will be based partially on the more abundant data (i.e. <code>meq</code> with Moderatly Evening and Neither type) from other groups. This could give poor estimates for the low-sample groups (i.e. Definitely Evening, Definitely Morning and Moderately Morning type). Therefore, <code>meq</code> as random effect could resolve the problem.<br />
+</li>
+<li>In the context of scentific studies, random effects are source of random variation or experimental units (e.g. individuals drawn from a population for a trial) that cannot be directly manipulated by the experimenter and is often unrepeatable. Here, <code>meq</code> cannot be manipulated and repeatable because it is a fixed characteristic for each subject and the <code>meq</code> type is unlikely to change in a short period of time.</li>
+</ul>
+<p>Model 3 formulation is the same as Model 1/2, except (**)<span class="math inline">\(\alpha_i\)</span> = the random intercepts of <code>(0+meq|id)</code> and <code>(1|id)</code> for the i-th students which <span class="math inline">\(\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)\)</span></p>
+<pre class="r"><code>m3 &lt;- lmer(reaction ~ time +  (1|id) + (0+meq|id)   , data=df)
+summary(m3)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: reaction ~ time + (1 | id) + (0 + meq | id)
+##    Data: df
+## 
+## REML criterion at convergence: -708.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.0994 -0.4273 -0.0911  0.4225  4.2462 
+## 
+## Random effects:
+##  Groups   Name        Variance  Std.Dev. Corr       
+##  id       (Intercept) 1.046e-04 0.010229            
+##  id.1     meqMET      1.077e-02 0.103792            
+##           meqNT       1.829e-03 0.042768 -0.28      
+##           meqMMT      8.112e-05 0.009007  0.56 -0.95
+##  Residual             3.513e-03 0.059269            
+## Number of obs: 291, groups:  id, 37
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)  3.896e-01  9.111e-03  2.030e+01  42.762  &lt; 2e-16 ***
+## time.L      -4.005e-03  7.288e-03  2.540e+02  -0.550 0.583124    
+## time.Q       2.717e-02  7.022e-03  2.523e+02   3.868 0.000139 ***
+## time.C       6.409e-04  6.965e-03  2.545e+02   0.092 0.926765    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##        (Intr) time.L time.Q
+## time.L 0.034               
+## time.Q 0.011  0.030        
+## time.C 0.001  0.036  0.040</code></pre>
+<pre class="r"><code>anova(m3)</code></pre>
+<pre><code>## Type III Analysis of Variance Table with Satterthwaite&#39;s method
+##        Sum Sq  Mean Sq NumDF  DenDF F value   Pr(&gt;F)   
+## time 0.054128 0.018043     3 253.55  5.1362 0.001827 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>From the ANOVA of model 3, we see that the p-value of the F-statistics is smaller than 0.05 (p=0.0018, df=3), there is a strong evidence that <code>time</code> has an overall effect on <code>reaction</code>. Also noted that, the F-statistics of model 3 is slightly larger than model 1.</li>
+<li>From the summary of model 3, The p-values of the t-statistics for Morning <code>time</code>(p&lt;0.001) and Evening <code>time</code> (p=0.0001) are statistically significant. This might imply that students tend to have a higher reaction time during the Evening than in the Morning.</li>
+</ul>
+<div id="comparing-model-1-vs-model-3" class="section level5">
+<h5>Comparing Model 1 vs Model 3</h5>
+<p>We can compare model 1 and 3 using Likelihood Ratio Test:</p>
+<pre class="r"><code>anova(m1,m3)</code></pre>
+<pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
+<pre><code>## Data: df
+## Models:
+## m1: reaction ~ time + (1 | id)
+## m3: reaction ~ time + (1 | id) + (0 + meq | id)
+##    npar     AIC     BIC logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m1    6 -716.05 -694.01 364.02  -728.05                       
+## m3   12 -716.37 -672.29 370.19  -740.37 12.322  6    0.05515 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Since the p-value for the Likelihood Ratio Test is slightly larger than 0.05 (p=0.0552), we conclude that there is no evidence that model 3 is better than model 1. Therefore, we will keep model 1.</p>
+</div>
+</div>
+<div id="model-4" class="section level4">
+<h4>Model 4</h4>
+<p>We now proceed to adding more fixed effect to model 1 and see if the effect of <code>time</code> on <code>reaction</code> increases more significantly. In this model, we add <code>fatigue</code>,<code>sleep</code>, <code>ill</code> ,<code>hunger</code>,<code>stimulant</code> as fixed effects.</p>
+<p>Model 4 formulation: <span class="math display">\[Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \beta_4 I_{[ill=Y],j} + \beta_5 I_{[stimulant=Y],j} +\beta_6 I_{[busy=Y],j}+\beta_7\times fatigue_{i,j} +\beta_8\times sleep_{i,j} + \beta_9\times hunger_{i,j} +\epsilon_{ij} + \alpha_i \]</span></p>
+<p><span class="math inline">\(Y_{ij}\)</span> = the response for i-th student in j-th observation<br />
+<span class="math inline">\(\beta_0\)</span> = the fixed intercept for the regression model<br />
+<span class="math inline">\(\beta_{x_i}\)</span> = the fixed slope for the regression model<br />
+<span class="math inline">\(I_{i,j}\)</span> = the categorical predictors for j-th measurement of i-th student<br />
+<span class="math inline">\(X_{i,j}\)</span> = the numerical predictors for j-th measurement of i-th student<br />
+<span class="math inline">\(\epsilon_{ij}\)</span> = Gaussian error term which <span class="math inline">\(\epsilon_{ij} \sim^{i.i.d} N(0,\sigma_\epsilon^2)\)</span><br />
+(**)<span class="math inline">\(\alpha_i\)</span> = the random intercepts of <code>(1|id)</code> for the i-th students which <span class="math inline">\(\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)\)</span></p>
+<pre class="r"><code>m4 &lt;- lmer(reaction~ time + (1|id) + ill +stimulant +busy + fatigue + sleep + hunger  , data=df)
+summary(m4)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: reaction ~ time + (1 | id) + ill + stimulant + busy + fatigue +  
+##     sleep + hunger
+##    Data: df
+## 
+## REML criterion at convergence: -674.1
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9359 -0.4946 -0.0210  0.3925  4.5581 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.005939 0.07706 
+##  Residual             0.002920 0.05404 
+## Number of obs: 283, groups:  id, 36
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)  3.530e-01  3.444e-02  2.654e+02  10.249  &lt; 2e-16 ***
+## time.L      -2.115e-02  7.514e-03  2.423e+02  -2.814  0.00529 ** 
+## time.Q       1.033e-02  7.085e-03  2.408e+02   1.458  0.14624    
+## time.C       2.518e-04  6.509e-03  2.399e+02   0.039  0.96918    
+## illY        -4.373e-02  1.734e-02  2.713e+02  -2.523  0.01222 *  
+## stimulantY  -8.190e-03  1.178e-02  2.493e+02  -0.695  0.48743    
+## busylight   -2.037e-03  6.737e-03  2.411e+02  -0.302  0.76267    
+## fatigue      2.026e-02  2.887e-03  2.492e+02   7.019 2.11e-11 ***
+## sleep       -3.179e-03  3.273e-03  2.619e+02  -0.971  0.33231    
+## hunger      -6.285e-05  2.747e-03  2.451e+02  -0.023  0.98176    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr) time.L time.Q time.C illY   stmlnY bsylgh fatigu sleep 
+## time.L      0.271                                                        
+## time.Q     -0.005  0.071                                                 
+## time.C     -0.019  0.026  0.025                                          
+## illY        0.077  0.089  0.056 -0.072                                   
+## stimulantY -0.103  0.006  0.118 -0.102  0.047                            
+## busylight  -0.010 -0.097 -0.009  0.022 -0.124  0.054                     
+## fatigue    -0.424 -0.353 -0.286  0.002 -0.189  0.081  0.135              
+## sleep      -0.768 -0.077  0.003  0.030 -0.070  0.032 -0.201  0.140       
+## hunger     -0.386 -0.261  0.225  0.004 -0.076  0.012  0.076  0.030 -0.006</code></pre>
+<pre class="r"><code>anova(m4)</code></pre>
+<pre><code>## Type III Analysis of Variance Table with Satterthwaite&#39;s method
+##             Sum Sq  Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+## time      0.031209 0.010403     3 240.95  3.5623   0.01491 *  
+## ill       0.018585 0.018585     1 271.34  6.3642   0.01222 *  
+## stimulant 0.001412 0.001412     1 249.28  0.4836   0.48743    
+## busy      0.000267 0.000267     1 241.11  0.0914   0.76267    
+## fatigue   0.143882 0.143882     1 249.21 49.2698 2.105e-11 ***
+## sleep     0.002755 0.002755     1 261.87  0.9434   0.33231    
+## hunger    0.000002 0.000002     1 245.12  0.0005   0.98176    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>From the ANOVA of model 4, we see that the p-value of the F-statistics for <code>time</code> is smaller than 0.05 (p=0.0149, df=3), there is strong evidence that <code>time</code> has an overall effect on <code>reaction</code>.<br />
+</li>
+<li>The p-value of the F-statistics for <code>fatigue</code> is smaller than 0.05 (p&lt;0.0001), there is strong evidence that <code>fatigue</code> has an effect on <code>reaction</code>. This implies as fatigue level increases, student’s reaction time tends to increase as well.<br />
+</li>
+<li>The p-value of the F-statistics for <code>ill</code> is smaller than 0.05 (p=0.0122), there is strong evidence that <code>ill</code> has an effect on <code>reaction</code>. This implies as the student is ill during the measurement, student’s reaction time tends to decrease.<br />
+</li>
+<li>From the summary of model 4, The p-values of the t-statistics for Morning <code>time</code>(p&lt;0.0001) and Afternoon<code>time</code> (p=0.0053) are statistically significant. This might imply that students tend to have a shorter reaction time during the Afternoon than in the Morning.<br />
+</li>
+<li>As we notice that, the overall effect of <code>time</code> on <code>reaction</code> becomes less significant as we add more fixed effects into the model.<br />
+</li>
+<li>Indeed, we see some variables have effects on reaction time, such as student’s fatigue level and whether the student was ill or not. This model can be an extension to our primary research question, to answer the secondary question: Which factor can influence the reaction time?</li>
+</ul>
+</div>
+<div id="model-5" class="section level4">
+<h4>Model 5</h4>
+<p>From model 4, we see that only <code>time</code>, <code>fatigue</code> and <code>ill</code> show significant p-values under F-test. Therefore, we extract these variables and add the random effect <code>(1|id)</code> to form a new model.</p>
+<p>Model 5 formulation: <span class="math display">\[Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \beta_4 I_{[ill=Y],j} + \beta_5\times fatigue_{i,j} +\epsilon_{ij} + \alpha_i \]</span></p>
+<p>(*) Notations are the same as Model 4.</p>
+<pre class="r"><code>m5 &lt;- lmer(reaction~ time + (1|id) + ill + fatigue , data=df)
+summary(m5)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: reaction ~ time + (1 | id) + ill + fatigue
+##    Data: df
+## 
+## REML criterion at convergence: -707.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9120 -0.4781 -0.0124  0.3865  4.5375 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.005959 0.07719 
+##  Residual             0.002890 0.05376 
+## Number of obs: 283, groups:  id, 36
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)  3.230e-01  1.664e-02  8.136e+01  19.412  &lt; 2e-16 ***
+## time.L      -2.207e-02  7.155e-03  2.453e+02  -3.085  0.00227 ** 
+## time.Q       1.082e-02  6.814e-03  2.442e+02   1.588  0.11355    
+## time.C       9.953e-05  6.435e-03  2.435e+02   0.015  0.98767    
+## illY        -4.554e-02  1.698e-02  2.757e+02  -2.682  0.00777 ** 
+## fatigue      2.103e-02  2.797e-03  2.513e+02   7.519 9.74e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##         (Intr) time.L time.Q time.C illY  
+## time.L   0.210                            
+## time.Q   0.192  0.136                     
+## time.C   0.006  0.036  0.039              
+## illY    -0.044  0.053  0.066 -0.061       
+## fatigue -0.587 -0.343 -0.315  0.000 -0.165</code></pre>
+<pre class="r"><code>anova(m5)</code></pre>
+<pre><code>## Type III Analysis of Variance Table with Satterthwaite&#39;s method
+##           Sum Sq  Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+## time    0.039376 0.013125     3 244.19  4.5412  0.004061 ** 
+## ill     0.020783 0.020783     1 275.70  7.1907  0.007770 ** 
+## fatigue 0.163412 0.163412     1 251.30 56.5384 9.739e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>From the ANOVA of model 4, we see that the p-value of the F-statistics for <code>time</code> is smaller than 0.05 (p=0.0041, df=3), there is strong evidence that <code>time</code> has an overall effect on <code>reaction</code>.<br />
+</li>
+<li>The p-value of the F-statistics for <code>fatigue</code> is smaller than 0.05 (p&lt;0.0001), there is strong evidence that <code>fatigue</code> has an effect on <code>reaction</code>. This implies as fatigue level increases, student’s reaction time tends to increase as well.<br />
+</li>
+<li>The p-value of the F-statistics for <code>ill</code> is smaller than 0.05 (p=0.0078), there is strong evidence that <code>ill</code> has an effect on <code>reaction</code>. This implies as the student is ill during the measurement, student’s reaction time tends to decrease.<br />
+</li>
+<li>From the summary of model 4, The p-values of the t-statistics for Morning <code>time</code>(p&lt;0.0001) and Afternoon<code>time</code> (p=0.0053) are statistically significant. This might imply that students tend to have a shorter reaction time during the Afternoon than in the Morning.<br />
+</li>
+<li>As we notice that, the overall effect of <code>time</code> on <code>reaction</code> becomes more significant than that in model 4.</li>
+</ul>
+<div id="comparing-model-4-vs-model-5" class="section level5">
+<h5>Comparing Model 4 vs Model 5</h5>
+<p>We can compare model 4 and 5 using Likelihood Ratio Test:</p>
+<pre class="r"><code>anova(m4,m5)</code></pre>
+<pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
+<pre><code>## Data: df
+## Models:
+## m5: reaction ~ time + (1 | id) + ill + fatigue
+## m4: reaction ~ time + (1 | id) + ill + stimulant + busy + fatigue + 
+## m4:     sleep + hunger
+##    npar     AIC     BIC logLik deviance  Chisq Df Pr(&gt;Chisq)
+## m5    8 -739.10 -709.93 377.55  -755.10                     
+## m4   12 -732.75 -689.01 378.38  -756.75 1.6573  4     0.7985</code></pre>
+<p>Conclusion: The p-value of the Likelihood Ratio test is so much larger than 0.05 (p=0.7985), there is no evidence that model 4 is better fit than model 5. Hence, we keep model 5.</p>
+</div>
+<div id="comparing-model-1-vs-model-5" class="section level5">
+<h5>Comparing Model 1 vs Model 5</h5>
+<ul>
+<li>Model has AIC of -739.10 and BIC of -709.93<br />
+</li>
+<li>Model 1 has AIC of -714.84 and BIC of -659.74<br />
+</li>
+<li>Model 5 will be better fit than model 1 because model 5 has a smaller AIC and BIC values than model 1.</li>
+</ul>
+</div>
+</div>
+<div id="model-6" class="section level4">
+<h4>Model 6</h4>
+<pre class="r"><code>outliers &lt;- boxplot(df$reaction, plot=FALSE)$out
+df[which(df$reaction %in% outliers),]</code></pre>
+<pre><code>##     id order reaction      time  fatigue   hunger     sleep  meq  busy
+## 57   8     1    0.707 Afternoon 3.000000 4.000000  8.000000  MET light
+## 58   8     2    0.736   Evening 1.000000 4.000000  8.000000  MET light
+## 59   8     3    0.701     Night 1.000000 4.000000  8.000000  MET light
+## 60   8     4    0.702     Night 4.000000 5.000000  8.000000  MET light
+## 61   8     5    0.699 Afternoon 4.000000 5.000000  8.000000  MET  busy
+## 62   8     6    0.680   Evening 2.000000 4.000000  8.000000  MET  busy
+## 63   8     7    0.719     Night 1.000000 3.000000  8.000000  MET  busy
+## 64   8     8    0.849     Night 5.000000 4.000000  8.000000  MET  busy
+## 67   9     3    0.193   Evening 4.000000 7.000000  8.000000   NT light
+## 92  12     4    0.214     Night 2.000000 5.000000  8.500000  MET light
+## 114 15     2    0.677 Afternoon 4.000000 7.000000 10.000000  MET light
+## 117 15     5    0.568   Morning 5.000000 3.000000  8.000000  MET  busy
+## 130 17     2    0.097 Afternoon 1.000000 6.000000  8.000000   NT light
+## 143 18     7    0.584   Evening 5.000000 7.000000  7.300000  MET  busy
+## 144 18     8    0.571     Night 6.000000 7.000000  7.300000  MET  busy
+## 195 25     3    0.712   Evening 7.000000 3.000000  6.000000   NT light
+## 200 25     8    0.591     Night 6.000000 6.000000  8.500000   NT  busy
+## 209 27     1    0.562   Morning 3.000000 3.000000 10.000000  MET light
+## 240 30     8    0.655     Night 5.000000 4.000000  7.000000   NT  busy
+## 244 31     4    0.645      &lt;NA&gt; 3.622074 4.755853  7.912429 &lt;NA&gt; light
+## 248 31     8    0.605      &lt;NA&gt; 3.622074 4.755853  7.912429 &lt;NA&gt;  busy
+## 267 34     3    0.120   Evening 2.000000 4.000000  7.912429   NT light
+##     stimulant  ill protocol X
+## 57          N    N        Y  
+## 58          N    N        Y  
+## 59          N    N        Y  
+## 60          N    N        Y  
+## 61          N    N        Y  
+## 62          N    N        Y  
+## 63          N    N        Y  
+## 64          N    N        Y  
+## 67          N    Y        Y  
+## 92          N    Y        Y  
+## 114         N    N     &lt;NA&gt;  
+## 117         N    N     &lt;NA&gt;  
+## 130         N    N        Y  
+## 143         N    N        Y  
+## 144         Y    N        Y  
+## 195         N    N        Y  
+## 200         N    N        Y  
+## 209         N    N        Y  
+## 240         N    N        Y  
+## 244      &lt;NA&gt; &lt;NA&gt;     &lt;NA&gt;  
+## 248      &lt;NA&gt; &lt;NA&gt;     &lt;NA&gt;  
+## 267         N    N        Y</code></pre>
+<pre class="r"><code>df &lt;- df[-which(df$reaction %in% outliers),]
+df &lt;- df[-173]
+m6 &lt;- lmer(reaction~time+(1|id)+ill+fatigue, data=df)
+summary(m6)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: reaction ~ time + (1 | id) + ill + fatigue
+##    Data: df
+## 
+## REML criterion at convergence: -806.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.1206 -0.5568 -0.0427  0.4919  3.1323 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.001873 0.04328 
+##  Residual             0.001711 0.04136 
+## Number of obs: 263, groups:  id, 35
+## 
+## Fixed effects:
+##               Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)  3.311e-01  1.140e-02  1.225e+02  29.045  &lt; 2e-16 ***
+## time.L      -1.955e-02  5.752e-03  2.261e+02  -3.399  0.00080 ***
+## time.Q       9.973e-03  5.491e-03  2.251e+02   1.816  0.07068 .  
+## time.C       7.263e-04  5.163e-03  2.246e+02   0.141  0.88827    
+## illY        -3.960e-02  1.270e-02  2.277e+02  -3.117  0.00206 ** 
+## fatigue      1.513e-02  2.306e-03  2.355e+02   6.562 3.34e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##         (Intr) time.L time.Q time.C illY  
+## time.L   0.278                            
+## time.Q   0.248  0.171                     
+## time.C   0.017  0.037  0.068              
+## illY    -0.046  0.064  0.065 -0.061       
+## fatigue -0.715 -0.361 -0.333 -0.013 -0.158</code></pre>
+<pre class="r"><code>anova(m6)</code></pre>
+<pre><code>## Type III Analysis of Variance Table with Satterthwaite&#39;s method
+##           Sum Sq  Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+## time    0.029925 0.009975     3 225.07  5.8302 0.0007475 ***
+## ill     0.016624 0.016624     1 227.65  9.7166 0.0020613 ** 
+## fatigue 0.073672 0.073672     1 235.53 43.0604 3.342e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>emmeans(m6, list(pairwise~time), adjust = &#39;tukey&#39;)</code></pre>
+<pre><code>## $`emmeans of time`
+##  time      emmean      SE   df lower.CL upper.CL
+##  Morning    0.384 0.01000 74.3    0.364    0.404
+##  Afternoon  0.366 0.00978 70.6    0.346    0.385
+##  Evening    0.356 0.01015 79.6    0.336    0.376
+##  Night      0.358 0.01075 93.3    0.337    0.379
+## 
+## Results are averaged over the levels of: ill 
+## Degrees-of-freedom method: kenward-roger 
+## Confidence level used: 0.95 
+## 
+## $`pairwise differences of time`
+##  1                   estimate      SE  df t.ratio p.value
+##  Morning - Afternoon  0.01807 0.00712 225  2.537  0.0571 
+##  Morning - Evening    0.02778 0.00729 225  3.811  0.0010 
+##  Morning - Night      0.02590 0.00814 227  3.182  0.0090 
+##  Afternoon - Evening  0.00972 0.00730 226  1.331  0.5444 
+##  Afternoon - Night    0.00784 0.00831 228  0.943  0.7819 
+##  Evening - Night     -0.00188 0.00821 227 -0.229  0.9958 
+## 
+## Results are averaged over the levels of: ill 
+## Degrees-of-freedom method: kenward-roger 
+## P value adjustment: tukey method for comparing a family of 4 estimates</code></pre>
+</div>
+</div>
+<div id="final-model" class="section level3">
+<h3>Final Model</h3>
+<p>Model 5 is chosen. The model shows there is an overall effect of the time of the day on reaction time. From this model, we cansee at which time, the reaction time is shorter than the other.</p>
+<p>Model 5 formulation: <span class="math display">\[Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \beta_4 I_{[ill=Y],j} + \beta_5\times fatigue_{i,j} +\epsilon_{ij} + \alpha_i \]</span></p>
+<p>From ANOVA of model 5, we see a significance in the overall effect of <code>time</code> on <code>reaction</code>, then we would perform a pairwise comparison (Tukey’s HSD: Honestly Significant Difference test) with the categories under <code>time</code> variables:</p>
+<pre class="r"><code>emmeans(m5, list(pairwise ~ time), adjust = &quot;tukey&quot;)</code></pre>
+<pre><code>## $`emmeans of time`
+##  time      emmean     SE   df lower.CL upper.CL
+##  Morning    0.396 0.0157 62.3    0.365    0.428
+##  Afternoon  0.376 0.0154 58.7    0.345    0.406
+##  Evening    0.366 0.0157 63.0    0.334    0.397
+##  Night      0.367 0.0162 70.0    0.334    0.399
+## 
+## Results are averaged over the levels of: ill 
+## Degrees-of-freedom method: kenward-roger 
+## Confidence level used: 0.95 
+## 
+## $`pairwise differences of time`
+##  1                   estimate      SE  df t.ratio p.value
+##  Morning - Afternoon  0.02060 0.00906 243  2.273  0.1073 
+##  Morning - Evening    0.03061 0.00917 243  3.339  0.0054 
+##  Morning - Night      0.02957 0.01012 245  2.921  0.0198 
+##  Afternoon - Evening  0.01000 0.00910 243  1.099  0.6904 
+##  Afternoon - Night    0.00896 0.01024 245  0.875  0.8176 
+##  Evening - Night     -0.00104 0.01001 245 -0.104  0.9996 
+## 
+## Results are averaged over the levels of: ill 
+## Degrees-of-freedom method: kenward-roger 
+## P value adjustment: tukey method for comparing a family of 4 estimates</code></pre>
+<p>This output indicates that the differences Morning-Evening and Morning-Night are significant , while other time pairs are not significant. The reaction times for Morning and Afternoon; Afternoon and Evening; Afternoon and Night; Evening and Night do not differ among the pairs themselves. In general, students react faster in the Evening compared to the Morning, students also react faster at Night than in the Morning.</p>
+<p>From the model (<code>summary(m5)</code>), the mean reaction times for Morning, Afternoon, Evening and Night are 0.323, 0.301, 0.333 and 0.277 respectively. Judging by the mean reaction time from the model, we can observe that students react fastest at Night.</p>
+</div>
+<div id="model-diagnostics" class="section level3">
+<h3>Model Diagnostics</h3>
+<div id="assessing-the-linearity-fit" class="section level4">
+<h4>Assessing the Linearity Fit</h4>
+<p>Models are assumed to be linear in each of the independent variables: Since <code>ill</code> is binary variable, linearity is satisfied automatically.<br />
+In our EDA, we can see from the plot that as <code>fatigue</code> increases, reaction time seems to increase as well, there is a linear relationship between <code>fatigue</code> and <code>reaction</code>. Since <code>time</code> is similar to the order of measurements, linearity exists.</p>
+</div>
+<div id="underlying-assumptions-normality-of-residuals" class="section level4">
+<h4>Underlying Assumptions: Normality of Residuals</h4>
+<pre class="r"><code>qqnorm(residuals(m5))</code></pre>
+<p><img src="STA490research2_files/figure-html/unnamed-chunk-8-1.png" width="672" /> The QQ plot shows there are short left and right tails, there might be some concerns with normality of residuals due to significant deviations from linearity of the observations.</p>
+</div>
+<div id="underlying-assumptions-constant-variance" class="section level4">
+<h4>Underlying Assumptions: Constant Variance</h4>
+<pre class="r"><code>plot(m5)</code></pre>
+<p><img src="STA490research2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>This residual plot does not indicate any deviations from a linear form. It also shows relatively constant variance across the fitted range. The slight reduction in apparent variance on the right of the graph is likely a result of there being fewer observation in these predicted areas. Teh assumption is satisfied.</p>
+</div>
+<div id="assumptions-for-random-effects" class="section level4">
+<h4>Assumptions for Random Effects</h4>
+<p>The random effects assumption is that the individual specific effects are uncorrelated with the independent variables. Here, <code>id</code> is a sample drwan from a population, the individual difference within a subject is uncorrelated with <code>time</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

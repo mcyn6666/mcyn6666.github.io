@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Anonymity and Decision Making</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Michelle Chan</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Coursework
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="coursework.html">
+        <span class="fa fa-list"></span>
+         
+        Coursework Summary
+      </a>
+    </li>
+    <li>
+      <a href="STA410.html">
+        <span class="fa fa-code"></span>
+         
+        STA410 Statistical Computation
+      </a>
+    </li>
+    <li>
+      <a href="STA457.html">
+        <span class="fa fa-code"></span>
+         
+        STA457 Time Series Analysis
+      </a>
+    </li>
+    <li>
+      <a href="STA355.html">
+        <span class="fa fa-code"></span>
+         
+        STA355 Theory of Statistical Practice
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-cogs"></span>
+     
+    Student Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STA490research1.html">
+        <span class="fa fa-laptop"></span>
+         
+        Anonymity &amp; Decision Making
+      </a>
+    </li>
+    <li>
+      <a href="STA490research2.html">
+        <span class="fa fa-clock"></span>
+         
+        Diurnal Pattern of Reaction Time
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://public.tableau.com/profile/mcyn6666#!/">
+    <span class="fa fa-edit"></span>
+     
+    Viz Projects
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://drive.google.com/file/d/1ojQkeI0eUsXabGq6MvK1qK9n5jTHmJtL/view?usp=sharing">
+    <span class="fa fa-file"></span>
+     
+    Resume
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Anonymity and Decision Making</h1>
+
+</div>
+
+
+<p>My final <strong>Statistical Report</strong> can be found <a href="https://drive.google.com/file/d/1OqFNtz5BxHqHvyTAm7uXW3FyWGMoUWhA/view?usp=sharing">here</a></p>
+<p>My <strong>PREZI</strong> presentation slides can be found here: <a href="https://prezi.com/view/z3fg6CoqwYbPs2uRgwH7/">Final Presentation</a> and <a href="https://prezi.com/view/qU1jPvBpHOGyIBjs1iWG/">Introductory Presentation</a></p>
+<div id="overview" class="section level1 tabset">
+<h1>Overview</h1>
+<p>This research aims to answer the research questions that whether actor’s anonymity influences perceiver’s moral and character judgements and how the nature of actions contributes to the effect of anonymity on moral and character judgements, by analyzing the individual differences of moral and character judgements regarding the anonymous effect. Possible mediating factors that contribute to the effect of anonymity on moral judgement are also examined using mediation analysis. The results show that actor’s anonymity leads to more favorable moral and character judgements. It was concluded that character judgement, perceived charitable traits, social status, personal belief, humbleness and gaining of the actors are mediators that explain the relationship between anonymity and moral judgement.</p>
+<div id="data-analysis-for-study-1a" class="section level2">
+<h2>Data Analysis for Study 1A</h2>
+<div id="research-question" class="section level3">
+<h3>Research Question</h3>
+<p>Can a person’s anonymity influence perceiver’s moral and character judgment?</p>
+</div>
+<div id="dataset" class="section level3">
+<h3>Dataset</h3>
+<p>The dataset that we are using for this analysis is study 1a data collected from 172 individuals at Mturk. This data is a data frame created for the purpose of investigating the effect of anonymity on moral judgment and character judgment.</p>
+<pre class="r"><code>s1a &lt;- read.csv(file=&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA490/Caroline/1a.csv&quot;, header=TRUE, sep=&quot;,&quot;)</code></pre>
+<div id="data-structure" class="section level4">
+<h4>Data Structure</h4>
+<p>Let’s take a look at the arranged data with participant’s <code>id</code> and <code>anonymity</code> converted into a category :</p>
+<pre><code>## &#39;data.frame&#39;:    344 obs. of  7 variables:
+##  $ id        : Factor w/ 172 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 2 2 3 3 4 4 5 5 ...
+##  $ anonymity : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 2 1 2 1 2 1 2 1 2 ...
+##  $ moral     : num  5.44 6.67 6.22 7 4.44 ...
+##  $ character : num  5.89 6.67 6 7 4.39 ...
+##  $ charitable: num  6.33 6.25 6.5 7 4.33 ...
+##  $ age       : int  42 42 29 29 32 32 23 23 35 35 ...
+##  $ sex       : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 1 1 1 1 2 2 1 1 2 2 ...</code></pre>
+<p>The data of study 1a has 344 rows and 5 variables with the target feature <code>moral</code> as Moral Judgment.<br />
+5 variables are defined as follows:</p>
+<ul>
+<li><code>id</code>: An ID number given to each participant for easy identification<br />
+</li>
+<li><code>anonymity</code>: The presence of anonymity in each measurement, whether participants are given the name of the donor or not.<br />
+</li>
+<li><code>moral</code>: Moral judgment by the participants that is based on three statements. (1-Strongly Disagree to 7-Strongly Agree)<br />
+</li>
+<li><code>character</code>: Character Judgment by the participants that is based on six statements.<br />
+</li>
+<li><code>charitable</code>: Charitable traits of the donors rated by the participants, based on four statements.</li>
+</ul>
+</div>
+<div id="summary-of-the-data" class="section level4">
+<h4>Summary of the Data</h4>
+<pre><code>##        id      anonymity     moral         character       charitable   
+##  1      :  2   0:172     Min.   :3.000   Min.   :2.000   Min.   :2.250  
+##  2      :  2   1:172     1st Qu.:4.667   1st Qu.:4.444   1st Qu.:4.500  
+##  3      :  2             Median :5.556   Median :5.417   Median :5.500  
+##  4      :  2             Mean   :5.443   Mean   :5.283   Mean   :5.387  
+##  5      :  2             3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000  
+##  6      :  2             Max.   :7.000   Max.   :7.000   Max.   :7.000  
+##  (Other):332                                                            
+##       age            sex     
+##  Min.   :21.00   female:150  
+##  1st Qu.:25.00   male  :194  
+##  Median :29.00               
+##  Mean   :32.86               
+##  3rd Qu.:35.00               
+##  Max.   :81.00               
+## </code></pre>
+<p>Note:</p>
+<ul>
+<li>There is no missing values.<br />
+</li>
+<li>There were more male participants than female participants.<br />
+</li>
+<li>Participants’ age has a large range.</li>
+</ul>
+</div>
+</div>
+<div id="exploratory-data-analysis" class="section level3">
+<h3>Exploratory Data Analysis</h3>
+<div id="histograms-for-moral-and-character-judgement-charitable-traits" class="section level4">
+<h4>Histograms for Moral and Character Judgement; Charitable Traits</h4>
+<pre class="r"><code>h1 &lt;- ggplot(s1a, aes(moral)) + geom_histogram(bins=5)
+h2 &lt;- ggplot(s1a, aes(character)) + geom_histogram(bins=6)
+h3 &lt;- ggplot(s1a, aes(charitable)) + geom_histogram(bins=6)
+grid.arrange(h1, h2, h3, ncol=3, nrow=1)</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="effect-of-anonymity-on-moralcharacter-judgement-charitable-traits" class="section level4">
+<h4>Effect of Anonymity on Moral/Character Judgement &amp; Charitable Traits</h4>
+<pre class="r"><code>a1 &lt;- ggplot(s1a, aes(anonymity, moral)) + geom_boxplot()+labs(y = &quot;Moral Judgement&quot;, x=&quot;Anonymity&quot;)
+a2 &lt;- ggplot(s1a, aes(anonymity, character)) + geom_boxplot() + labs(y = &quot;Character Judgement&quot;, x=&quot;Anonymity&quot;)
+a3 &lt;- ggplot(s1a, aes(anonymity, charitable)) + geom_boxplot()+labs(y = &quot;Charitable Traits&quot;, x=&quot;Anonymity&quot;)
+grid.arrange(a1, a2, a3, ncol=3, nrow=1)</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>Anonymous donors received higher ratings of moral judgement than identifiable donors.<br />
+</li>
+<li>Anonymous donors received higher ratings of character judgement than identifiable donors.<br />
+</li>
+<li>Anonymous donors received higher ratings of charitable traits than identifiable donors.</li>
+</ul>
+</div>
+<div id="effect-of-anonymity-on-the-relationship-between-moral-and-character-judgement-moral-judgement-and-charitable-traits-charitable-traits-and-character-judgement" class="section level4">
+<h4>Effect of Anonymity on the relationship between Moral and Character Judgement; Moral Judgement and Charitable Traits; Charitable Traits and Character Judgement</h4>
+<pre class="r"><code>mcj &lt;- ggplot(s1a, aes(x = character, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = &quot;Moral Judgement&quot;, x=&quot;Character Judgement&quot;, color = &quot;anonymity&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+
+mct &lt;- ggplot(s1a, aes(x = charitable, y = moral, colour = anonymity)) + geom_point() + 
+   labs(y = &quot;Moral Judgement&quot;, x=&quot;Charitable Traits&quot;, color = &quot;anonymity&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+
+mctj &lt;- ggplot(s1a, aes(x = charitable, y = character, colour = anonymity)) + geom_point() + 
+   labs(y = &quot;Character Judgement&quot;, x=&quot;Charitable Traits&quot;, color = &quot;anonymity&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+
+grid.arrange(mcj, mct, mctj, ncol=2, nrow=2)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>From the plots, it is hard to notice the differences in the ratings between anonymous and identifiable donors.</li>
+</ul>
+</div>
+<div id="effect-of-sex-on-the-relationship-between-moral-and-character-judgement-moral-judgement-and-charitable-traits" class="section level4">
+<h4>Effect of Sex on the relationship between Moral and Character Judgement; Moral Judgement and Charitable Traits</h4>
+<pre class="r"><code>smcj &lt;- ggplot(s1a, aes(x = character, y = moral, colour = sex)) + geom_point() + 
+   labs(y = &quot;Moral Judgement&quot;, x=&quot;Character Judgement&quot;, color = &quot;sex&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+
+smct &lt;- ggplot(s1a, aes(x = charitable, y = moral, colour = sex)) + geom_point() + 
+   labs(y = &quot;Moral Judgement&quot;, x=&quot;Charitable Traits&quot;, color = &quot;sex&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+
+grid.arrange(smcj, smct, ncol=1, nrow=2)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>Female participants tended to give higher ratings of moral and character judgement.<br />
+</li>
+<li>Female participants tended to give higher ratings of charitable traits and character judgement.</li>
+</ul>
+</div>
+<div id="effect-of-age-on-moralcharacter-judgement-and-charitable-traits" class="section level4">
+<h4>Effect of Age on Moral/Character Judgement and Charitable Traits</h4>
+<pre class="r"><code>age1 &lt;- ggplot(s1a, aes(x = age, y = moral)) + geom_point() + 
+   labs(y = &quot;Moral Judgement&quot;, x=&quot;Age&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+age2 &lt;-ggplot(s1a, aes(x = age, y = character)) + geom_point() + 
+   labs(y = &quot;Character Judgement&quot;, x=&quot;Age&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+age3 &lt;- ggplot(s1a, aes(x = age, y = charitable)) + geom_point() + 
+   labs(y = &quot;Charitable Traits&quot;, x=&quot;Age&quot;) + geom_smooth(method=&quot;lm&quot;, fill=NA)+
+  theme_bw()
+grid.arrange(age1, age2, age3, ncol=3, nrow=1)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>It seems that there is no relationship between age and the independent variables.</li>
+</ul>
+</div>
+</div>
+<div id="data-analysis" class="section level3">
+<h3>Data Analysis</h3>
+<p><strong>Summary</strong>: Linear mixed effects model is used to answer the research question because there is linear relationship between the variables and there were repeated measurements for each participants, the mixed effect model accounts for the random effects of the individual subjects. The mediation analysis followed the work of Baron &amp; Kenny (1986), it consists of three linear mixed regression models. First, I regressed moral judgement on anonymity. There is strong evidence that anonymity has an effect on moral judgement. Second, I regressed the mediator “M” (here M is either character judgement or charitable traits) on moral judgement. It’s been found that anonymity has effect on both character judgement and charitable traits. Third, I regressed both anonymity and “M” on moral judgement. There is strong evidence that both character judgement and charitable traits have effect on moral judgement, but the effect of anonymity on moral judgement disappears when the mediator is included in the regression model. It suggests that character judgement and charitable traits are mediating the effect of anonymity on moral judgement. Lastly, bootstrapping is used to test the significance of the mediation effects. It is concluded that both character judgement and charitable traits are mediators.</p>
+<div id="linear-mixed-models" class="section level4">
+<h4>Linear Mixed Models</h4>
+<div id="model-1-effect-of-anonymity-on-moral-judgment" class="section level5">
+<h5>Model 1: Effect of Anonymity on Moral Judgment</h5>
+<p>I first start with the simplest model <code>m1</code> which inclues the fixed effect <code>anonymity</code>, and the random effect of <code>id</code>. In the case of my model here, we add a random effect for <code>id</code> and this characterizes idiosyncratic variation that is due to individual differences.</p>
+<pre class="r"><code># Step 1: X -&gt; Y
+m1 &lt;- lmer(moral ~ anonymity + (1|id)  , data=s1a)
+summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + (1 | id)
+##    Data: s1a
+## 
+## REML criterion at convergence: 790.9
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.33668 -0.45745  0.00721  0.41102  2.13069 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.8234   0.9074  
+##  Residual             0.1802   0.4245  
+## Number of obs: 344, groups:  id, 172
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.39147    0.07639  70.581
+## anonymity1   0.10368    0.04577   2.265
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## anonymity1 -0.300</code></pre>
+<pre class="r"><code>anova(m1)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq F value
+## anonymity    1 0.9245  0.9245  5.1308</code></pre>
+</div>
+<div id="model-2-effect-of-anonymity-on-character-judgment" class="section level5">
+<h5>Model 2: Effect of Anonymity on Character Judgment</h5>
+<pre class="r"><code># Step 2: X -&gt; M1
+m2 &lt;- lmer(character ~ anonymity + (1|id)  , data=s1a)
+summary(m2)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: character ~ anonymity + (1 | id)
+##    Data: s1a
+## 
+## REML criterion at convergence: 783
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.47364 -0.46061 -0.03667  0.36820  2.44547 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.8154   0.9030  
+##  Residual             0.1742   0.4174  
+## Number of obs: 344, groups:  id, 172
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.19864    0.07585  68.536
+## anonymity1   0.16899    0.04501   3.755
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## anonymity1 -0.297</code></pre>
+<pre class="r"><code>anova(m2)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq F value
+## anonymity    1  2.456   2.456  14.097</code></pre>
+</div>
+<div id="model-3-effect-of-anonymity-on-charitable-traits" class="section level5">
+<h5>Model 3: Effect of Anonymity on Charitable Traits</h5>
+<pre class="r"><code># Step 2: X -&gt; M2
+m3 &lt;- lmer(charitable ~ anonymity + (1|id)  , data=s1a)
+summary(m3)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: charitable ~ anonymity + (1 | id)
+##    Data: s1a
+## 
+## REML criterion at convergence: 787
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.0528 -0.3680  0.0104  0.3759  3.2028 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7303   0.8546  
+##  Residual             0.1944   0.4410  
+## Number of obs: 344, groups:  id, 172
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.32865    0.07332  72.673
+## anonymity1   0.11612    0.04755   2.442
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## anonymity1 -0.324</code></pre>
+<pre class="r"><code>anova(m3)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq F value
+## anonymity    1 1.1596  1.1596  5.9634</code></pre>
+</div>
+<div id="model-4-effect-of-character-judgment-and-anonymity-on-moral-judgment" class="section level5">
+<h5>Model 4: Effect of Character Judgment and Anonymity on Moral Judgment</h5>
+<pre class="r"><code># Step 3: X + M1 -&gt; Y
+m4 &lt;- lmer(moral ~ anonymity + character + (1|id)  , data=s1a)
+summary(m4)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + character + (1 | id)
+##    Data: s1a
+## 
+## REML criterion at convergence: 536
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.9621 -0.3709 -0.0324  0.4096  3.4978 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.1821   0.4267  
+##  Residual             0.1430   0.3781  
+## Number of obs: 344, groups:  id, 172
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  1.36315    0.18700   7.290
+## anonymity1  -0.02727    0.04120  -0.662
+## character    0.77488    0.03499  22.148
+## 
+## Correlation of Fixed Effects:
+##            (Intr) annym1
+## anonymity1  0.032       
+## character  -0.973 -0.143</code></pre>
+<pre class="r"><code>anova(m4)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq  F value
+## anonymity    1  0.924   0.924   6.4653
+## character    1 70.146  70.146 490.5512</code></pre>
+<p>Note that:</p>
+<ul>
+<li><code>character</code> affects <code>moral</code>, but <code>anonymity</code> no longer affects <code>moral</code> when <code>character</code> is present in the regression model.<br />
+</li>
+<li>It suffices that a full mediation exists because the effect on <code>anonymity</code> on <code>moral</code> disappears. The effect of <code>anonymity</code> on <code>moral</code> goes through <code>character</code>.</li>
+</ul>
+</div>
+<div id="model-5-effect-of-anonymity-and-charitable-traits-on-moral-judgment" class="section level5">
+<h5>Model 5: Effect of Anonymity and Charitable Traits on Moral Judgment</h5>
+<pre class="r"><code># step 3: X + M2 -&gt; Y
+m5 &lt;- lmer(moral~ charitable + anonymity + (1|id)  , data=s1a)
+summary(m5)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ charitable + anonymity + (1 | id)
+##    Data: s1a
+## 
+## REML criterion at convergence: 669.3
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.33783 -0.48339  0.05322  0.50279  2.46570 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.3297   0.5742  
+##  Residual             0.1872   0.4327  
+## Number of obs: 344, groups:  id, 172
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  2.12298    0.24182   8.779
+## charitable   0.61338    0.04420  13.877
+## anonymity1   0.03246    0.04694   0.691
+## 
+## Correlation of Fixed Effects:
+##            (Intr) chrtbl
+## charitable -0.974       
+## anonymity1  0.011 -0.109</code></pre>
+<pre class="r"><code>anova(m5)</code></pre>
+<pre><code>## Analysis of Variance Table
+##            npar Sum Sq Mean Sq  F value
+## charitable    1 36.889  36.889 197.0420
+## anonymity     1  0.090   0.090   0.4782</code></pre>
+<p>Note that:</p>
+<ul>
+<li><code>charitable</code> affects <code>moral</code>, but <code>anonymity</code> no longer affects <code>moral</code> when <code>charitable</code> is present in the regression model.<br />
+</li>
+<li>It suffices that a full mediation exists because the effect on <code>anonymity</code> on <code>moral</code> disappears. The effect of <code>anonymity</code> on <code>moral</code> goes through <code>charitable</code>.</li>
+</ul>
+</div>
+<div id="model-6-effect-of-agesex-on-moral-judgment" class="section level5">
+<h5>Model 6: Effect of Age/Sex on Moral Judgment</h5>
+<pre class="r"><code>m6 &lt;- lmer(moral ~  age + sex + age*sex + (1|id), data=s1a)
+summary(m6)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ age + sex + age * sex + (1 | id)
+##    Data: s1a
+## 
+## REML criterion at convergence: 790.2
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.51789 -0.45509  0.03937  0.37302  2.14499 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7401   0.8603  
+##  Residual             0.1845   0.4295  
+## Number of obs: 344, groups:  id, 172
+## 
+## Fixed effects:
+##              Estimate Std. Error t value
+## (Intercept)  5.879628   0.315785  18.619
+## age         -0.002568   0.008674  -0.296
+## sexmale     -0.581517   0.420012  -1.385
+## age:sexmale -0.001339   0.011953  -0.112
+## 
+## Correlation of Fixed Effects:
+##             (Intr) age    sexmal
+## age         -0.943              
+## sexmale     -0.752  0.709       
+## age:sexmale  0.684 -0.726 -0.942</code></pre>
+<pre class="r"><code>anova(m6)</code></pre>
+<pre><code>## Analysis of Variance Table
+##         npar Sum Sq Mean Sq F value
+## age        1 0.0007  0.0007  0.0040
+## sex        1 3.6285  3.6285 19.6654
+## age:sex    1 0.0023  0.0023  0.0126</code></pre>
+<p>Note:</p>
+<ul>
+<li>There is no evidence that <code>age</code> nor <code>sex</code> affect <code>moral</code>.</li>
+</ul>
+</div>
+</div>
+<div id="significance-testing-on-the-mediation-effects" class="section level4">
+<h4>Significance Testing on the Mediation Effects</h4>
+<p>Once we find these relationships, we want to see if this mediation effect is statistically significant (different from zero or not). To do so, we use bootstrapping method in this study as it is strongly recommended in recent years.</p>
+<p>Note that bootstrapping involves repeatedly randomly sampling observations with replacement from the data set and computing the statistic of interest in each resample. Over many bootstrap resamples, an empirical approximation of the sampling distribution of the statistic can be generated and used for hypothesis testing. Therefore, the Average Causal Mediation Effect (ACME Estimate) and the p-values can be slightly different every time we run the codes, but the conclusion is still the same.</p>
+<p>P.S. The <code>mediation</code> package cannot be implemented unless we remove the <code>lmerTest</code> pacakge. If you would like to check the p-values from the above regression models, please load <code>lmerTest</code>.</p>
+<div id="character-judgment-as-mediator" class="section level5">
+<h5>Character Judgment as Mediator</h5>
+<pre class="r"><code>med1 &lt;- mediate(m2, m4, treat=&#39;anonymity&#39;, mediator=&#39;character&#39;, boot=FALSE)
+summary(med1)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                 Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME            0.129403     0.059566         0.20  &lt;2e-16 ***
+## ADE            -0.026731    -0.107988         0.05   0.506    
+## Total Effect    0.102672    -0.000393         0.20   0.052 .  
+## Prop. Mediated  1.221158    -0.735225         5.85   0.052 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 344 
+## 
+## 
+## Simulations: 1000</code></pre>
+<p>Note:</p>
+<ul>
+<li><code>character</code> is a mediator that affects <code>anonymity</code> on<code>moral</code>.</li>
+</ul>
+</div>
+<div id="charitable-traits-as-mediator" class="section level5">
+<h5>Charitable Traits as Mediator</h5>
+<pre class="r"><code>med2 &lt;- mediate(m3, m5, treat=&#39;anonymity&#39;, mediator=&#39;charitable&#39;, boot=FALSE)
+summary(med2)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value   
+## ACME            0.07084      0.01619         0.13   0.008 **
+## ADE             0.03078     -0.05899         0.12   0.538   
+## Total Effect    0.10162      0.00248         0.21   0.048 * 
+## Prop. Mediated  0.67262     -0.00690         2.99   0.052 . 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 344 
+## 
+## 
+## Simulations: 1000</code></pre>
+<p>Note:</p>
+<ul>
+<li><code>charitable</code> is a mediator that affects <code>anonymity</code> on<code>moral</code>.</li>
+</ul>
+</div>
+</div>
+<div id="model-diagnostics" class="section level4">
+<h4>Model Diagnostics</h4>
+<p><strong>Summary</strong>:To make sure the conditions of the linear mixed models were met, I have carried out some diagnostic procedure as follows. Line plots between the independent variables can be used to assess the linearity fit of the models. In the exploratory data analysis section, it has showed there is linear relationship between the variables, and the linearity is therefore satisfied. Normal Quantile-Quantile plots were used to assess the normality of residuals. When plotting the QQ plots for each linear mixed model, it is seen that most data points do not deviate much from the straight line, indicating that the residuals follow a normal distribution. Normality assumption seems to hold. Residual plots help to assess whether the variance is constant. It is found that this assumption seems to hold as well because the data points are scattered evenly when plotting the residuals for each model. Lastly, the individual specific effect is uncorrelated with the independent variables, and therefore, the indepedence assumption for random effects is satisfied. All the linear mixed models above are valid.</p>
+<div id="assessing-linearity-fit" class="section level5">
+<h5>Assessing Linearity Fit</h5>
+<p>Models are assumed to be linear in each of the independent variables: Since <code>id</code>, <code>sex</code> and <code>anonymity</code> are binary variables, linearity is satisfied automatically. In our EDA, we can see from the line plots that there are linear relationships between moral and character judgements; moral judgement and charitable traits; age and other variables. Linearity is satisfied.</p>
+</div>
+<div id="underlying-assumptions-normality-of-residuals" class="section level5">
+<h5>Underlying Assumptions: Normality of Residuals</h5>
+<pre class="r"><code>par(mfrow=c(2,3)) 
+qqnorm(residuals(m1))
+qqnorm(residuals(m2))
+qqnorm(residuals(m3))
+qqnorm(residuals(m4))
+qqnorm(residuals(m5))
+qqnorm(residuals(m6))</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>The normality assumption seems to be satisfied as most data points form a straight line.</li>
+</ul>
+</div>
+<div id="underlying-assumptions-constant-variance" class="section level5">
+<h5>Underlying Assumptions: Constant Variance</h5>
+<pre class="r"><code>r1 &lt;- plot(m1)
+r2 &lt;- plot(m2)
+r3 &lt;- plot(m3)
+r4 &lt;- plot(m4)
+r5 &lt;- plot(m5)
+r6 &lt;- plot(m6)
+grid.arrange(r1, r2, r3, r4, r5, r6, ncol=3, nrow=2)</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>These residual plots do not indicate any deviations from a linear form. They also show relatively constant variance across the fitted range, data points are scattered evenly in these plots. This assumption is satisfied.</li>
+</ul>
+</div>
+<div id="assumptions-for-random-effects" class="section level5">
+<h5>Assumptions for Random Effects</h5>
+<p>The random effects assumption is that the individual specific effects are uncorrelated with the independent variables. Here, <code>id</code> is a sample drawn from a population, the individual difference within a subject is uncorrelated with any variables like <code>moral</code>.</p>
+<pre class="r"><code>id1 &lt;- ggplot(s1a, aes(x=as.numeric(id),y= moral, colour=anonymity)) + geom_point()+labs(y = &quot;Moral Judgement&quot;, x=&quot;ID&quot;, colour=&quot;Anonymity&quot;)
+
+id2 &lt;- ggplot(s1a, aes(x=as.numeric(id),y= character, colour=anonymity)) + geom_point()+labs(y = &quot;Character Judgement&quot;, x=&quot;ID&quot;, colour=&quot;Anonymity&quot;)
+
+id3 &lt;- ggplot(s1a, aes(x=as.numeric(id),y= charitable, colour=anonymity)) + geom_point()+labs(y = &quot;Charitable Traits&quot;, x=&quot;ID&quot;, colour=&quot;Anonymity&quot;)
+
+grid.arrange(id1, id2, id3, ncol=1, nrow=3)</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="data-analysis-for-study-1b" class="section level2">
+<h2>Data Analysis for Study 1B</h2>
+<div id="research-question-1" class="section level3">
+<h3>Research Question</h3>
+<p>Can a person’s anonymity influence perceiver’s moral and character judgment?</p>
+</div>
+<div id="dataset-1" class="section level3">
+<h3>Dataset</h3>
+<p>The dataset that we are using for this analysis is study 1b data collected from 141 individuals at Mturk. This data is a data frame created for the purpose of investigating the effect of anonymity on moral judgment and character judgment.</p>
+<pre class="r"><code>s1b &lt;- read.csv(file=&quot;C:/Users/miche/OneDrive/Desktop/UofT/STA490/Caroline/1b.csv&quot;, header=TRUE, sep=&quot;,&quot;)
+
+# Omitting missing data
+os1b &lt;- na.omit(s1b)</code></pre>
+<div id="data-structure-1" class="section level4">
+<h4>Data Structure</h4>
+<p>Let’s take a look at the arranged data with participant’s <code>id</code>,<code>sex</code> and <code>anonymity</code> converted into a category:</p>
+<pre><code>## &#39;data.frame&#39;:    564 obs. of  16 variables:
+##  $ id        : Factor w/ 141 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 2 2 2 2 3 3 ...
+##  $ anonymity : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 1 1 1 2 1 1 1 2 1 ...
+##  $ donation  : int  1 5 10 15 1 5 10 15 1 5 ...
+##  $ moral     : num  7 7 5 4.33 6 ...
+##  $ character : num  6 5.5 4.33 3.33 6 ...
+##  $ charitable: num  6 5.25 4.5 3.5 6 6 6 6 1 1 ...
+##  $ future    : num  6 5 4 3 6 6 2 6 1 1 ...
+##  $ reputation: int  6 5 5 3 4 4 4 4 1 1 ...
+##  $ status    : int  6 5 5 4 4 4 4 4 1 1 ...
+##  $ belief    : int  6 6 4 3 4 4 4 4 1 1 ...
+##  $ humble    : int  6 5 4 3 4 4 4 4 1 1 ...
+##  $ reliable  : int  6 5 5 3 4 4 4 4 1 1 ...
+##  $ gaining   : int  6 5 4 3 4 4 4 4 1 1 ...
+##  $ losing    : int  6 5 4 3 4 4 4 4 1 1 ...
+##  $ age       : int  20 20 20 20 34 34 34 34 48 48 ...
+##  $ sex       : Factor w/ 2 levels &quot;1&quot;,&quot;2&quot;: 2 2 2 2 1 1 1 1 2 2 ...</code></pre>
+<p>The data of study 1b has 564 rows and 16 variables with the target feature <code>moral</code> as Moral Judgment.<br />
+16 variables are defined as follows:</p>
+<ul>
+<li><code>id</code>: An ID number given to each participant for easy identification<br />
+</li>
+<li><code>anonymity</code>: The presence of anonymity in each measurement, whether participants are given the name of the donor or not.<br />
+</li>
+<li><code>moral</code>: Moral judgment by the participants that is based on three statements. (1-Strongly Disagree to 7-Strongly Agree)<br />
+</li>
+<li><code>character</code>: Character Judgment by the participants that is based on six statements.<br />
+</li>
+<li><code>charitable</code>: Charitable traits of the donors rated by the participants, based on four statements.<br />
+</li>
+<li><code>future</code>: Future intention of donations of the donors rated by participants, based on two statements.<br />
+</li>
+<li><code>reputation</code>: Donor’s concern of reputation rated by participants<br />
+</li>
+<li><code>status</code>: Donor’s interest in attaining social status rated by participants<br />
+</li>
+<li><code>belief</code>: Donor’s belief in Museum’s mission rated by participants<br />
+</li>
+<li><code>humble</code>: Participants rated how humble and modest the donor is.<br />
+</li>
+<li><code>reliable</code>: Donor’s reliability rated by participants.<br />
+</li>
+<li><code>gaining</code>: Participants rated to the extent they think the donor is gaining something through donation.<br />
+</li>
+<li><code>losing</code>: Participants rated to the extent they think the donor is losing something through donation.<br />
+</li>
+<li><code>age</code>: Age of the participants.<br />
+</li>
+<li><code>sex</code>: Sex of the participants.</li>
+</ul>
+</div>
+<div id="summary-of-the-data-1" class="section level4">
+<h4>Summary of the Data</h4>
+<pre><code>##        id      anonymity    donation         moral         character    
+##  1      :  4   0:423     Min.   : 1.00   Min.   :1.000   Min.   :1.000  
+##  2      :  4   1:141     1st Qu.: 4.00   1st Qu.:5.000   1st Qu.:4.667  
+##  3      :  4             Median : 7.50   Median :5.667   Median :5.500  
+##  4      :  4             Mean   : 7.75   Mean   :5.480   Mean   :5.333  
+##  5      :  4             3rd Qu.:11.25   3rd Qu.:6.000   3rd Qu.:6.000  
+##  6      :  4             Max.   :15.00   Max.   :7.000   Max.   :7.000  
+##  (Other):540                             NA&#39;s   :25      NA&#39;s   :26     
+##    charitable        future        reputation        status     
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:4.750   1st Qu.:4.000   1st Qu.:4.000   1st Qu.:4.000  
+##  Median :5.750   Median :5.500   Median :5.000   Median :5.000  
+##  Mean   :5.433   Mean   :4.835   Mean   :4.775   Mean   :4.763  
+##  3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000  
+##  Max.   :7.000   Max.   :7.000   Max.   :7.000   Max.   :7.000  
+##  NA&#39;s   :26      NA&#39;s   :33      NA&#39;s   :34      NA&#39;s   :33     
+##      belief          humble         reliable        gaining     
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:5.000   1st Qu.:4.000   1st Qu.:4.000   1st Qu.:4.000  
+##  Median :6.000   Median :5.000   Median :5.000   Median :5.000  
+##  Mean   :5.412   Mean   :5.149   Mean   :5.047   Mean   :4.775  
+##  3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000   3rd Qu.:6.000  
+##  Max.   :7.000   Max.   :7.000   Max.   :7.000   Max.   :7.000  
+##  NA&#39;s   :32      NA&#39;s   :33      NA&#39;s   :35      NA&#39;s   :31     
+##      losing           age         sex     
+##  Min.   :1.000   Min.   : 6.0   1   :268  
+##  1st Qu.:3.000   1st Qu.:27.0   2   :252  
+##  Median :5.000   Median :30.5   NA&#39;s: 44  
+##  Mean   :4.265   Mean   :33.5             
+##  3rd Qu.:6.000   3rd Qu.:38.0             
+##  Max.   :7.000   Max.   :82.0             
+##  NA&#39;s   :32      NA&#39;s   :44</code></pre>
+<p>Note:</p>
+<ul>
+<li>There are a few missing values, indicating that some participants did not fill in all the questions on the questionnaire.<br />
+</li>
+<li>The gender of the participants is evenly distributed.<br />
+</li>
+<li>The age range of the participants is pretty large.<br />
+</li>
+<li>The means of the continuous variables are around the same (~5 out of 7 points).</li>
+</ul>
+</div>
+</div>
+<div id="exploratory-data-analysis-1" class="section level3">
+<h3>Exploratory Data Analysis</h3>
+<div id="histograms-for-the-independent-variables" class="section level4">
+<h4>Histograms for the independent variables</h4>
+<pre><code>## Warning: Removed 25 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_bin).
+
+## Warning: Removed 26 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 35 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 31 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="STA490research1_files/figure-html/hist13-1.png" width="672" /></p>
+</div>
+<div id="effect-of-anonymity-on-the-independent-variables" class="section level4">
+<h4>Effect of Anonymity on the independent variables</h4>
+<pre><code>## Warning: Removed 25 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_boxplot).
+
+## Warning: Removed 26 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 35 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 31 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>On average, anonymous donors received higher ratings of character judgement, charitable traits, future donation intention, humbleness than identifiable donors.<br />
+</li>
+<li>There seems to be no difference in the ratings of moral judgement, social status, belief on ROM, reliability, losing and gaining between anonymous and identifiable donors.</li>
+</ul>
+</div>
+<div id="effect-of-anonymity-on-the-relationship-between-moral-judgement-and-other-independent-variables" class="section level4">
+<h4>Effect of Anonymity on the relationship between Moral Judgement and other independent variables</h4>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 27 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 27 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 34 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 34 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## TableGrob (2 x 2) &quot;arrange&quot;: 4 grobs
+##   z     cells    name           grob
+## 1 1 (1-1,1-1) arrange gtable[layout]
+## 2 2 (1-1,2-2) arrange gtable[layout]
+## 3 3 (2-2,1-1) arrange gtable[layout]
+## 4 4 (2-2,2-2) arrange gtable[layout]</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 35 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 35 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre><code>## TableGrob (2 x 3) &quot;arrange&quot;: 6 grobs
+##   z     cells    name           grob
+## 1 1 (1-1,1-1) arrange gtable[layout]
+## 2 2 (1-1,2-2) arrange gtable[layout]
+## 3 3 (1-1,3-3) arrange gtable[layout]
+## 4 4 (2-2,1-1) arrange gtable[layout]
+## 5 5 (2-2,2-2) arrange gtable[layout]
+## 6 6 (2-2,3-3) arrange gtable[layout]</code></pre>
+<p>Note:</p>
+<ul>
+<li>It seems that being anonymous tends to have an effect on the relationship between moral judgement and other independent variables (except for <code>humble</code>).<br />
+</li>
+<li>Blue lines (anonymous) are always higher than the red line (identifiable).</li>
+</ul>
+</div>
+<div id="effect-of-sex-on-the-relationship-between-moral-judgement-and-other-independent-variables" class="section level4">
+<h4>Effect of Sex on the relationship between Moral Judgement and other independent variables</h4>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 27 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 27 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 34 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 34 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre><code>## TableGrob (2 x 2) &quot;arrange&quot;: 4 grobs
+##   z     cells    name           grob
+## 1 1 (1-1,1-1) arrange gtable[layout]
+## 2 2 (1-1,2-2) arrange gtable[layout]
+## 3 3 (2-2,1-1) arrange gtable[layout]
+## 4 4 (2-2,2-2) arrange gtable[layout]</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 35 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 35 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 32 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<pre><code>## TableGrob (2 x 3) &quot;arrange&quot;: 6 grobs
+##   z     cells    name           grob
+## 1 1 (1-1,1-1) arrange gtable[layout]
+## 2 2 (1-1,2-2) arrange gtable[layout]
+## 3 3 (1-1,3-3) arrange gtable[layout]
+## 4 4 (2-2,1-1) arrange gtable[layout]
+## 5 5 (2-2,2-2) arrange gtable[layout]
+## 6 6 (2-2,3-3) arrange gtable[layout]</code></pre>
+<p>Note:</p>
+<ul>
+<li>From the plot, it is hard to tell the difference in the ratings of the independent variablaes by sex. Sex seems to have no effect.</li>
+</ul>
+</div>
+<div id="effect-of-age-on-the-independent-variables" class="section level4">
+<h4>Effect of Age on the independent variables</h4>
+<p>Judgement and other independent variables:</p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 47 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 47 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 47 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 47 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 46 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 46 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 48 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 48 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre><code>## TableGrob (2 x 2) &quot;arrange&quot;: 4 grobs
+##   z     cells    name           grob
+## 1 1 (1-1,1-1) arrange gtable[layout]
+## 2 2 (1-1,2-2) arrange gtable[layout]
+## 3 3 (2-2,1-1) arrange gtable[layout]
+## 4 4 (2-2,2-2) arrange gtable[layout]</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 49 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 49 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 48 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 48 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 48 rows containing non-finite values (stat_smooth).
+
+## Warning: Removed 48 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 50 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 50 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 46 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 46 rows containing missing values (geom_point).</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 47 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 47 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<pre><code>## TableGrob (2 x 3) &quot;arrange&quot;: 6 grobs
+##   z     cells    name           grob
+## 1 1 (1-1,1-1) arrange gtable[layout]
+## 2 2 (1-1,2-2) arrange gtable[layout]
+## 3 3 (1-1,3-3) arrange gtable[layout]
+## 4 4 (2-2,1-1) arrange gtable[layout]
+## 5 5 (2-2,2-2) arrange gtable[layout]
+## 6 6 (2-2,3-3) arrange gtable[layout]</code></pre>
+<p>Note:</p>
+<ul>
+<li>From the plot, it seems that the ratings of the independent variables decrease as the age of participants increase.</li>
+</ul>
+</div>
+</div>
+<div id="data-analysis-1" class="section level3">
+<h3>Data Analysis</h3>
+<p><strong>Summary</strong>:</p>
+<p>Linear mixed effects model is used to answer the research question because there is linear relationship between the variables and there were repeated measurements for each participants, the mixed effect model accounts for the random effects of the individual subjects. The mediation analysis followed the work of Baron &amp; Kenny (1986), it consists of three linear mixed regression models. First, I regressed moral judgement on anonymity. There is strong evidence that anonymity has an effect on moral judgement. Second, I regressed the mediator “M” (here M is character judgement / charitable traits / future donation intentions / reputation / social status / belief on ROM / humbleness / reliability / gaining / losing) on moral judgement. It has been found that anonymity has effect on character judgement, charitable traits, social status, belief on ROM , humbleness and gaining. Third, I regressed both anonymity and “M” on moral judgement. There is strong evidence that both character judgement, charitable traits, social status, belief on ROM and humbleness have effect on moral judgement, but the effect of anonymity on moral judgement disappears when the mediator is included in the regression model. It suggests that character judgement, charitable traits, social status, belief on ROM and humbleness are mediating the effect of anonymity on moral judgement. Lastly, bootstrapping is used to test the significance of the mediation effects. It is concluded that character judgement, charitable traits, social status, belief on ROM and humbleness are mediators.</p>
+<p>Apart from the mediation analysis, I also created two other linear mixed models with the interaction betweem anonymity and donation percentage as a quantitative variable. The two mixed models regressed moral/character judgement on anonymity, donation percentage and their interaction term. These two models can provide evidences on how anonymity and different proportion of donation to wealth vary with the ratings of moral/character judgement. The models are also useful for predicting the donor’s ratings of moral/character judgement based on a particular treatment and donation percentage. Results showed that both donation percentage and anonymity have effect on moral/character judgement respectively, but their interaction term has no significant effect.</p>
+<div id="linear-mixed-models-1" class="section level4">
+<h4>Linear Mixed Models</h4>
+<div id="model-1-effect-of-anonymity-on-moral-judgment-1" class="section level5">
+<h5>Model 1: Effect of Anonymity on Moral Judgment</h5>
+<p>I first start with the simplest model <code>m1</code> which inclues the fixed effect <code>anonymity</code>, and the random effect of <code>id</code>. In the case of my model here, we add a random effect for <code>id</code> and this characterizes idiosyncratic variation that is due to individual differences.</p>
+<pre class="r"><code># Step 1: X -&gt; Y
+m1 &lt;- lmer(moral ~ anonymity + (1|id)  , data=s1b)
+summary(m1)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + (1 | id)
+##    Data: s1b
+## 
+## REML criterion at convergence: 1283.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.8797 -0.3271  0.0226  0.3232  4.2199 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7612   0.8725  
+##  Residual             0.3529   0.5941  
+## Number of obs: 539, groups:  id, 141
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.43891    0.07962  68.313
+## anonymity1   0.13320    0.05968   2.232
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## anonymity1 -0.193</code></pre>
+<pre class="r"><code>anova(m1)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq F value
+## anonymity    1 1.7582  1.7582  4.9817</code></pre>
+</div>
+<div id="model-2-effect-of-anonymity-and-proportion-of-donation-on-moral-judgment" class="section level5">
+<h5>Model 2: Effect of Anonymity and Proportion of Donation on Moral Judgment</h5>
+<pre class="r"><code>m2 &lt;- lmer(moral ~ anonymity*donation + (1|id)  , data=os1b)
+summary(m2)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity * donation + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1228
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.6214 -0.3446  0.0129  0.3968  3.9782 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7706   0.8779  
+##  Residual             0.3523   0.5935  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##                     Estimate Std. Error t value
+## (Intercept)         5.308270   0.095851  55.380
+## anonymity           0.297857   0.122137   2.439
+## donation            0.021588   0.006183   3.491
+## anonymity:donation -0.021229   0.013507  -1.572
+## 
+## Correlation of Fixed Effects:
+##             (Intr) annymt donatn
+## anonymity   -0.331              
+## donation    -0.499  0.507       
+## annymty:dnt  0.294 -0.868 -0.590</code></pre>
+<pre class="r"><code>#adding sex and age to model 2
+m2.1 &lt;- lmer(moral ~ anonymity*donation + (1|id) +sex*age , data=os1b)
+summary(m2.1)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity * donation + (1 | id) + sex * age
+##    Data: os1b
+## 
+## REML criterion at convergence: 1237.1
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.6175 -0.3528  0.0057  0.4035  3.9807 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7425   0.8617  
+##  Residual             0.3523   0.5935  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##                     Estimate Std. Error t value
+## (Intercept)         7.791342   0.943604   8.257
+## anonymity           0.299969   0.122099   2.457
+## donation            0.021657   0.006182   3.503
+## sex                -1.319475   0.544437  -2.424
+## age                -0.074980   0.028041  -2.674
+## anonymity:donation -0.021517   0.013501  -1.594
+## sex:age             0.039388   0.015780   2.496
+## 
+## Correlation of Fixed Effects:
+##             (Intr) annymt donatn sex    age    annym:
+## anonymity   -0.030                                   
+## donation    -0.048  0.507                            
+## sex         -0.961  0.003  0.002                     
+## age         -0.962 -0.005 -0.004  0.914              
+## annymty:dnt  0.024 -0.868 -0.590 -0.002  0.006       
+## sex:age      0.937 -0.002 -0.001 -0.955 -0.967  0.001</code></pre>
+<pre class="r"><code>anova(m2, m2.1)</code></pre>
+<pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
+<pre><code>## Data: os1b
+## Models:
+## m2: moral ~ anonymity * donation + (1 | id)
+## m2.1: moral ~ anonymity * donation + (1 | id) + sex * age
+##      npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+## m2      6 1217.5 1242.9 -602.76   1205.5                       
+## m2.1    9 1216.1 1254.3 -599.07   1198.1 7.3748  3    0.06086 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note:</p>
+<ul>
+<li>Model without <code>sex*age</code> is a better model.</li>
+</ul>
+</div>
+<div id="model-3-effect-of-anonymity-and-proportion-of-donation-on-character-judgment" class="section level5">
+<h5>Model 3: Effect of Anonymity and Proportion of Donation on Character Judgment</h5>
+<pre class="r"><code>m3 &lt;- lmer(character ~ anonymity*donation + (1|id)   , data=os1b)
+summary(m3)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: character ~ anonymity * donation + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1218.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -6.2933 -0.3512 -0.0252  0.4343  3.4469 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.8628   0.9289  
+##  Residual             0.3324   0.5766  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##                     Estimate Std. Error t value
+## (Intercept)         5.108330   0.098621  51.797
+## anonymity           0.451644   0.118975   3.796
+## donation            0.025108   0.006014   4.175
+## anonymity:donation -0.028371   0.013169  -2.154
+## 
+## Correlation of Fixed Effects:
+##             (Intr) annymt donatn
+## anonymity   -0.314              
+## donation    -0.472  0.509       
+## annymty:dnt  0.278 -0.869 -0.592</code></pre>
+<pre class="r"><code># adding sex and age to model 3
+m3.1 &lt;- lmer(character ~ anonymity*donation + (1|id) +sex*age   , data=os1b)
+summary(m3.1)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: character ~ anonymity * donation + (1 | id) + sex * age
+##    Data: os1b
+## 
+## REML criterion at convergence: 1227.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -6.2832 -0.3482 -0.0256  0.4273  3.4499 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.8361   0.9144  
+##  Residual             0.3324   0.5765  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##                     Estimate Std. Error t value
+## (Intercept)         7.528759   0.992112   7.589
+## anonymity           0.454281   0.118948   3.819
+## donation            0.025202   0.006013   4.191
+## sex                -1.229372   0.572584  -2.147
+## age                -0.070599   0.029488  -2.394
+## anonymity:donation -0.028727   0.013166  -2.182
+## sex:age             0.035063   0.016595   2.113
+## 
+## Correlation of Fixed Effects:
+##             (Intr) annymt donatn sex    age    annym:
+## anonymity   -0.027                                   
+## donation    -0.044  0.509                            
+## sex         -0.961  0.003  0.002                     
+## age         -0.962 -0.005 -0.003  0.914              
+## annymty:dnt  0.023 -0.869 -0.592 -0.002  0.006       
+## sex:age      0.937 -0.002 -0.001 -0.955 -0.967  0.001</code></pre>
+<pre class="r"><code>anova(m3,m3.1)</code></pre>
+<pre><code>## refitting model(s) with ML (instead of REML)</code></pre>
+<pre><code>## Data: os1b
+## Models:
+## m3: character ~ anonymity * donation + (1 | id)
+## m3.1: character ~ anonymity * donation + (1 | id) + sex * age
+##      npar    AIC    BIC logLik deviance Chisq Df Pr(&gt;Chisq)  
+## m3      6 1207.8 1233.2 -597.9   1195.8                      
+## m3.1    9 1207.0 1245.1 -594.5   1189.0 6.798  3    0.07862 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note:</p>
+<ul>
+<li>Model without <code>sex*age</code> is a better model.</li>
+</ul>
+</div>
+<div id="model-4-effect-of-anonymity-on-character-judgment" class="section level5">
+<h5>Model 4: Effect of Anonymity on Character Judgment</h5>
+<pre class="r"><code># Step 2: X -&gt; M1
+m4 &lt;- lmer(character ~ anonymity + (1|id)  , data=os1b)
+summary(m4)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: character ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1219.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -6.4744 -0.3266  0.0298  0.3567  3.3973 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.8478   0.9208  
+##  Residual             0.3474   0.5894  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.30276    0.08650  61.306
+## anonymity    0.23162    0.06025   3.845
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.175</code></pre>
+<pre class="r"><code>anova(m4)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq F value
+## anonymity    1 5.1341  5.1341  14.781</code></pre>
+</div>
+<div id="model-5-effect-of-anonymity-and-character-judgment-on-moral-judgment" class="section level5">
+<h5>Model 5: Effect of Anonymity and Character Judgment on Moral Judgment</h5>
+<pre class="r"><code># Step 3: X + M1 -&gt; Y
+m5 &lt;- lmer(moral ~ anonymity + character + (1|id)  , data=os1b)
+summary(m5)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + character + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 816.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9436 -0.3838  0.0325  0.4203  3.8287 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.1532   0.3914  
+##  Residual             0.1989   0.4460  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  1.44596    0.15536   9.307
+## anonymity   -0.04218    0.04605  -0.916
+## character    0.75999    0.02824  26.911
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity  0.064       
+## character -0.964 -0.142</code></pre>
+<pre class="r"><code>anova(m5)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar  Sum Sq Mean Sq  F value
+## anonymity    1   1.713   1.713   8.6097
+## character    1 144.081 144.081 724.2273</code></pre>
+<p>Note:</p>
+<ul>
+<li><code>character</code> affects moral, but anonymity no longer affects moral when <code>character</code> is present in the regression model.<br />
+</li>
+<li>It suffices that a full mediation exists because the effect on anonymity on moral disappears. The effect of anonymity on moral goes through <code>character</code>.</li>
+</ul>
+</div>
+<div id="model-6-effect-of-anonyity-on-charitable-traits" class="section level5">
+<h5>Model 6: Effect of Anonyity on Charitable Traits</h5>
+<pre class="r"><code># Step 2: X -&gt; M2
+m6 &lt;- lmer(charitable ~ anonymity + (1|id)  , data=os1b)
+summary(m6)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: charitable ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1267.1
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -6.7568 -0.2955  0.0972  0.3643  3.3511 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7915   0.8896  
+##  Residual             0.3995   0.6320  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.39722    0.08474   63.69
+## anonymity    0.23192    0.06461    3.59
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.191</code></pre>
+<pre class="r"><code>anova(m6)</code></pre>
+<pre><code>## Analysis of Variance Table
+##           npar Sum Sq Mean Sq F value
+## anonymity    1 5.1479  5.1479  12.887</code></pre>
+</div>
+<div id="model-7-effect-of-charitable-traits-and-anonymity-on-moral-judgment" class="section level5">
+<h5>Model 7: Effect of Charitable Traits and Anonymity on Moral Judgment</h5>
+<pre class="r"><code># step 3: X + M2 -&gt; Y
+m7 &lt;- lmer(moral~ charitable + anonymity + (1|id) , data=os1b)
+summary(m7)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ charitable + anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 860.1
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.1984 -0.3916  0.0336  0.4463  4.1272 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.1772   0.4210  
+##  Residual             0.2136   0.4622  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  1.63284    0.16148  10.112
+## charitable   0.71217    0.02879  24.737
+## anonymity   -0.03266    0.04771  -0.684
+## 
+## Correlation of Fixed Effects:
+##            (Intr) chrtbl
+## charitable -0.962       
+## anonymity   0.063 -0.141</code></pre>
+<pre class="r"><code>anova(m7)</code></pre>
+<pre><code>## Analysis of Variance Table
+##            npar Sum Sq Mean Sq  F value
+## charitable    1 132.34  132.34 619.4451
+## anonymity     1   0.10    0.10   0.4684</code></pre>
+</div>
+<div id="model-8-effect-of-future-donation-intention-on-anonymity" class="section level5">
+<h5>Model 8: Effect of Future Donation Intention on Anonymity</h5>
+<pre class="r"><code># step 2: X -&gt; M3
+m8 &lt;- lmer(future ~ anonymity + (1|id)  , data=os1b)</code></pre>
+<pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
+<pre class="r"><code>summary(m8)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: future ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1938.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.4079 -0.5164  0.3912  0.7276  1.3496 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.000    0.000   
+##  Residual             2.585    1.608   
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  4.83029    0.08215  58.799
+## anonymity    0.04081    0.16414   0.249
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.500
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see ?isSingular</code></pre>
+</div>
+<div id="model-9-effect-of-future-donation-intention-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 9: Effect of Future Donation Intention and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M3 -&gt; Y
+m9 &lt;- lmer(moral ~ anonymity + future + (1|id)  , data=os1b)
+summary(m9)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + future + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1199
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.6994 -0.3650 -0.0119  0.4393  3.9017 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.6581   0.8112  
+##  Residual             0.3499   0.5915  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  4.95921    0.11821  41.952
+## anonymity    0.12992    0.06047   2.149
+## future       0.10689    0.01847   5.789
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity -0.120       
+## future    -0.755 -0.011</code></pre>
+</div>
+<div id="model-10-effect-of-reputation-on-anonymity" class="section level5">
+<h5>Model 10: Effect of Reputation on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M4
+m10 &lt;- lmer(reputation ~ anonymity + (1|id)  , data=os1b)
+summary(m10)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: reputation ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1711.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.5566 -0.3570  0.1170  0.3642  3.3166 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 1.395    1.181   
+##  Residual             1.041    1.020   
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)   4.8215     0.1164  41.439
+## anonymity    -0.1157     0.1043  -1.109
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.225</code></pre>
+</div>
+<div id="model-11-effect-of-reputation-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 11: Effect of Reputation and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># step 3: X + M4 -&gt; Y
+m11 &lt;- lmer(moral ~ anonymity + reputation + (1|id)  , data=os1b)
+summary(m11)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + reputation + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1200.2
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.6286 -0.4138  0.0146  0.4259  3.5231 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.6762   0.8223  
+##  Residual             0.3489   0.5907  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  4.75941    0.15031  31.663
+## anonymity    0.15088    0.06046   2.496
+## reputation   0.14853    0.02659   5.586
+## 
+## Correlation of Fixed Effects:
+##            (Intr) annymt
+## anonymity  -0.144       
+## reputation -0.853  0.051</code></pre>
+</div>
+<div id="model-12-effect-of-social-status-on-anonymity" class="section level5">
+<h5>Model 12: Effect of Social Status on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M5
+m12 &lt;- lmer(status ~ anonymity + (1|id)  , data=os1b)
+summary(m12)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: status ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1769.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.2015 -0.3817  0.0456  0.4009  2.9473 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 1.297    1.139   
+##  Residual             1.226    1.107   
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)   4.8550     0.1152  42.162
+## anonymity    -0.2820     0.1132  -2.492
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.246</code></pre>
+</div>
+<div id="model-13-effect-of-social-status-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 13: Effect of Social Status and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M5 -&gt; Y
+m13 &lt;- lmer(moral~ status + anonymity + (1|id)  , data=os1b)
+summary(m13)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ status + anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1218.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.6397 -0.3469  0.0181  0.3651  3.7316 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.6953   0.8339  
+##  Residual             0.3622   0.6019  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.03895    0.14675  34.336
+## status       0.08992    0.02539   3.541
+## anonymity    0.15908    0.06194   2.568
+## 
+## Correlation of Fixed Effects:
+##           (Intr) status
+## status    -0.840       
+## anonymity -0.202  0.116</code></pre>
+</div>
+<div id="model-14-effect-of-belief-on-rom-on-anonymity" class="section level5">
+<h5>Model 14: Effect of “Belief on ROM”" on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M6
+m14 &lt;- lmer(belief ~ anonymity + (1|id)  , data=os1b)
+summary(m14)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: belief ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1572.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.8225 -0.4730 -0.0346  0.4038  2.5671 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.8240   0.9077  
+##  Residual             0.8458   0.9196  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.38868    0.09274  58.103
+## anonymity    0.21261    0.09399   2.262
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.254</code></pre>
+</div>
+<div id="model-15-effect-of-belief-on-rom-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 15: Effect of “Belief on ROM” and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M6 -&gt; Y
+m15 &lt;- lmer(moral ~ anonymity + belief + (1|id)  , data=os1b)
+summary(m15)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + belief + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1031.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.0901 -0.5369  0.0776  0.4081  3.2340 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.3580   0.5983  
+##  Residual             0.2727   0.5222  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  3.24833    0.15146  21.447
+## anonymity    0.04611    0.05365   0.859
+## belief       0.41336    0.02588  15.972
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity  0.006       
+## belief    -0.921 -0.102</code></pre>
+</div>
+<div id="model-16-effect-of-humbleness-on-anonymity" class="section level5">
+<h5>Model 16: Effect of Humbleness on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M7
+m16 &lt;- lmer(humble ~ anonymity + (1|id)  , data=os1b)
+summary(m16)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: humble ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1587
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.8195 -0.5650  0.0612  0.5013  4.0006 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.9232   0.9608  
+##  Residual             0.8521   0.9231  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.05981    0.09689   52.22
+## anonymity    0.41042    0.09435    4.35
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.244</code></pre>
+</div>
+<div id="model-17-effect-of-humbleness-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 17: Effect of Humbleness and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M7 -&gt; Y
+m17 &lt;- lmer(moral ~ anonymity + humble + (1|id)  , data=os1b)
+summary(m17)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + humble + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1096.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.2058 -0.5118  0.0486  0.4476  3.3263 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.4786   0.6918  
+##  Residual             0.2964   0.5444  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##              Estimate Std. Error t value
+## (Intercept)  3.761892   0.152742  24.629
+## anonymity   -0.005166   0.056750  -0.091
+## humble       0.338706   0.027130  12.484
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity  0.087       
+## humble    -0.899 -0.196</code></pre>
+</div>
+<div id="model-18-effect-of-reliability-on-anonymity" class="section level5">
+<h5>Model 18: Effect of Reliability on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M8
+m18 &lt;- lmer(reliable ~ anonymity + (1|id)  , data=os1b)
+summary(m18)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: reliable ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1603.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.8117 -0.3422  0.0064  0.4440  2.8917 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.9815   0.9907  
+##  Residual             0.8735   0.9346  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.03064    0.09947  50.572
+## anonymity    0.16628    0.09553   1.741
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.241</code></pre>
+</div>
+<div id="model-19-effect-of-reliability-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 19: Effect of Reliability and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M8 -&gt; Y
+m19 &lt;- lmer(moral ~ anonymity + reliable + (1|id)  , data=os1b)
+summary(m19)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + reliable + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1085.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.4903 -0.4466  0.0778  0.4761  3.0995 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.4719   0.687   
+##  Residual             0.2894   0.538   
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  3.74144    0.14861  25.177
+## anonymity    0.07649    0.05516   1.387
+## reliable     0.34474    0.02642  13.047
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity -0.021       
+## reliable  -0.894 -0.079</code></pre>
+</div>
+<div id="model-20-effect-of-gaining-on-anonymity" class="section level5">
+<h5>Model 20: Effect of Gaining on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M9
+m20 &lt;- lmer(gaining ~ anonymity + (1|id)  , data=os1b)
+summary(m20)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: gaining ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1682.7
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.2634 -0.4065  0.0291  0.3944  2.9378 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 1.4240   1.1933  
+##  Residual             0.9636   0.9817  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)   4.8619     0.1165   41.75
+## anonymity    -0.2829     0.1003   -2.82
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.216</code></pre>
+</div>
+<div id="model-21-effect-of-gaining-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 21: Effect of Gaining and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M9 -&gt; Y
+m21 &lt;- lmer(moral ~ anonymity + gaining + (1|id)  , data=os1b)
+summary(m21)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + gaining + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1225
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.9529 -0.3406  0.0381  0.3272  3.9787 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7203   0.8487  
+##  Residual             0.3650   0.6041  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.16123    0.15865  32.531
+## anonymity    0.15194    0.06226   2.440
+## gaining      0.06465    0.02808   2.303
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity -0.206       
+## gaining   -0.860  0.128</code></pre>
+</div>
+<div id="model-22-effect-of-losing-on-anonymity" class="section level5">
+<h5>Model 22: Effect of Losing on Anonymity</h5>
+<pre class="r"><code># Step 2: X -&gt; M10
+m22 &lt;- lmer(losing ~ anonymity + (1|id)  , data=os1b)
+summary(m22)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: losing ~ anonymity + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1630.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.0328 -0.2649 -0.0457  0.3681  3.4427 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 2.6590   1.6306  
+##  Residual             0.7038   0.8389  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  4.29045    0.14985  28.631
+## anonymity   -0.13565    0.08576  -1.582
+## 
+## Correlation of Fixed Effects:
+##           (Intr)
+## anonymity -0.143</code></pre>
+</div>
+<div id="model-23-effect-of-losing-and-anonymity-on-moral-judgement" class="section level5">
+<h5>Model 23: Effect of Losing and Anonymity on Moral Judgement</h5>
+<pre class="r"><code># Step 3: X + M10 -&gt; Y
+m23 &lt;- lmer(moral ~ anonymity + losing + (1|id)  , data=os1b)
+summary(m23)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: moral ~ anonymity + losing + (1 | id)
+##    Data: os1b
+## 
+## REML criterion at convergence: 1227.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -5.7251 -0.3470  0.0237  0.3457  4.0905 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7585   0.8709  
+##  Residual             0.3618   0.6015  
+## Number of obs: 511, groups:  id, 129
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  5.26995    0.15028  35.068
+## anonymity    0.14011    0.06161   2.274
+## losing       0.04791    0.02926   1.637
+## 
+## Correlation of Fixed Effects:
+##           (Intr) annymt
+## anonymity -0.156       
+## losing    -0.835  0.064</code></pre>
+</div>
+</div>
+<div id="significance-testing-of-the-mediation-effects" class="section level4">
+<h4>Significance Testing of the Mediation Effects</h4>
+<div id="significance-testing-of-character-judgment-as-mediator" class="section level5">
+<h5>Significance Testing of Character Judgment as Mediator</h5>
+<pre class="r"><code>med1 &lt;- mediate(m4, m5, treat=&#39;anonymity&#39;, mediator=&#39;character&#39;, boot=FALSE)
+summary(med1)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME            0.17389      0.07605         0.27  &lt;2e-16 ***
+## ADE            -0.04103     -0.13198         0.05   0.400    
+## Total Effect    0.13286      0.00312         0.26   0.042 *  
+## Prop. Mediated  1.29701      0.62815         5.55   0.042 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-charitable-traits-as-mediator" class="section level5">
+<h5>Significance Testing of Charitable Traits as Mediator</h5>
+<pre class="r"><code>med2 &lt;- mediate(m6, m7, treat=&#39;anonymity&#39;, mediator=&#39;charitable&#39;, boot=FALSE)
+summary(med2)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME             0.1662       0.0745         0.25  &lt;2e-16 ***
+## ADE             -0.0324      -0.1260         0.05   0.480    
+## Total Effect     0.1338       0.0143         0.26   0.034 *  
+## Prop. Mediated   1.2289       0.6135         4.33   0.034 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-future-donation-intention-as-mediator" class="section level5">
+<h5>Significance Testing of “Future Donation Intention” as Mediator</h5>
+<pre class="r"><code>med3 &lt;- mediate(m8, m9, treat=&#39;anonymity&#39;, mediator=&#39;future&#39;, boot=FALSE)
+summary(med3)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value  
+## ACME            0.00470     -0.03157         0.04   0.764  
+## ADE             0.13093      0.01170         0.25   0.032 *
+## Total Effect    0.13563      0.00897         0.26   0.038 *
+## Prop. Mediated  0.04262     -0.54750         0.50   0.742  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-reputation-as-a-mediator" class="section level5">
+<h5>Significance Testing of Reputation as a Mediator</h5>
+<pre class="r"><code>med4 &lt;- mediate(m10, m11, treat=&#39;anonymity&#39;, mediator=&#39;reputation&#39;, boot=FALSE)
+summary(med4)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value  
+## ACME            -0.0174      -0.0505         0.01    0.26  
+## ADE              0.1506       0.0340         0.27    0.02 *
+## Total Effect     0.1332       0.0093         0.26    0.03 *
+## Prop. Mediated  -0.1199      -1.2112         0.12    0.29  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-social-status-as-a-mediator" class="section level5">
+<h5>Significance Testing of Social Status as a Mediator</h5>
+<pre class="r"><code>med5 &lt;- mediate(m12, m13, treat=&#39;anonymity&#39;, mediator=&#39;status&#39;, boot=FALSE)
+summary(med5)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value   
+## ACME            -0.0258      -0.0532         0.00   0.010 **
+## ADE              0.1591       0.0415         0.30   0.010 **
+## Total Effect     0.1333       0.0076         0.26   0.038 * 
+## Prop. Mediated  -0.1808      -1.1564        -0.01   0.048 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-belief-on-rom-as-a-mediator" class="section level5">
+<h5>Significance Testing of “Belief on ROM” as a Mediator</h5>
+<pre class="r"><code>med6 &lt;- mediate(m14, m15, treat=&#39;anonymity&#39;, mediator=&#39;belief&#39;, boot=FALSE)
+summary(med6)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value  
+## ACME            0.08778      0.01339         0.17   0.022 *
+## ADE             0.04702     -0.05424         0.15   0.388  
+## Total Effect    0.13480      0.00137         0.27   0.050 *
+## Prop. Mediated  0.63687     -0.23652         2.48   0.064 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-humbleness-as-a-mediator" class="section level5">
+<h5>Significance Testing of Humbleness as a Mediator</h5>
+<pre class="r"><code>med7 &lt;- mediate(m16, m17, treat=&#39;anonymity&#39;, mediator=&#39;humble&#39;, boot=FALSE)
+summary(med7)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME            0.13801      0.07503         0.20  &lt;2e-16 ***
+## ADE            -0.00462     -0.11261         0.11   0.928    
+## Total Effect    0.13338      0.00805         0.26   0.036 *  
+## Prop. Mediated  1.01899      0.45503         5.56   0.036 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-reliability-as-a-mediator" class="section level5">
+<h5>Significance Testing of Reliability as a Mediator</h5>
+<pre class="r"><code>med8 &lt;- mediate(m18, m19, treat=&#39;anonymity&#39;, mediator=&#39;reliable&#39;, boot=FALSE)
+summary(med8)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value  
+## ACME            0.05727     -0.01053         0.12   0.094 .
+## ADE             0.07750     -0.03190         0.19   0.196  
+## Total Effect    0.13477      0.00464         0.26   0.036 *
+## Prop. Mediated  0.40935     -0.38042         1.58   0.114  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-gaining-as-a-mediator" class="section level5">
+<h5>Significance Testing of Gaining as a Mediator</h5>
+<pre class="r"><code>med9 &lt;- mediate(m20, m21, treat=&#39;anonymity&#39;, mediator=&#39;gaining&#39;, boot=FALSE)
+summary(med9)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value   
+## ACME            -0.0187      -0.0426         0.00   0.030 * 
+## ADE              0.1504       0.0367         0.27   0.010 **
+## Total Effect     0.1317       0.0171         0.25   0.026 * 
+## Prop. Mediated  -0.1323      -0.8641         0.00   0.056 . 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+<div id="significance-testing-of-losing-as-a-mediator" class="section level5">
+<h5>Significance Testing of Losing as a Mediator</h5>
+<pre class="r"><code>med10 &lt;- mediate(m22, m23, treat=&#39;anonymity&#39;, mediator=&#39;losing&#39;, boot=FALSE)
+summary(med10)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+## Mediator Groups: id 
+## 
+## Outcome Groups: id 
+## 
+## Output Based on Overall Averages Across Groups 
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value  
+## ACME           -0.00652     -0.02131         0.00   0.214  
+## ADE             0.13945      0.02301         0.26   0.020 *
+## Total Effect    0.13293      0.01422         0.25   0.028 *
+## Prop. Mediated -0.04047     -0.31627         0.04   0.238  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 511 
+## 
+## 
+## Simulations: 1000</code></pre>
+</div>
+</div>
+<div id="mediation-plots" class="section level4">
+<h4>Mediation Plots</h4>
+<pre class="r"><code>par(mfrow=c(2,5))
+plot(med1, treatment = NULL, labels = NULL, main=&quot;Character Judgment&quot;)
+plot(med2, treatment = NULL, labels = NULL, main=&quot;Charitable Traits&quot;)
+plot(med3, treatment = NULL, labels = NULL, main=&quot;Future Donation Intentions&quot;)
+plot(med4, treatment = NULL, labels = NULL, main=&quot;Reputation&quot;)
+plot(med5, treatment = NULL, labels = NULL, main=&quot;Social Status&quot;)
+plot(med6, treatment = NULL, labels = NULL, main=&quot;Belief on ROM&#39;s Mission&quot;)
+plot(med7, treatment = NULL, labels = NULL, main=&quot;Humbleness&quot;)
+plot(med8, treatment = NULL, labels = NULL, main=&quot;Reliability&quot;)
+plot(med9, treatment = NULL, labels = NULL, main=&quot;Gaining&quot;)
+plot(med10, treatment = NULL, labels = NULL, main=&quot;Losing&quot;)</code></pre>
+</div>
+<div id="model-diagnostics-1" class="section level4">
+<h4>Model Diagnostics</h4>
+<p><strong>Summary</strong>:</p>
+<p>To make sure the conditions of the linear mixed models were met, I have carried out some diagnostic procedure as follows. Line plots between the independent variables can be used to assess the linearity fit of the models. In the exploratory data analysis section, it has showed there is linear relationship between the variables, and the linearity is therefore satisfied. Normal Quantile-Quantile plots were used to assess the normality of residuals. When plotting the QQ plots for each linear mixed model, it is seen that most data points do not deviate much from the straight line, indicating that the residuals follow a normal distribution. Normality assumption seems to hold. Residual plots help to assess whether the variance is constant. It is found that this assumption seems to hold as well because the data points are scattered evenly when plotting the residuals for each model. Lastly, the individual specific effect is uncorrelated with the independent variables, and therefore, the indepedence assumption for random effects is satisfied. All the linear mixed models above are valid.</p>
+</div>
+<div id="assessing-linearity-fit-1" class="section level4">
+<h4>Assessing Linearity Fit</h4>
+<p>Models are assumed to be linear in each of the independent variables: Since <code>id</code>, <code>sex</code> and <code>anonymity</code> are binary variables, linearity is satisfied automatically. In our EDA, we can see from the line plots that there are linear relationships between moral and other independent variables; age and other independent variables. Linearity is satisfied.</p>
+</div>
+<div id="underlying-assumptions-normality-of-residuals-1" class="section level4">
+<h4>Underlying Assumptions: Normality of Residuals</h4>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-34-1.png" width="672" /><img src="STA490research1_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>The normality assumption seems to be satisfied as most data points form a straight line.</li>
+</ul>
+</div>
+<div id="underlying-assumptions-constant-variance-1" class="section level4">
+<h4>Underlying Assumptions: Constant Variance</h4>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>Note:</p>
+<ul>
+<li>These residual plots do not indicate any deviations from a linear form. They also show relatively constant variance across the fitted range, data points are scattered evenly in these plots. This assumption is satisfied.</li>
+</ul>
+</div>
+<div id="assumptions-for-random-effects-1" class="section level4">
+<h4>Assumptions for Random Effects</h4>
+<p>The random effects assumption is that the individual specific effects are uncorrelated with the independent variables. Here, <code>id</code> is a sample drawn from a population, the individual difference within a subject is uncorrelated with any variables like <code>moral</code>.</p>
+<pre><code>## Warning: Removed 25 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing missing values (geom_point).
+
+## Warning: Removed 26 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 34 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<pre><code>## Warning: Removed 32 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 35 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 31 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 32 rows containing missing values (geom_point).</code></pre>
+<p><img src="STA490research1_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

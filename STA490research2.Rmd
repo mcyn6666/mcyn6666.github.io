@@ -1,0 +1,732 @@
+---
+title: "Diurnal Pattern of Reaction Time"
+---
+
+My final **Statistical Report** can be found [here](https://drive.google.com/file/d/1OqFNtz5BxHqHvyTAm7uXW3FyWGMoUWhA/view?usp=sharing)
+
+# Overview {.tabset}
+
+The course of study of time-of-day effects on reaction time has not been an easy one to chart, with many findings that seem to be in opposition. This review examines the individual differences of reaction time regarding time-of-day effects. Other possible confounding variables and procedures in testing time-of-day effects are also briefly examined. Thirty-nine participants measured their reaction time four times a day for two days. The results show a diurnal pattern of reaction time, with lower values during evening and night (17:00-05:00 hours). Linear mixed-model regression analysis of mean reaction time yielded mean Samn-Perelli Fatigue Scale, illness as predictors of reaction time. It was concluded that reaction time is strongly associated with time of day, fatigue scale and being ill.
+
+## Exploratory Data Analysis
+
+### Loading  
+Let us begin the EDA by loading the library:  
+```{r lib}
+library(Hmisc)
+library(funModeling) 
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library(dplyr)
+library(data.table)
+library(testthat)
+library(gridExtra)
+library(corrplot)
+library(GGally)
+library(e1071)
+```
+
+### Dataset  
+The dataset that we are using for this analysis is Combined Reaction Time Data collected from 39 students. This data is a data frame created for the purpose of determining the diurnal pattern of reaction time.
+
+```{r}
+dp <- read.csv(file="C:/Users/miche/OneDrive/Desktop/UofT/STA490/diurnal_pattern.csv", header=TRUE, sep=",")
+```
+
+#### First Glimpse of the Data Structure  
+The diurnal pattern data has 312 rows and 12 variables with the target feature `reaction` as Reaction Time.  
+
+```{r v}
+dim(dp)
+```
+12 variables are defined as follows:  
+
+- `id`: An ID number given to each student for easy identification   
+- `order`: The order of measurements    
+- `reaction`: Reaction time with second as unit    
+- `time`: Time of the day    
+- `fatigue`:  Samn-Perelli 7-point fatigue scale (1: Fully alert - 7: Completely exhausted)     
+- `hunger`: Hunger Scale 10-point (1: Beyond hungry - 10: Beyond full)     
+- `sleep`: Hours of sleep before measurements were taken    
+- `meq`: Morningness–eveningness questionnaire score of the student    
+- `busy`: Whether the student recorded the measurements on a busy or light day (each student's busy-ness is self-defined)    
+- `stimulant`: Whether the student consumed stimulants before taking each measurement (stimulants examples: coke, coffee, tea)     
+- `ill`: Whether the student was ill when taking the measurements    
+- `protocol`: Whether the student was following the protocol when recording each measurement     
+
+R recognises variables `time` and `meq` as factors, but everything else as numeric or integer:   
+```{r str, echo=FALSE}
+str(dp)
+```
+
+### Arranging Data Structure  
+
+#### Converting to Categorical Variables  
+Factors are used to represent categorical data. Factors are an important class for statistical analysis and for plotting.  
+
+Recoding variables `busy`, `stimulant`, `ill`, `protocol`,`order`, in order to let R know that they are categorical factors:  
+```{r recode}
+dp$busy[dp$busy == 0] <- 'light'
+dp$busy[dp$busy == 1] <- 'busy'
+dp$busy <- as.factor(dp$busy)
+dp$stimulant[dp$stimulant == 0] <- 'N'
+dp$stimulant[dp$stimulant == 1] <- 'Y'
+dp$stimulant <- as.factor(dp$stimulant)
+dp$ill[dp$ill == 0] <- 'N'
+dp$ill[dp$ill == 1] <- 'Y'
+dp$ill <- as.factor(dp$ill)
+dp$protocol[dp$protocol == 0] <- 'N'
+dp$protocol[dp$protocol == 1] <- 'Y'
+dp$protocol <- as.factor(dp$protocol)
+dp$order <- factor(dp$order, levels=c("1","2","3","4","5","6","7","8"),ordered = TRUE)
+```
+
+In this case, `id` is categorical and its levels are not necessarily ordered, so we convert it into factor:  
+```{r f}
+dp$id <- as.factor(dp$id)
+levels(dp$id)
+nlevels(dp$id)
+```
+
+Under `meq`, there are five students who recorded `meq` as a category. The `meq` scores can be converted into categories, but the `meq` categories cannot be converted into a precise score. Hence, my approach is to treat `meq` this variable as a categorical data by converting these scores into the defined categories:   
+
+- `DET` as *Definitely Evening Type*: Score 16-30  
+- `MET` as *Moderately Evening Type*: Score 31-41  
+- `NT` as *Neither Type*: Score 42-58  
+- `MMT` as *Moderately Morning Type*: Score 59-69  
+- `DMT` as *Definitely Morning Type*: Score 70-86  
+
+Before recoding, `meq` has 23 levels:
+```{r meq, echo=FALSE}
+dp$meq
+```
+
+```{r meq1, include=FALSE}
+levels(dp$meq)
+dp$meq <- as.character(dp$meq)
+dp$meq[dp$meq %in% c('32','34','36','37', '38','40')] <- "MET"
+dp$meq[ dp$meq %in% c("43","44" ,"45" ,"46","47","48","49","50","52","54", "55","57","58")] <- "NT"
+dp$meq[dp$meq == "60"] <- "MMT"
+dp$meq <- factor(dp$meq, levels=c("DET","MET","NT","MMT","DMT"), ordered = TRUE)
+levels(dp$meq)
+nlevels(dp$meq)
+```
+
+After recoding, `meq` has 5 levels and converted into an ordinal factor:  
+```{r meq2, echo=FALSE}
+dp$meq
+```
+
+#### Dealing with Time Data
+R treated `time` as factor with levels, so we have to convert it into `POSIXlt` format for better analysis:   
+```{r t}
+dp$time <- as.POSIXct(dp$time, format="%H:%M")
+class(dp$time)
+```
+`POSIXlt` is a Datetime representation. We can choose to display only the time by using `format` function, but we cannot make the Date part disappear from the representation. Therefore, we can just ignore the Date for now.  
+
+#### Organized Data Structure  
+So, let's look at the data structure again:  
+```{r str2, echo=FALSE}
+str(dp)
+```
+Notice variables `id`, `order`,`meq`, `busy`, `stimulant`, `ill`, `protocol` have been converted to factors; `time` has been converted as `POSIXlt`.  
+
+### Summary of Data  
+
+```{r des, echo=FALSE}
+summary(dp)
+```
+
+### Missing Data  
+Count for missing data:  
+```{r m, echo=FALSE}
+colSums(sapply(dp, is.na))
+```
+
+Now, we visualize the missing data:  
+```{r missdatav, echo=FALSE}
+plot_missingdata <- function(data, title = NULL){
+  temp_df <- as.data.frame(ifelse(is.na(data), 0, 1))
+  temp_df <- temp_df[,order(colSums(temp_df))]
+  data_temp <- expand.grid(list(x = 1:nrow(temp_df), y = colnames(temp_df)))
+  data_temp$m <- as.vector(as.matrix(temp_df))
+  data_temp <- data.frame(x = unlist(data_temp$x), y = unlist(data_temp$y), m = unlist(data_temp$m))
+  ggplot(data_temp) + geom_tile(aes(x=x, y=y, fill=factor(m))) + scale_fill_manual(values=c("white", "black"), name="Missing\n(0=Yes, 1=No)") + theme_light() + ylab("") + xlab("") + ggtitle(title)
+}
+
+plot_missingdata(dp[,colSums(is.na(dp))>0], title="Visualization for Missing Data")
+```
+
+From the plot above, we gain some insights about the missing data:  
+
+- One student only recorded reaction time for the eight measurements.  
+- Some students did not record certain variables at all.   (i.e.`protocol`,`ill`, `sleep`,`time`)
+- Some students missed one measurement, and therefore most variables were not available.   
+- Since these students seemed to forget about recording the data, we can treat these missing data as "Missing Completely At Random" (MCAR)  
+- Overall, the problem of missing data is not severe.  
+
+#### Dealing with Missing Data
+In this analysis, a few approaches are considered:  
+
+1) Exclude Missing Values:  
+```{r, eval=FALSE}
+# Argument to exclude missing values from mathematical operations  
+na.rm = TRUE 
+# Subset our data to obtain complete observations  
+x <- df$meq
+x[complete.cases(x), ]
+# Omit all rows containing missing values
+na.omit()
+```
+
+- Advantages: Simplicity, Comparability across analyses  
+- Disadvantages: Reduces statistical power (because lowers n), Does not use all information, Estimates may be biased if data is not MCAR  
+
+2) Imputation with mean:  
+```{r, eval=FALSE}
+# Recode missing values with the mean
+x <- df$fatigue
+x[is.na(x)] <- mean(x, na.rm = TRUE)
+#OR use Hmisc package for imputation
+impute(x, mean) 
+```
+
+- Advantages: Can use complete case analysis methods   
+- Disadvantages: Reduces variabilit, Weakens covariance and correlation estimates in the data (because ignores relationship between variables)
+
+### Categorical Variables
+
+**Barplots for the categorical variables:**    
+```{r bpc,echo=FALSE}
+dp1 <- setDT(dp)
+cat_var <- names(dp1)[which(sapply(dp1, is.factor))]
+dp_cat <- dp1[, .SD, .SDcols = cat_var]
+
+plotHist <- function(data_in, i) {
+  data <- data.frame(x=data_in[[i]])
+  p <- ggplot(data=data, aes(x=factor(x))) + stat_count() + xlab(colnames(data_in)[i]) + theme_light() + 
+    theme(axis.text.x = element_text(angle = 90, hjust =1))
+  return (p)
+}
+
+doPlots <- function(data_in, fun, ii, ncol=3) {
+  pp <- list()
+  for (i in ii) {
+    p <- fun(data_in=data_in, i=i)
+    pp <- c(pp, list(p))
+  }
+  do.call("grid.arrange", c(pp, ncol=ncol))
+}
+
+
+doPlots(na.omit(dp_cat), fun = plotHist, ii = c(3,5,6,7), ncol = 2)
+```
+
+- `meq`: Majority of students belong to neither evening nor morning type of person, followed by moderately evening type.  
+- `stimulant`: Most students did not consume stimulants before measurements.  
+- `ill`: Most students were not ill when recording the measurements.    
+- `protocol`: Almost all students followed protocol when taking each measurement.  
+
+**Boxplots for the categorical variables:**   
+```{r boxplot, echo=FALSE}
+dpn <- na.omit(dp)
+
+bp1 <- dpn %>% select(reaction, meq) %>% ggplot(aes(meq,reaction)) + geom_boxplot() + xlab('MEQ Type') + ylab("Reaction Time") + theme_light()+stat_summary(fun.y=mean, geom="point", shape=23, size=3)
+bp2 <- dpn %>% select(reaction, stimulant) %>% ggplot(aes(stimulant,reaction)) + geom_boxplot() + xlab('Stimulant')+ ylab("Reaction Time") + theme_light()+stat_summary(fun.y=mean, geom="point", shape=23, size=3)
+bp3 <- dpn %>% select(reaction, ill) %>% ggplot(aes(ill,reaction)) + geom_boxplot() + xlab('Ill')+ylab("Reaction Time") +theme_light()+stat_summary(fun.y=mean, geom="point", shape=23, size=3)
+bp4 <- dpn %>% select(reaction, protocol) %>% ggplot(aes(protocol, reaction)) + geom_boxplot() + xlab('Protocol')+ylab("Reaction Time") +theme_light()+stat_summary(fun.y=mean, geom="point", shape=23, size=3)
+
+ggarrange(bp1,bp2, bp3,bp4 + rremove("x.text"), 
+          ncol = 2, nrow = 2)
+```
+
+- We can see there are many outliers of reaction time data for students who are of neither type of morning/evening person, did not consume stimulants, were not ill when taking measurements, followed protocol.   
+- The rhombus box represents the mean of the data for the particular group.  
+- `meq`: Students with Neither Type have a slightly smaller mean reaction time than other groups. The medians among three groups are almost the same, but they have different distributions. Neither Type's boxplot is comparatively short, suggests that the reaction time among this group of student do not vary much. (when ignoring the outliers).  
+- `stimulant`: The medians are almost the same and the size of the box is approximately the same. However, for students who did not consume stimulants, the mean reaction time is slightly higher than those who did have stimulants.  
+- `ill`: The medians are around the same, so as the size of the boxplot. However, for students who were not ill, the mean reaction time is higher than those who were ill. The boxplot for students who were ill is slight right-skewed.  
+- `protocol`: The medians are around the same, so as the size of the boxplot. The boxplot for students who did not follow protocols is left-skewed. For students who did not follow the protocol, the mean reaction time is slightly higher than those who followed the protocol.   
+
+### Numeric Variables
+
+Density plots of the features can show if the variables are skewed. Below are density plots for variables `reaction`,`fatigue`,`hunger`,`sleep`:   
+```{r cont, echo=FALSE}
+num_var <- names(dp1)[which(sapply(dp1, is.numeric))]
+dp_cont <- dp1[,.SD,.SDcols = num_var]
+
+plotDen <- function(data_in, i){
+  data <- data.frame(x=data_in[[i]], reaction = data_in$reaction)
+  p <- ggplot(data= data) + geom_line(aes(x = x), stat = 'Density', size = 1,alpha = 1.0) +
+    xlab(paste0((colnames(data_in)[i]), '\n', 'Skewness: ',round(skewness(data_in[[i]], na.rm = TRUE), 2))) + theme_light() 
+  return(p)
+   
+}
+
+doPlots(dp_cont, fun = plotDen, ii = 1:4, ncol = 2)
+```
+
+- `fatigue`, `hunger` are approximately normally-distributed. 
+- `sleep` has very little positive skewness.  
+- `reaction` is slightly positively skewed, the reaction time peaked approximately at 0.38s    
+
+Assessing normality of the `reaction` by QQ plot:   
+```{r echo=FALSE}
+
+ggqq <- function(x, distribution = "norm", ..., line.estimate = NULL, conf = 0.95,
+                  labels = names(x)){
+  q.function <- eval(parse(text = paste0("q", distribution)))
+  d.function <- eval(parse(text = paste0("d", distribution)))
+  x <- na.omit(x)
+  ord <- order(x)
+  n <- length(x)
+  P <- ppoints(length(x))
+  df <- data.frame(ord.x = x[ord], z = q.function(P, ...))
+
+  if(is.null(line.estimate)){
+    Q.x <- quantile(df$ord.x, c(0.25, 0.75))
+    Q.z <- q.function(c(0.25, 0.75), ...)
+    b <- diff(Q.x)/diff(Q.z)
+    coef <- c(Q.x[1] - b * Q.z[1], b)
+  } else {
+    coef <- coef(line.estimate(ord.x ~ z))
+  }
+
+  zz <- qnorm(1 - (1 - conf)/2)
+  SE <- (coef[2]/d.function(df$z)) * sqrt(P * (1 - P)/n)
+  fit.value <- coef[1] + coef[2] * df$z
+  df$upper <- fit.value + zz * SE
+  df$lower <- fit.value - zz * SE
+
+  if(!is.null(labels)){ 
+    df$label <- ifelse(df$ord.x > df$upper | df$ord.x < df$lower, labels[ord],"")
+    }
+
+  p <- ggplot(df, aes(x=z, y=ord.x)) +
+    geom_point() + 
+    geom_abline(intercept = coef[1], slope = coef[2]) +
+    xlab("Theoretical Quantiles") + ylab("Sample Quantiles") + ggtitle(names(x))+
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha=0.2) 
+  if(!is.null(labels)) p <- p + geom_text( aes(label = label))
+  print(p)
+  coef
+}
+
+ggqq(dp$reaction)
+```
+
+- Noted that the shaded grey region is the confidence interval for `reaction`  
+- From the QQ plot, we observe that there is a heavy tail in the end, some data points deviate from the straight line. This might imply that the `reaction` data did not plausibly come from the theoretical normal distribution.   
+
+
+### Normalization of Skewed Variable
+The histogram for the response variable `reaction` shows that it is skewed:  
+```{r reaction time,echo=FALSE}
+ggplot(dp, aes(x=reaction)) + geom_histogram(col = 'white') + theme_light() 
+```
+
+Taking the square root of the variable normalizes it:  
+```{r normhist1, echo=FALSE}
+ggplot(dp, aes(x=sqrt(reaction))) + geom_histogram(col = 'white') + theme_light()
+```
+
+Taking the log of the variable can also induce the same effect as square root:
+```{r normhist, echo=FALSE}
+ggplot(dp, aes(x=log(reaction))) + geom_histogram(col = 'white') + theme_light()
+```
+
+With the two transformations, `reaction` follows a normal distribution.   
+
+### Correlation
+```{r corr, echo=FALSE}
+C <- cor(na.omit(dp_cont))
+corrplot(C, method="color")
+
+```
+
+The correlation matrix above shows that:   
+
+- Moderate postive correlation between `fatigue` and `reaction`: It seems that  students with higher Samn-Perelli Scale (more fatigue) react slower. 
+- Weak negative correlation between `hunger` and `reaction`:  Students with higher Hunger Scale (more full) might react faster.
+- Very weak negative correlation between `fatigue` and `sleep`: When students sleep less, their Samn-Perelli Scale might be higher.
+
+Boxplot for variables that have moderate correlation:   
+
+```{r boxplot1, echo=FALSE}
+dpn %>% select(reaction, fatigue) %>% ggplot(aes(factor(fatigue),reaction)) + geom_boxplot() + xlab('Samn-Perelli Scale') + ylab('Reaction Time')
+
+```
+
+- We can see that as the Samn-Perelli Scale gets larger, the reaction time seems to increase slightly.  
+- When the Samn-Perelli Scale is 7, the median reaction time is far higher than that of other scales.  
+
+### "Reaction Time" versus "Time of the Day"
+Since `time` does not belong to either categorical or numeric variable, we treat it as a special case here to extermine the diurnal pattern:   
+
+```{r timeplot,echo=FALSE}
+time_subset <- subset(dp,select = c("reaction","time"))
+t1 <- ggplot(time_subset, aes(x=time, y=reaction)) + geom_line(size=0.6)+ theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+ggtitle(" reaction vs time")
+t2 <- ggplot(time_subset, aes(x=time, y=reaction)) + geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("Reaction Time vs Time-of-the-day: LOESS")+rremove("x.text")
+
+#ggarrange(t1,t2 + rremove("x.text"),  ncol = 2, nrow = 1)
+```
+
+- Noted that the scale of x-axis represents time of the day from 00:00-23:59. 
+- The line plot does not show the diurnal pattern clearly, we can slightly see that the reaction time tends to be lower during the evening.  
+- In the LOESS plot, we can definitely see a pattern of reaction time across time. The plot suggests that students might react slowest during early morning (i.e. 03:00-06:00), then  the reaction time decreases until evening, they react fastest during the evening (17:00-19:00). The reaction time increases during the night (21:00-23:59).    
+
+### Comparision Among the MEQ Categories
+Since there is only 1 student with Definitely Evening Type and 1 student with Moderately Morning Type of MEQ, it is not worth comparing with the other categories due to the insufficient samples.  
+
+#### Moderately Evening Type vs Neither Type
+Let's compare the diurnal pattern of reaction time for MEQ $=$ Moderately Evening Type and Neither Type:   
+```{r det, echo=FALSE}
+metf <- filter(dp, dp$meq == "MET")
+ntf <- filter(dp, dp$meq=="NT")
+rt1 <- metf %>% select(reaction, time) %>% ggplot(aes(time,reaction))+ geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("MET: reaction vs time ")+theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+rt2 <- ntf %>% select(reaction, time) %>% ggplot(aes(time,reaction))+ geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("NT: reaction vs time ")+theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+metfat <- filter(dp, dp$meq == "MET")
+ntfat <- filter(dp, dp$meq=="NT")
+rt5 <- metfat %>% select(fatigue, time) %>% ggplot(aes(time,fatigue))+ geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("MET: fatigue vs time ")+theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+rt6 <- ntfat %>% select(fatigue, time) %>% ggplot(aes(time,fatigue))+ geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("NT: fatigue vs time ")+theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
+
+ggarrange(rt1,rt2,rt5,rt6, nrow = 2, ncol = 2)
+
+```
+
+`reaction` vs `time`:  
+
+- From the LOESS plots above, we can see that the two categories have different diurnal patterns of reaction time.   
+- Moderately Evening Type `MET`: The reaction time increases from 00:00-06:00, then decreases til 18:00, then increases from 18:00 to 23:59. Reaction time is fastest around 18:00-19:00 (evening) and 01:00-03:00(early morning), and slowest during the morning.  
+- Neither Type `NT`: The reaction time decreases from 00:00 to 12:00 (Morning to Noon), then increases from 12:00 to 23:59(Noon to midnight). Reaction time is fastest around 12:00-15:00 (afternoon) and slowest during 00:00-03:00 (early morning).   
+- Students who are of Neither Type tend to have faster reaction time overall.  
+- This suggests that the type of MEQ does influence the diurnal pattern of reaction time.  
+
+`fatigue` vs `time`:  
+
+- Moderately Evening Type `MET`: Students seem to be most alert around 18:00. This matches with the fastest reaction time around 18:00-19:00 in the "reaction vs time" plot.  
+- Neither Type `NT`:  Students seem to be most alert around 12:00-15:00. This matches with the fastest reaction time around 12:00-15:00 in the "reaction vs time" plot.  
+- This can suggest that lower level of fatigue can contribute to faster eaction time.  
+
+#### Comparision: Busy vs Light
+
+Let's explore whether the diurnal pattern of reaction time is different on a busy day vs on a light day:   
+```{r det1, echo=FALSE}
+bzf <- filter(dp, dp$busy == "busy")
+lf <- filter(dp, dp$busy=="light")
+rt3 <- bzf %>% select(reaction, time) %>% ggplot(aes(time,reaction))+ geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("Busy: reaction vs time ")+theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+rt4 <- lf %>% select(reaction, time) %>% ggplot(aes(time,reaction))+ geom_smooth(size=1)+theme(axis.ticks.x=element_blank()) +ggtitle("Light: reaction vs time ")+theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
+ggarrange(rt3,rt4)
+
+```
+ 
+- From the above plots, the diurnal patterns for busy and light day do not seem to be different from each other.  
+- This suggests that the heaviness of workload does not influence the pattern of reaction time.
+
+## Data Analysis
+
+
+```{r library, include=FALSE}
+library(ggplot2)
+library(corrplot)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+```
+
+### Research Question
+
+What is the diurnal pattern of reaction time?
+
+### Dataset
+
+The dataset that we are using for this analysis is Combined Reaction Time Data collected from 39 students. This data is a data frame created for the purpose of determining the diurnal pattern of reaction time.   
+```{r df}
+df <- read.csv(file="C:/Users/miche/OneDrive/Desktop/UofT/STA490/diurnal_pattern.csv", header=TRUE, sep=",")
+```
+
+```{r include=FALSE}
+# recoding to get a suitable data structure for modelling
+df$busy[df$busy == 0] <- 'light'
+df$busy[df$busy == 1] <- 'busy'
+df$busy <- as.factor(df$busy)
+df$stimulant[df$stimulant == 0] <- 'N'
+df$stimulant[df$stimulant == 1] <- 'Y'
+df$stimulant <- as.factor(df$stimulant)
+df$ill[df$ill == 0] <- 'N'
+df$ill[df$ill == 1] <- 'Y'
+df$ill <- as.factor(df$ill)
+df$protocol[df$protocol == 0] <- 'N'
+df$protocol[df$protocol == 1] <- 'Y'
+df$protocol <- as.factor(df$protocol)
+df$order <- factor(df$order, levels=c("1","2","3","4","5","6","7","8"),ordered = TRUE)
+df$id <- as.factor(df$id)
+df$meq <- as.character(df$meq)
+df$meq[df$meq %in% c('32','34','36','37', '38','40')] <- "MET"
+df$meq[ df$meq %in% c("43","44" ,"45" ,"46","47","48","49","50","52","54", "55","57","58")] <- "NT"
+df$meq[df$meq == "60"] <- "MMT"
+df$meq <- factor(df$meq, levels=c("DET","MET","NT","MMT","DMT"), ordered = TRUE)
+df$time <- as.POSIXlt(df$time, format="%H:%M")
+df$time <- unclass(df$time)$hour
+df$time[df$time %in% (5:11)] <- "Morning"
+df$time[df$time %in% (12:16)] <- "Afternoon"
+df$time[df$time %in% (17:21)] <- "Evening"
+df$time[df$time %in% c(0:4,22,23)] <- "Night"
+df$time <- factor(df$time, levels=c("Morning","Afternoon","Evening","Night"), ordered=TRUE)
+df$fatigue[is.na(df$fatigue)] <- mean(df$fatigue, na.rm = TRUE)
+df$sleep[is.na(df$sleep)] <- mean(df$sleep, na.rm = TRUE)
+df$hunger[is.na(df$hunger)] <- mean(df$hunger, na.rm = TRUE)
+```
+
+
+
+### Data Structure  
+
+Let's take a look at the arranged data:  
+```{r  echo=FALSE}
+str(df)
+library(ggplot2)
+library(dplyr)
+meansforplot <- df %>% group_by(time, ill) %>% summarise(means = mean(reaction, na.rm=T))
+ggplot(df, aes(x = time, y = reaction, colour = ill)) + 
+   geom_point(data = meansforplot, aes(y = means)) +
+  geom_line(data = meansforplot, aes(y = means, group = ill)) + 
+   labs(x = "Time of the Day",y = "Reaction time", color = "ill") +
+  theme_bw()
+```
+
+The diurnal pattern data has 312 rows and 12 variables with the target feature `reaction` as Reaction Time.    
+12 variables are defined as follows:  
+
+- `id`: An ID number given to each student for easy identification   
+- `order`: The order of measurements    
+- `reaction`: Reaction time with second as unit    
+- `time`: Time of the day, that is categorized into Morning, Afternoon, Evening and Night    
+- `fatigue`:  Samn-Perelli 7-point fatigue scale (1: Fully alert - 7: Completely exhausted)     
+- `hunger`: Hunger Scale 10-point (1: Beyond hungry - 10: Beyond full)     
+- `sleep`: Hours of sleep before measurements were taken    
+- `meq`: Morningness\-eveningness questionnaire score of the student    
+- `busy`: Whether the student recorded the measurements on a busy or light day (each student's busy-ness is self-defined)    
+- `stimulant`: Whether the student consumed stimulants before taking each measurement (stimulants examples: coke, coffee, tea)     
+- `ill`: Whether the student was ill when taking the measurements    
+- `protocol`: Whether the student was following the protocol when recording each measurement      
+
+### Summary of the Data
+```{r echo=FALSE}
+summary(df)
+```
+
+### a) Preliminary Mixed-effects Model for Original Data
+
+A Repeated Measures ANOVA for mixed effects model is used. To answer our research question, we need `time` and `reaction` to be the main focus when modelling, and show that there is an effect of the time of the day on reaction time. However, `time` is a tricky variable. When `time` is numerical, it is hard to show at which time of the day, a student has a better reaction time by fitting into a linear mixed model, so a diurnal **pattern** of reaction time is even harder to be seen. Therefore, I fit models for data with `time` as a categorical variable.
+
+
+##### Model 1    
+
+I first start with the simplest model `m1` which inclues the fixed effect `time`, and the random effect of `id`. In the case of my model here, we add a random effect for `id`  and this characterizes idiosyncratic variation that is due to individual differences.  
+
+Model 1 formulation:  $$Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \epsilon_{ij} + \alpha_i $$  
+
+$Y_{ij}$ = the response for i-th student in j-th observation  
+$\beta_0$ = the fixed intercept for the regression model
+$\beta_{x_i}$ = the fixed slope for the regression model
+$I_{i,j}$ =  the categorical predictor for j-th measurement of i-th student 
+$\epsilon_{ij}$ = Gaussian error term which $\epsilon_{ij} \sim^{i.i.d} N(0,\sigma_\epsilon^2)$   
+$\alpha_i$ = the random intercepts of `(1|id)` for the i-th students which $\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)$ 
+
+```{r m1}
+m1 <- lmer(reaction ~ time + (1|id)  , data=df)
+summary(m1)
+anova(m1)
+```
+
+- From the ANOVA of model 1, we see that the p-value of the F-statistics is smaller than 0.05 (p=0.0019, df=3), there is a strong evidence that `time` has an overall effect on `reaction`.    
+- From the summary of model 1, The p-values of the t-statistics for Morning `time`(p<0.0001) and Evening `time` (p=0.0002) are statistically significant. This might imply that students tend to have a longer reaction time during the Evening than in the Morning.  
+
+
+#### Model 2
+
+Here, I consider a model with uncorrelated random effects. To express this, I use two random-effects terms with the same grouping factor `id` - `(1|id)` and `(0+time|id)`. 
+
+Model 2 formulation:  $$Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \epsilon_{ij} + \alpha_i $$  
+
+$Y_{ij}$ = the response for i-th student in j-th observation  
+$\beta_0$ = the fixed intercept for the regression model  
+$\beta_{x_i}$ = the fixed slope for the regression model   
+$I_{i,j}$ =  the categorical predictor for j-th measurement of i-th student   
+$\epsilon_{ij}$ = Gaussian error term which $\epsilon_{ij} \sim^{i.i.d} N(0,\sigma_\epsilon^2)$     
+(**)$\alpha_i$ = the random intercepts of `(1|id)` and `(0+time|id)` for the i-th students which $\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)$   
+(**) Only this component is different from Model 1.   
+
+
+```{r m2}
+m2 <- lmer(reaction ~ time +  (1|id) + (0+time|id)   , data=df)
+summary(m2)
+anova(m2)
+```
+Model 2 produces the similar results as model 1:  
+
+- From the ANOVA of model 2, we see that the p-value of the F-statistics is smaller than 0.05 (p=0.0195, df=3), there is a strong evidence that `time` has an overall effect on `reaction`.   
+- From the summary of model 2, The p-values of the t-statistics for Morning `time`(p<0.001) and Evening `time` (p=0.0032) are statistically significant. This might imply that students tend to have a higher reaction time during the Evening than in the Morning.  
+
+##### Comparing Model 1 vs Model 2  
+
+Model 2 contains model 1 in the sense that if the parameter values for model 2 were constrained so as to force the correlation, and hence the covariance, to be zero, and the model were re-fit, we would get model 1. The value 0, to which the correlation is constrained, is not on the boundary of the allowable parameter values. In these circumstances a likelihood ratio test is suitable.   
+
+```{r lkh1}
+anova(m1,m2)
+```
+Conclusion: The p-value is 1, it means that we would not reject model 1 in favor of model 2, we prefer the more parsimonious model 1. Model 1 is a better fit than model 2. This conclusion is consistent with the AIC (Akaike's Information Criterion) and the BIC (Bayesian Information Criterion) values for which "smaller is better". 
+
+#### Model 3
+
+It seems that model 1 is pretty good fit to the data. Now, we add another random effect for `meq` by `id` to the previous model 1. Since `(meq|id)` is equivalent to `(1|id) + (0+meq|id)`, and `(1|id) ` is already in model 1, we would only add the term `(0+meq|id)` to the model. This random effect characterizes idiosyncratic variation of `meq` types that is due to individual differences. 
+
+The reasons of selecting `meq` as random effect rather fixed effect:   
+
+-  Generally speaking, random effect has more levels in reality than actually occuring in the data. Since we do not have all possible levels of the effect `meq` in our data while in reality, all our missing levels exist (`meq`=`DET`,`DMT`,`MMT`). We would set `meq` as random effect in this case.   
+-  In the context of Statistics, Bayesians define random effects as sets of variables whose parameter are drawn from the same distribution. Random effects are estimated with partial pooling, while fixed effects are not. Since `meq` consists of five categories, our data shows that almost all subjects fall in only two categories. When `meq` is a fixed effect, the group effect's estimate will be based partially on the more abundant data (i.e. `meq` with Moderatly Evening and Neither type) from other groups. This could give poor estimates for the low-sample groups (i.e. Definitely Evening, Definitely Morning and Moderately Morning type). Therefore, `meq` as random effect could resolve the problem.  
+- In the context of scentific studies, random effects are source of random variation or experimental units (e.g. individuals drawn from a population for a trial) that cannot be directly manipulated by the experimenter and is often unrepeatable. Here, `meq` cannot be manipulated and repeatable because it is a fixed characteristic for each subject  and the `meq` type is unlikely to change in a short period of time.   
+
+Model 3 formulation is the same as Model 1/2, except (**)$\alpha_i$ = the random intercepts of `(0+meq|id)` and `(1|id)` for the i-th students which $\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)$   
+
+```{r m22}
+m3 <- lmer(reaction ~ time +  (1|id) + (0+meq|id)   , data=df)
+summary(m3)
+anova(m3)
+```
+
+- From the ANOVA of model 3, we see that the p-value of the F-statistics is smaller than 0.05 (p=0.0018, df=3), there is a strong evidence that `time` has an overall effect on `reaction`. Also noted that, the F-statistics of model 3 is slightly larger than model 1.
+- From the summary of model 3, The p-values of the t-statistics for Morning `time`(p<0.001) and Evening `time` (p=0.0001) are statistically significant. This might imply that students tend to have a higher reaction time during the Evening than in the Morning.  
+
+##### Comparing Model 1 vs Model 3
+
+We can compare model 1 and 3 using Likelihood Ratio Test:  
+```{r lkh2}
+anova(m1,m3)
+```
+Since the p-value for the Likelihood Ratio Test is slightly larger than 0.05 (p=0.0552), we conclude that there is no evidence that model 3 is better than model 1. Therefore, we will keep model 1.   
+
+#### Model 4
+
+We now proceed to adding more fixed effect to model 1 and see if the effect of `time` on `reaction` increases more significantly. In this model, we add `fatigue`,`sleep`, `ill` ,`hunger`,`stimulant` as fixed effects.   
+
+Model 4 formulation:  $$Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \beta_4 I_{[ill=Y],j} + \beta_5 I_{[stimulant=Y],j} +\beta_6 I_{[busy=Y],j}+\beta_7\times fatigue_{i,j} +\beta_8\times sleep_{i,j} + \beta_9\times hunger_{i,j} +\epsilon_{ij} + \alpha_i $$  
+
+$Y_{ij}$ = the response for i-th student in j-th observation  
+$\beta_0$ = the fixed intercept for the regression model  
+$\beta_{x_i}$ = the fixed slope for the regression model   
+$I_{i,j}$ =  the categorical predictors for j-th measurement of i-th student   
+$X_{i,j}$ = the numerical predictors for j-th measurement of i-th student   
+$\epsilon_{ij}$ = Gaussian error term which $\epsilon_{ij} \sim^{i.i.d} N(0,\sigma_\epsilon^2)$     
+(**)$\alpha_i$ = the random intercepts of `(1|id)` for the i-th students which $\alpha_{i} \sim^{i.i.d} N(0,\sigma_\alpha^2)$   
+
+```{r m4}
+m4 <- lmer(reaction~ time + (1|id) + ill +stimulant +busy + fatigue + sleep + hunger  , data=df)
+summary(m4)
+anova(m4)
+```
+
+- From the ANOVA of model 4, we see that the p-value of the F-statistics for `time` is smaller than 0.05 (p=0.0149, df=3), there is strong evidence that `time` has an overall effect on `reaction`.    
+- The p-value of the F-statistics for `fatigue` is smaller than 0.05 (p<0.0001), there is strong evidence that `fatigue` has an effect on `reaction`. This implies as fatigue level increases, student's reaction time tends to increase as well.   
+- The p-value of the F-statistics for `ill` is smaller than 0.05 (p=0.0122), there is strong evidence that `ill` has an effect on `reaction`. This implies as the student is ill during the measurement, student's reaction time tends to decrease.     
+- From the summary of model 4, The p-values of the t-statistics for Morning `time`(p<0.0001) and Afternoon`time` (p=0.0053) are statistically significant. This might imply that students tend to have a shorter reaction time during the Afternoon than in the Morning.   
+- As we notice that, the overall effect of `time` on `reaction` becomes less significant as we add more fixed effects into the model.   
+- Indeed, we see some variables have effects on reaction time, such as student's fatigue level and whether the student was ill or not. This model can be an extension to our primary research question, to answer the secondary question: Which factor can influence the reaction time?    
+
+#### Model 5
+
+From model 4, we see that only `time`, `fatigue` and `ill` show significant p-values under F-test. Therefore, we extract these variables and add the random effect `(1|id)` to form a new model.
+
+Model 5 formulation:  $$Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \beta_4 I_{[ill=Y],j} + \beta_5\times fatigue_{i,j} +\epsilon_{ij} + \alpha_i $$  
+
+(*) Notations are the same as Model 4.
+
+```{r m5}
+m5 <- lmer(reaction~ time + (1|id) + ill + fatigue , data=df)
+summary(m5)
+anova(m5)
+```
+
+- From the ANOVA of model 4, we see that the p-value of the F-statistics for `time` is smaller than 0.05 (p=0.0041, df=3), there is strong evidence that `time` has an overall effect on `reaction`.    
+- The p-value of the F-statistics for `fatigue` is smaller than 0.05 (p<0.0001), there is strong evidence that `fatigue` has an effect on `reaction`. This implies as fatigue level increases, student's reaction time tends to increase as well.   
+- The p-value of the F-statistics for `ill` is smaller than 0.05 (p=0.0078), there is strong evidence that `ill` has an effect on `reaction`. This implies as the student is ill during the measurement, student's reaction time tends to decrease.     
+- From the summary of model 4, The p-values of the t-statistics for Morning `time`(p<0.0001) and Afternoon`time` (p=0.0053) are statistically significant. This might imply that students tend to have a shorter reaction time during the Afternoon than in the Morning.   
+- As we notice that, the overall effect of `time` on `reaction` becomes more significant than that in model 4.  
+
+
+##### Comparing Model 4 vs Model 5
+
+We can compare model 4 and 5 using Likelihood Ratio Test:  
+```{r lkh3}
+anova(m4,m5)
+```
+Conclusion: The p-value of the Likelihood Ratio test is so much larger than 0.05 (p=0.7985), there is no evidence that model 4 is better fit than model 5. Hence, we keep model 5.
+
+##### Comparing Model 1 vs Model 5
+
+- Model has AIC of -739.10 and BIC of -709.93   
+- Model 1 has AIC of -714.84 and BIC of -659.74   
+- Model 5 will be better fit than model 1 because model 5 has a smaller AIC and BIC values than model 1. 
+
+#### Model 6
+```{r m6}
+outliers <- boxplot(df$reaction, plot=FALSE)$out
+df[which(df$reaction %in% outliers),]
+df <- df[-which(df$reaction %in% outliers),]
+df <- df[-173]
+m6 <- lmer(reaction~time+(1|id)+ill+fatigue, data=df)
+summary(m6)
+anova(m6)
+emmeans(m6, list(pairwise~time), adjust = 'tukey')
+```
+
+### Final Model
+
+Model 5 is chosen. The model shows there is an overall effect of the time of the day on reaction time. From this model, we cansee at which time, the reaction time is shorter than the other.    
+
+Model 5 formulation:  $$Y_{ij}=\beta_0+\beta_1 I_{[time=Afternoon],j}+\beta_2 I_{[time=Evening],j}+\beta_3 I_{[time=Night],j} + \beta_4 I_{[ill=Y],j} + \beta_5\times fatigue_{i,j} +\epsilon_{ij} + \alpha_i $$ 
+
+From ANOVA of model 5, we see a significance in the overall effect of `time` on `reaction`, then we would perform a pairwise comparison (Tukey's HSD: Honestly Significant Difference test) with the categories under `time` variables:  
+
+```{r multicomphsd}
+emmeans(m5, list(pairwise ~ time), adjust = "tukey")
+```
+
+This output indicates that the differences Morning-Evening and Morning-Night are significant , while other time pairs are not significant. The reaction times for Morning and Afternoon; Afternoon and Evening; Afternoon and Night; Evening and Night do not differ among the pairs themselves. In general, students react faster in the Evening compared to the Morning, students also react faster at Night than in the Morning.   
+
+From the model (`summary(m5)`), the mean reaction times for Morning, Afternoon, Evening and Night are 0.323, 0.301, 0.333 and 0.277 respectively. Judging by the mean reaction time from the model, we can observe that students react fastest at Night.    
+
+
+### Model Diagnostics
+
+#### Assessing the Linearity Fit
+Models are assumed to be linear in each of the independent variables:
+Since `ill` is binary variable, linearity is satisfied automatically.  
+In our EDA, we can see from the plot that as `fatigue` increases, reaction time seems to increase as well, there is a linear relationship between `fatigue` and `reaction`. Since `time` is similar to the order of measurements, linearity exists.   
+
+#### Underlying Assumptions: Normality of Residuals   
+
+```{r}
+qqnorm(residuals(m5))
+```
+The QQ plot shows there are short left and right tails, there might be some concerns with normality of residuals due to significant deviations from linearity of the observations.     
+
+#### Underlying Assumptions: Constant Variance
+```{r}
+plot(m5)
+```
+
+This residual plot does not indicate any deviations from a linear form. It also shows relatively constant variance across the fitted range. The slight reduction in apparent variance on the right of the graph is likely a result of there being fewer observation in these predicted areas. Teh assumption is satisfied.     
+
+
+#### Assumptions for Random Effects
+
+The random effects assumption is that the individual specific effects are uncorrelated with the independent variables. Here, `id` is a sample drwan from a population,  the individual difference within a subject is uncorrelated with `time`.  
+
+
+
+

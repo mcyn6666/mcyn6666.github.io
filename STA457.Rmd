@@ -1,0 +1,252 @@
+---
+title: "STA457 Time Series Analysis"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Find the handout for this assignment [here](https://drive.google.com/file/d/1wpFwdGauKYiMHjWxoTfcg-C66OOsjOtN/view?usp=sharing) 
+
+Teammate: Guo, Dong Lai (1000979220)
+
+## Question 1
+
+Derive the variance of the predictor $F_t = \delta + \sum_{j=0}^{m-2} d_j X_{t-j}$ where $\delta = 0$, $i=j+1$:    
+$$ \begin{align}
+\sigma^{2}_F &= var(\sum_{j=0}^{m-2} d_j X_{t-j}) \\
+&= \sum_{i,j=0}^{m-2} d_i d_j Cov(X_{t-i}, X_{t-j}) \\
+&= \sum_{j=0}^{m-2} d^2_j Var(X_{t-j}) + \sum_{i\neq j} d_i d_j Cov(X_{t-j},X_{t-i}) \\
+&= \sum_{j=0}^{m-2} d^2_j Var(X_{t-j}) + 2\sum_{0\leq j\leq i\leq{m-2}} d_i d_j Cov(X_{t-j},X_{t-i}) \\ 
+&= \sigma_x^2 \sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_x (i-j) \\
+\end{align}$$   
+
+Any nxn real symmetric matrix A determines a quadratic form qA in n variables by the formula:  
+$q_d(d_1,d_2,...d_n)= \sum_{i=1}^{N} \sum_{j=1}^{N} d_id_j A_{i,j} = \mathbf{d^T A d}$      
+
+Let $A_{i,j} = 2\gamma_{i-j}, \mathbf{d}=(d_1,d_2,...,d_{m-2})$, then $2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_x (i-j) =\mathbf{d^T} A \mathbf{d}$ and where $\mathbf{d_2}$ represents the square of each value within the matrix $\mathbf{d}$.     
+
+$$\sigma^{2}_F=\sigma_x^2 \mathbf{d_2} + \mathbf{d^T} A \mathbf{d}$$
+
+```{r q1}
+# Calculate the variance of forecaster using quadratic form
+#	d: vector of dj coefficients (j=0, …, m-2)
+#	X: log returns
+
+varF<-function(d,X){
+  M<-length(d)-1
+  acfs<- acf(X, plot=F, type="covariance", lag.max=M)$acf
+  Gamma<-toeplitz(as.vector(acfs))
+  d%*%Gamma%*%as.vector(d)
+  }
+```
+
+## Question 2  
+
+Derive the expectation of the predictor $F_t = \delta + \sum_{j=0}^{m-2} d_j X_{t-j}$ where $\delta = 0$ and $d_j$ being constants, $i=j+1$:    
+$$\begin{align}
+\mu_F &= E(\delta+\sum_{j=0}^{m-2} d_j X_{t-j}) \\
+&= \delta + \sum_{j=0}^{m-2} d_j E(X_{t-j}) \\
+&= \delta + \mu \sum_{j=0}^{m-2} d_j\\
+&=  \mu_x \sum_{j=0}^{m-2} d_j \\
+\end{align}$$   
+
+```{r q2}
+muF<-function(d,X){mean(X)*sum(d*d)}
+```
+
+
+## Question 3  
+
+Derive the autocorrelation function at lag one of the predictor, where $i=J+1$ and $\gamma(k)=\sigma^2 \sum_{j=0}^{m-2} d_j d_{j+|k|}$:  
+
+$$\rho_F(1) = corr(X_t, F_{t-1})$$
+
+$$\begin{align} corr(X_t, F_{t-1}) &=  \frac{Cov(X_{t}, F_{t-1})}{\sigma_x \sigma_{F_{t-1}}}\\
+&=  \frac{Cov(F_{t}, F_{t-1})}{\sqrt{\gamma_x (0)}\sigma_F}\\
+&= \frac{Cov(X_{t}, \sum_{i} d_i X_{t-i})}{ \sqrt{\sigma_x^2 \sum_{j=0}^{m-2} d^2_j} \quad \sqrt{\sigma_x^2 \sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_{i-j}}}\\
+&= \frac{\sum_{i} d_i Cov(X_{t}, X_{t-i})}{\sigma_x \sqrt{\sum_{j=0}^{m-2} d^2_j} \quad \sigma_x \sqrt{\sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_{i-j}}}\\
+&= \frac{\sum_{i=0}^{m-2} d_i \gamma_x (i)}{ \sigma_x^2 \sqrt{\sum_{j=0}^{m-2} d^2_j(\sum_{j=0}^{m-2} d^2_j + 2\sum_{j=0}^{m-3}\sum_{i=j+1}^{m-2} d_i d_j \gamma_{i-j}})} \\
+\end{align}$$
+
+In quadratic form, we let $B_{i,j}=Cov(X_{t-j},X_{t-i})$ and hence    
+$$\rho_F(1)= \frac{\mathbf{d}\gamma_x(i)}{\sigma_x^2 \sqrt{\mathbf{d_2}(\mathbf{d_2}+\mathbf{d^T} A \mathbf{d})}}$$   
+
+```{r q3}
+#	Calculate ACF(1) of forecaster using matrix operation and outer function in r
+
+rhoF<-function(d,X){
+    M<-length(d)-1
+    acfs<- acf(X, plot=F, type ="covariance", lag.max=M+2)$acf
+    temp<-d%*%matrix(acfs[abs(outer(0:M,1:(M+1), "-"))+1],M+1, M+1)%*%as.vector(d)
+    temp/varF(d,X)
+}
+
+```
+
+## Question 4   
+
+R function to calculate the expectation of the rule return for a given double MA trading rule, and the expected length of the holding period:
+```{r q4, eval=FALSE}
+corXF<-function(d,X){
+  Mp<-length(d)
+  acfs<- acf(X, plot=F, type= "covariance", lag.max=Mp)$acf
+  sum(d*acfs[-1])/sqrt(acfs[1]*varF(d,X))
+}
+
+Hold<-function(rho){pi/acos(rho)}
+
+# m > r >=1
+d<-function(m,r){c((m-r)*((0:(r-1))+1), r*(m-(r:(m-1))-1))}
+
+#	retX: log asset return
+#	m: long-term MA
+#	r: short-term MA
+
+ruleReturn<-function(retX, m, r){
+  vX<-sd(retX)
+  mX<-mean(retX)
+  mF<-muF(d(m,r),retX)
+  vF<-sqrt(varF(d(m,r),retX))
+  rXF<-corXF(d(m,r),retX)
+  rF<-rhoF(d(m,r),retX)
+  ER<-sqrt(2/pi)*vX*rXF*exp(-mF*mF/(vF*vF))+mX*(1-2*pnorm(-mF/vF))
+  H<-Hold(rF)
+  list("ER"=ER, "H"=H, "rhoF"=rF, "VF"=vF, "muF"=mF,"corXF"=rXF)
+}
+
+```
+
+
+## Question 5
+
+R function to download daily, weekly S&P500 index from 10/01/2009 to 09/30/2018 from Yahoo! Finance:  
+```{r q5}
+library(quantmod)
+sp500 <- new.env()
+getSymbols("^GSPC", env = sp500, src = "yahoo", from = as.Date("2009-10-01"), to = as.Date("2018-09-30"), adjust=TRUE)
+daily <- sp500$GSPC$GSPC.Adjusted
+summary(daily)
+
+weekly <- apply.weekly(daily,last)
+summary(weekly)
+```
+
+## Question 6
+
+R Code to choose the optimal m and r for daily data:
+```{r q6d, eval=FALSE}
+result <- numeric(0)
+m <- numeric(0) 
+r <- numeric(0)
+for (i in c(1,5,10,20,60,120,249)){
+  for (j in c(5,10,20,60,120,250)){
+    if (j>i){
+      result <- c(result, ruleReturn(daily, m = j, r = i)[[1]]) 
+      m <- c(m,j)
+      r <- c(r,i)
+    }
+  }
+}
+m_optimal <- m[which.max(result)] 
+r_optimal <- r[which.max(result)]
+list(optimal_m = m_optimal, optimal_r = r_optimal)
+```
+
+
+R Code to choose the optimal m and r for weekly data:
+```{r q6w, eval=FALSE}
+numeric(0)
+m <- numeric(0) 
+r <- numeric(0) 
+for (i in 2:51){
+  for (j in (i+1):52){ 
+    if (j >i){
+      result <- c(result, ruleReturn(weekly, m = j, r = i)[[1]]) 
+      m <- c(m,j)
+      r <- c(r,i)
+    }
+  }
+}
+m_optimal <- m[which.max(result)] 
+r_optimal <- r[which.max(result)]
+list(optimal_m = m_optimal, optimal_r = r_optimal)
+```
+
+*Conclusion*:
+
+- The maximum of estimated return for weekly price occurs when m=250, r=249.   
+
+- The maximum of expected return for daily price occurs when m=52,r=51.   
+
+
+## Question 7
+
+```{r q7, eval=FALSE}
+in_sample_estimate <- function(data,m, r){ 
+  X <- diff(log(data))
+  d <- function(j){
+      if (j >= 0 & j <= r-1) {(m-r)*(j+1)}
+      else if (j >= r & j <= (m-1)) {r*(m-j-1)}
+  }
+  f <- function(t){ 
+     if (t >= m){
+     output <- 0
+      for (j in 0:(m-1)){
+       output <- output + d(j)*X[t-j]
+      }
+     output
+   }
+    else {print('t is smaller than m')}
+  }
+  
+  #the realized return for daily data 
+  re <- numeric(0)
+  for (t in (m+1):length(X)){
+    re <- c(re, sign(f(t-1))*X[t])
+  }
+  return <- sum(re)/length(m:length(X))
+
+  #calculate holding period 
+  num_change <- 0
+  for (t in (m+1):length(X)){
+    if (sign(f(t)) != sign(f(t-1))) {num_change <- num_change + 1}
+  }
+  hold <- length(m:length(X))/num_change 
+  list(return = return, holding_period = hold)
+}
+
+#Return for daily data 
+in_sample_estimate(daily,250,249)[[1]] 
+ruleReturn(daily,250,249)[[1]]
+
+#Holding period for daily data 
+in_sample_estimate(daily,250,249)[[2]] 
+ruleReturn(daily,250,249)[[2]]
+
+#Return for weekly data 
+in_sample_estimate(weekly,52,51)[[1]]
+ruleReturn(weekly,52,51)[[1]]
+
+#Holding period for weekly data 
+in_sample_estimate(weekly,52,51)[[2]]
+ruleReturn(weekly,52,51)[[2]]
+```
+
+*Conclusions*
+
+For daily data:
+
+- The estimated return is 0.00024, while the theoretical return is 0.00332. Thus, the estimated return is smaller than the theoretical return.
+
+- The estimated holding period is 40.3, while the theoretical holding period is 15.9. Thus, the estimated period is larger than the theoretical holding period.
+
+For weekly data:
+
+- The estimated return is 0.00111, while the theoretical return is 0.00159. Thus, the estimated return is smaller than the theoretical return.
+
+- The estimated holding period is 23.2, while the theoretical return is 7.7. Thus, the estimated holding period is larger than the theoretical holding period.
+
+
+
